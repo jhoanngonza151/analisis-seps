@@ -15,190 +15,190 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <style>
-  :root{
-    --ink:#111827; --ink2:#374151; --ink3:#6B7280;
-    --accent:#2563EB; --neutral:#9CA3AF; --rule:#E5E7EB; --tint:#EFF6FF;
-  }
-  *{box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
-  body{
-    margin:0; background:#fff; color:var(--ink2);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    font-size:16px; line-height:1.6;
-  }
-  main{max-width:560px; margin:0 auto; padding:28px 20px 56px}
-  section{padding:30px 0; border-top:1px solid var(--rule)}
-  section:first-of-type{border-top:0; padding-top:10px}
-  h1{margin:0 0 8px; font-size:25px; line-height:1.25; letter-spacing:-0.02em; color:var(--ink); font-weight:650}
-  h2{margin:0 0 4px; font-size:18px; line-height:1.3; color:var(--ink); font-weight:650; letter-spacing:-0.01em}
-  .kicker{margin:0 0 20px; font-size:14px; color:var(--ink3)}
-  .sub{margin:0 0 18px; font-size:13.5px; color:var(--ink3); line-height:1.5}
-  p{margin:0 0 14px}
-  p:last-child{margin-bottom:0}
-  strong{color:var(--ink); font-weight:650}
-  .byline{font-size:12.5px; color:var(--ink3); line-height:1.5}
+:root{
+--ink:#111827; --ink2:#374151; --ink3:#6B7280;
+--accent:#2563EB; --neutral:#9CA3AF; --rule:#E5E7EB; --tint:#EFF6FF;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+margin:0; background:#fff; color:var(--ink2);
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+font-size:16px; line-height:1.6;
+}
+main{max-width:560px; margin:0 auto; padding:28px 20px 56px}
+section{padding:30px 0; border-top:1px solid var(--rule)}
+section:first-of-type{border-top:0; padding-top:10px}
+h1{margin:0 0 8px; font-size:25px; line-height:1.25; letter-spacing:-0.02em; color:var(--ink); font-weight:650}
+h2{margin:0 0 4px; font-size:18px; line-height:1.3; color:var(--ink); font-weight:650; letter-spacing:-0.01em}
+.kicker{margin:0 0 20px; font-size:14px; color:var(--ink3)}
+.sub{margin:0 0 18px; font-size:13.5px; color:var(--ink3); line-height:1.5}
+p{margin:0 0 14px}
+p:last-child{margin-bottom:0}
+strong{color:var(--ink); font-weight:650}
+.byline{font-size:12.5px; color:var(--ink3); line-height:1.5}
 
-  .hero{font-size:64px; line-height:1; font-weight:700; letter-spacing:-0.03em; color:var(--ink); margin:2px 0 10px}
-  .heroLabel{font-size:11.5px; font-weight:650; letter-spacing:.09em; text-transform:uppercase; color:var(--ink3); margin:0}
-  .vs{font-size:15px; color:var(--ink2); margin:0 0 16px}
+.hero{font-size:64px; line-height:1; font-weight:700; letter-spacing:-0.03em; color:var(--ink); margin:2px 0 10px}
+.heroLabel{font-size:11.5px; font-weight:650; letter-spacing:.09em; text-transform:uppercase; color:var(--ink3); margin:0}
+.vs{font-size:15px; color:var(--ink2); margin:0 0 16px}
 
-  button.audit{
-    -webkit-appearance:none; appearance:none; display:inline-flex; align-items:center; gap:7px;
-    min-height:44px; padding:9px 14px; border:1px solid var(--rule); border-radius:999px;
-    background:#fff; color:var(--accent); font:inherit; font-size:13px; font-weight:600; cursor:pointer;
-  }
-  button.audit:hover{background:var(--tint)}
-  button.audit .chev{transition:transform .18s ease; font-size:11px; line-height:1}
-  button.audit[aria-expanded="true"] .chev{transform:rotate(90deg)}
-  .panel{
-    display:none; margin-top:12px; padding:14px 16px; background:var(--tint);
-    border-radius:8px; font-size:13.5px; line-height:1.65; color:var(--ink2);
-  }
-  .panel.open{display:block}
-  .panel dl{margin:0; display:grid; grid-template-columns:1fr auto; gap:5px 14px}
-  .panel dt{color:var(--ink3)}
-  .panel dd{margin:0; text-align:right; font-variant-numeric:tabular-nums; color:var(--ink)}
-  .panel .tot{border-top:1px solid #C7DBFB; padding-top:7px; margin-top:4px; font-weight:650}
-  .formula{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; color:var(--ink2); margin-top:10px; line-height:1.6}
+button.audit{
+-webkit-appearance:none; appearance:none; display:inline-flex; align-items:center; gap:7px;
+min-height:44px; padding:9px 14px; border:1px solid var(--rule); border-radius:999px;
+background:#fff; color:var(--accent); font:inherit; font-size:13px; font-weight:600; cursor:pointer;
+}
+button.audit:hover{background:var(--tint)}
+button.audit .chev{transition:transform .18s ease; font-size:11px; line-height:1}
+button.audit[aria-expanded="true"] .chev{transform:rotate(90deg)}
+.panel{
+display:none; margin-top:12px; padding:14px 16px; background:var(--tint);
+border-radius:8px; font-size:13.5px; line-height:1.65; color:var(--ink2);
+}
+.panel.open{display:block}
+.panel dl{margin:0; display:grid; grid-template-columns:1fr auto; gap:5px 14px}
+.panel dt{color:var(--ink3)}
+.panel dd{margin:0; text-align:right; font-variant-numeric:tabular-nums; color:var(--ink)}
+.panel .tot{border-top:1px solid #C7DBFB; padding-top:7px; margin-top:4px; font-weight:650}
+.formula{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; color:var(--ink2); margin-top:10px; line-height:1.6}
 
-  figure{margin:0}
-  svg{display:block; width:100%; height:auto; overflow:visible}
-  .legend{display:flex; gap:16px; margin:0 0 10px; font-size:12.5px; color:var(--ink2)}
-  .legend i{display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:6px; vertical-align:baseline}
-  .note{font-size:12px; color:var(--ink3); line-height:1.55; margin-top:12px}
+figure{margin:0}
+svg{display:block; width:100%; height:auto; overflow:visible}
+.legend{display:flex; gap:16px; margin:0 0 10px; font-size:12.5px; color:var(--ink2)}
+.legend i{display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:6px; vertical-align:baseline}
+.note{font-size:12px; color:var(--ink3); line-height:1.55; margin-top:12px}
 
-  .readout{
-    min-height:52px; margin-top:10px; padding:10px 12px; border-radius:8px; background:#F8FAFC;
-    font-size:13px; color:var(--ink2); line-height:1.45;
-  }
-  .readout b{color:var(--ink); font-weight:650}
-  .readout .muted{color:var(--ink3)}
+.readout{
+min-height:52px; margin-top:10px; padding:10px 12px; border-radius:8px; background:#F8FAFC;
+font-size:13px; color:var(--ink2); line-height:1.45;
+}
+.readout b{color:var(--ink); font-weight:650}
+.readout .muted{color:var(--ink3)}
 
-  input[type=range]{
-    -webkit-appearance:none; appearance:none; width:100%; height:44px; background:transparent; margin:0;
-  }
-  input[type=range]::-webkit-slider-runnable-track{height:4px; background:var(--rule); border-radius:2px}
-  input[type=range]::-moz-range-track{height:4px; background:var(--rule); border-radius:2px}
-  input[type=range]::-webkit-slider-thumb{
-    -webkit-appearance:none; appearance:none; width:26px; height:26px; margin-top:-11px;
-    border-radius:50%; background:var(--accent); border:3px solid #fff; box-shadow:0 1px 4px rgba(0,0,0,.28); cursor:pointer;
-  }
-  input[type=range]::-moz-range-thumb{
-    width:26px; height:26px; border-radius:50%; background:var(--accent);
-    border:3px solid #fff; box-shadow:0 1px 4px rgba(0,0,0,.28); cursor:pointer;
-  }
-  .simRow{display:flex; justify-content:space-between; font-size:12px; color:var(--ink3); margin-top:-6px}
-  .simOut{display:flex; gap:22px; margin-top:14px; flex-wrap:wrap}
-  .simOut div{flex:1; min-width:120px}
-  .simOut .n{font-size:30px; font-weight:700; letter-spacing:-0.02em; color:var(--ink); line-height:1.1}
-  .simOut .l{font-size:12px; color:var(--ink3); line-height:1.4; margin-top:3px}
+input[type=range]{
+-webkit-appearance:none; appearance:none; width:100%; height:44px; background:transparent; margin:0;
+}
+input[type=range]::-webkit-slider-runnable-track{height:4px; background:var(--rule); border-radius:2px}
+input[type=range]::-moz-range-track{height:4px; background:var(--rule); border-radius:2px}
+input[type=range]::-webkit-slider-thumb{
+-webkit-appearance:none; appearance:none; width:26px; height:26px; margin-top:-11px;
+border-radius:50%; background:var(--accent); border:3px solid #fff; box-shadow:0 1px 4px rgba(0,0,0,.28); cursor:pointer;
+}
+input[type=range]::-moz-range-thumb{
+width:26px; height:26px; border-radius:50%; background:var(--accent);
+border:3px solid #fff; box-shadow:0 1px 4px rgba(0,0,0,.28); cursor:pointer;
+}
+.simRow{display:flex; justify-content:space-between; font-size:12px; color:var(--ink3); margin-top:-6px}
+.simOut{display:flex; gap:22px; margin-top:14px; flex-wrap:wrap}
+.simOut div{flex:1; min-width:120px}
+.simOut .n{font-size:30px; font-weight:700; letter-spacing:-0.02em; color:var(--ink); line-height:1.1}
+.simOut .l{font-size:12px; color:var(--ink3); line-height:1.4; margin-top:3px}
 
-  ol.method{margin:0; padding-left:20px}
-  ol.method li{margin-bottom:9px}
-  .limit{border-left:3px solid var(--accent); padding-left:16px; margin:0}
-  footer{margin-top:34px; padding-top:20px; border-top:1px solid var(--rule); font-size:11.5px; color:var(--ink3); line-height:1.65}
+ol.method{margin:0; padding-left:20px}
+ol.method li{margin-bottom:9px}
+.limit{border-left:3px solid var(--accent); padding-left:16px; margin:0}
+footer{margin-top:34px; padding-top:20px; border-top:1px solid var(--rule); font-size:11.5px; color:var(--ink3); line-height:1.65}
 
-  /* Una sola animación: los trazos se dibujan al entrar en pantalla, una vez. */
-  .grow{transform:scaleY(0); transition:transform .6s cubic-bezier(.2,.7,.3,1)}
-  svg.in .grow{transform:scaleY(1)}
-  .draw{transition:stroke-dashoffset .75s cubic-bezier(.3,.7,.3,1)}
-  svg.in .draw{stroke-dashoffset:0}
-  .fade{opacity:0; transition:opacity .45s ease .3s}
-  svg.in .fade{opacity:1}
-  @media (prefers-reduced-motion:reduce){
-    .grow,.draw,.fade{transition:none; transform:none; opacity:1; stroke-dashoffset:0}
-  }
+/* Una sola animación: los trazos se dibujan al entrar en pantalla, una vez. */
+.grow{transform:scaleY(0); transition:transform .6s cubic-bezier(.2,.7,.3,1)}
+svg.in .grow{transform:scaleY(1)}
+.draw{transition:stroke-dashoffset .75s cubic-bezier(.3,.7,.3,1)}
+svg.in .draw{stroke-dashoffset:0}
+.fade{opacity:0; transition:opacity .45s ease .3s}
+svg.in .fade{opacity:1}
+@media (prefers-reduced-motion:reduce){
+.grow,.draw,.fade{transition:none; transform:none; opacity:1; stroke-dashoffset:0}
+}
 </style>
 </head>
 <body>
 <main>
 
-  <header>
-    <h1>Morosidad de Cooperativa Jaspe Ltda. frente al segmento 4</h1>
-    <p class="kicker">Análisis con datos públicos de la SEPS · Corte junio 2026</p>
-    <p class="byline">Elaborado por <strong>Jhoann Gonza</strong> · Noviembre de 2026</p>
-  </header>
+<header>
+<h1>Morosidad de Cooperativa Jaspe Ltda. frente al segmento 4</h1>
+<p class="kicker">Análisis con datos públicos de la SEPS · Corte junio 2026</p>
+<p class="byline">Elaborado por <strong>Jhoann Gonza</strong> · Noviembre de 2026</p>
+</header>
 
-  <section>
-    <p class="heroLabel">Mora total · junio 2026</p>
-    <div class="hero" id="heroVal">—</div>
-    <p class="vs">Mediana del segmento 4: <strong id="medVal">—</strong> sobre <span id="nCoops">—</span> cooperativas</p>
-    <button class="audit" type="button" data-panel="p1" aria-expanded="false" aria-controls="p1">
-      <span class="chev">&#9654;</span> Ver de dónde sale este número
-    </button>
-    <div class="panel" id="p1">
-      <dl>
-        <dt>Cartera que no devenga intereses</dt><dd id="a1">—</dd>
-        <dt>Cartera vencida</dt><dd id="a2">—</dd>
-        <dt class="tot">Cartera improductiva</dt><dd class="tot" id="a3">—</dd>
-        <dt>Cartera bruta total</dt><dd id="a4">—</dd>
-      </dl>
-      <p class="formula" id="a5">—</p>
-    </div>
-  </section>
+<section>
+<p class="heroLabel">Mora total · junio 2026</p>
+<div class="hero" id="heroVal">—</div>
+<p class="vs">Mediana del segmento 4: <strong id="medVal">—</strong> sobre <span id="nCoops">—</span> cooperativas</p>
+<button class="audit" type="button" data-panel="p1" aria-expanded="false" aria-controls="p1">
+<span class="chev">&#9654;</span> Ver de dónde sale este número
+</button>
+<div class="panel" id="p1">
+<dl>
+<dt>Cartera que no devenga intereses</dt><dd id="a1">—</dd>
+<dt>Cartera vencida</dt><dd id="a2">—</dd>
+<dt class="tot">Cartera improductiva</dt><dd class="tot" id="a3">—</dd>
+<dt>Cartera bruta total</dt><dd id="a4">—</dd>
+</dl>
+<p class="formula" id="a5">—</p>
+</div>
+</section>
 
-  <section>
-    <h2>Bajó dos puntos en un trimestre</h2>
-    <p class="sub">Morosidad total, marzo frente a junio de 2026.</p>
-    <figure><svg id="svgSlope" viewBox="0 0 360 190" role="img" aria-labelledby="slopeDesc"><title id="slopeDesc">Evolución de la morosidad entre marzo y junio de 2026 para Jaspe y para la mediana del segmento.</title></svg></figure>
-    <p class="note" id="slopeNote">—</p>
-  </section>
+<section>
+<h2>Bajó dos puntos en un trimestre</h2>
+<p class="sub">Morosidad total, marzo frente a junio de 2026.</p>
+<figure><svg id="svgSlope" viewBox="0 0 360 190" role="img" aria-labelledby="slopeDesc"><title id="slopeDesc">Evolución de la morosidad entre marzo y junio de 2026 para Jaspe y para la mediana del segmento.</title></svg></figure>
+<p class="note" id="slopeNote">—</p>
+</section>
 
-  <section>
-    <h2>La brecha está en microcrédito</h2>
-    <p class="sub">Morosidad por producto, junio 2026. Toca una barra para ver sus cifras.</p>
-    <div class="legend">
-      <span><i style="background:#2563EB"></i>Jaspe</span>
-      <span><i style="background:#9CA3AF"></i>Mediana del segmento</span>
-    </div>
-    <figure><svg id="svgProd" viewBox="0 0 360 200" role="img" aria-labelledby="prodDesc"><title id="prodDesc">Morosidad de microcrédito y de consumo, Jaspe frente a la mediana del segmento.</title></svg></figure>
-    <div class="readout" id="prodOut">Toca una barra.</div>
-    <p class="note" id="prodNote">—</p>
-  </section>
+<section>
+<h2>La brecha está en microcrédito</h2>
+<p class="sub">Morosidad por producto, junio 2026. Toca una barra para ver sus cifras.</p>
+<div class="legend">
+<span><i style="background:#2563EB"></i>Jaspe</span>
+<span><i style="background:#9CA3AF"></i>Mediana del segmento</span>
+</div>
+<figure><svg id="svgProd" viewBox="0 0 360 200" role="img" aria-labelledby="prodDesc"><title id="prodDesc">Morosidad de microcrédito y de consumo, Jaspe frente a la mediana del segmento.</title></svg></figure>
+<div class="readout" id="prodOut">Toca una barra.</div>
+<p class="note" id="prodNote">—</p>
+</section>
 
-  <section>
-    <h2>Dónde cae Jaspe entre sus pares</h2>
-    <p class="sub">Las <span id="nCoops2">—</span> cooperativas del segmento ordenadas por morosidad. Toca el gráfico para identificar cualquiera.</p>
-    <figure><svg id="svgDist" viewBox="0 0 360 210" role="img" aria-labelledby="distDesc"><title id="distDesc">Distribución de la morosidad de todas las cooperativas del segmento 4, ordenadas de menor a mayor, con Jaspe destacada.</title></svg></figure>
-    <div class="readout" id="distOut">Toca el gráfico.</div>
-    <p class="note" id="distNote">—</p>
-  </section>
+<section>
+<h2>Dónde cae Jaspe entre sus pares</h2>
+<p class="sub">Las <span id="nCoops2">—</span> cooperativas del segmento ordenadas por morosidad. Toca el gráfico para identificar cualquiera.</p>
+<figure><svg id="svgDist" viewBox="0 0 360 210" role="img" aria-labelledby="distDesc"><title id="distDesc">Distribución de la morosidad de todas las cooperativas del segmento 4, ordenadas de menor a mayor, con Jaspe destacada.</title></svg></figure>
+<div class="readout" id="distOut">Toca el gráfico.</div>
+<p class="note" id="distNote">—</p>
+</section>
 
-  <section>
-    <h2>Qué pasaría si</h2>
-    <p class="sub">Mueve la morosidad de microcrédito y mira cómo responde el total. La cartera de consumo y los montos quedan fijos.</p>
-    <input type="range" id="sim" min="2" max="16" step="0.1" aria-label="Morosidad de microcrédito simulada">
-    <div class="simRow"><span>2 %</span><span>16 %</span></div>
-    <div class="simOut">
-      <div><div class="n" id="simMic">—</div><div class="l">Morosidad de microcrédito</div></div>
-      <div><div class="n" id="simTot">—</div><div class="l">Mora total resultante</div></div>
-      <div><div class="n" id="simRank">—</div><div class="l">Puesto en el segmento</div></div>
-    </div>
-    <p class="note" id="simNote">—</p>
-  </section>
+<section>
+<h2>Qué pasaría si</h2>
+<p class="sub">Mueve la morosidad de microcrédito y mira cómo responde el total. La cartera de consumo y los montos quedan fijos.</p>
+<input type="range" id="sim" min="2" max="16" step="0.1" aria-label="Morosidad de microcrédito simulada">
+<div class="simRow"><span>2 %</span><span>16 %</span></div>
+<div class="simOut">
+<div><div class="n" id="simMic">—</div><div class="l">Morosidad de microcrédito</div></div>
+<div><div class="n" id="simTot">—</div><div class="l">Mora total resultante</div></div>
+<div><div class="n" id="simRank">—</div><div class="l">Distancia a la mediana</div></div>
+</div>
+<p class="note" id="simNote">—</p>
+</section>
 
-  <section>
-    <h2>Cómo se hizo</h2>
-    <ol class="method">
-      <li><strong>Fuente.</strong> Boletín Financiero del Segmento 4 que publica la Superintendencia de Economía Popular y Solidaria, con los cortes al 31 de marzo y al 30 de junio de 2026.</li>
-      <li><strong>Universo.</strong> <span id="m1">—</span> cooperativas con cartera reportada en junio, Jaspe incluida; <span id="m2">—</span> están presentes en ambos cortes. Para los cálculos por producto se toman solo las que tienen cartera de ese tipo.</li>
-      <li><strong>Fórmula.</strong> Morosidad = (cartera que no devenga intereses + cartera vencida) ÷ cartera bruta. Es la definición que usa la propia SEPS, aplicada igual a todas las entidades.</li>
-      <li><strong>Mediana y no promedio.</strong> La distribución del segmento está sesgada: la mitad de las cooperativas está por debajo de <span id="m3">—</span>, pero el decil superior supera el <span id="m4">—</span> y el máximo llega al <span id="m5">—</span>. Un promedio quedaría inflado por ese grupo y no describiría a nadie.</li>
-      <li><strong>Control por mezcla de productos.</strong> Antes de concluir se verificó que la diferencia no venga de que Jaspe coloque distinto al resto. Las cooperativas con una composición de cartera parecida tienen una morosidad mediana de <span id="m6">—</span>, prácticamente igual a la del segmento completo.</li>
-      <li><strong>Transformación.</strong> Los datos se cargaron y limpiaron en Power Query y los cálculos se replicaron de forma independiente para verificar cada cifra.</li>
-    </ol>
-    <p class="note">Todas las cifras de esta página se calculan en el navegador a partir de la base del boletín, no están escritas a mano.</p>
-  </section>
+<section>
+<h2>Cómo se hizo</h2>
+<ol class="method">
+<li><strong>Fuente.</strong> Boletín Financiero del Segmento 4 que publica la Superintendencia de Economía Popular y Solidaria, con los cortes al 31 de marzo y al 30 de junio de 2026.</li>
+<li><strong>Universo.</strong> <span id="m1">—</span> cooperativas con cartera reportada en junio, Jaspe incluida; <span id="m2">—</span> están presentes en ambos cortes. Para los cálculos por producto se toman solo las que tienen cartera de ese tipo.</li>
+<li><strong>Fórmula.</strong> Morosidad = (cartera que no devenga intereses + cartera vencida) ÷ cartera bruta. Es la definición que usa la propia SEPS, aplicada igual a todas las entidades.</li>
+<li><strong>Mediana y no promedio.</strong> La distribución del segmento está sesgada: la mitad de las cooperativas está por debajo de <span id="m3">—</span>, pero el decil superior supera el <span id="m4">—</span> y el máximo llega al <span id="m5">—</span>. Un promedio quedaría inflado por ese grupo y no describiría a nadie.</li>
+<li><strong>Control por mezcla de productos.</strong> Antes de concluir se verificó que la diferencia no venga de que Jaspe coloque distinto al resto. Las cooperativas con una composición de cartera parecida tienen una morosidad mediana de <span id="m6">—</span>, prácticamente igual a la del segmento completo.</li>
+<li><strong>Transformación.</strong> Los datos se cargaron y limpiaron en Power Query y los cálculos se replicaron de forma independiente para verificar cada cifra.</li>
+</ol>
+<p class="note">Todas las cifras de esta página se calculan en el navegador a partir de la base del boletín, no están escritas a mano.</p>
+</section>
 
-  <section>
-    <h2>Lo que estos datos no pueden decir</h2>
-    <p class="limit">Por qué la morosidad está donde está no se puede responder desde afuera. Para eso hace falta ver la mora por agencia, por oficial de crédito, por actividad económica y por fecha de otorgamiento. Esa información solo existe adentro de la cooperativa.</p>
-  </section>
+<section>
+<h2>Lo que estos datos no pueden decir</h2>
+<p class="limit">Por qué la morosidad está donde está no se puede responder desde afuera. Para eso hace falta ver la mora por agencia, por oficial de crédito, por actividad económica y por fecha de otorgamiento. Esa información solo existe adentro de la cooperativa.</p>
+</section>
 
-  <footer>
-    Fuente: Boletín Financiero del Segmento 4, Superintendencia de Economía Popular y Solidaria del Ecuador. Cortes de marzo y junio de 2026.<br>
-    Elaborado por Jhoann Gonza a partir de información pública.
-  </footer>
+<footer>
+Fuente: Boletín Financiero del Segmento 4, Superintendencia de Economía Popular y Solidaria del Ecuador. Cortes de marzo y junio de 2026.<br>
+Elaborado por Jhoann Gonza a partir de información pública.
+</footer>
 
 </main>
 
@@ -210,53 +210,53 @@ var ACCENT = "#2563EB", NEUTRAL = "#9CA3AF", RULE = "#E5E7EB", INK = "#111827", 
 var SVGNS = "http://www.w3.org/2000/svg";
 
 function num(v, d) {
-  return v.toLocaleString("es-EC", { minimumFractionDigits: d === undefined ? 2 : d, maximumFractionDigits: d === undefined ? 2 : d });
+return v.toLocaleString("es-EC", { minimumFractionDigits: d === undefined ? 2 : d, maximumFractionDigits: d === undefined ? 2 : d });
 }
 function pct(v, d) { return num(v, d === undefined ? 2 : d) + " %"; }
 function usd(v) { return v.toLocaleString("es-EC", { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + " USD"; }
 function median(a) {
-  var s = a.slice().sort(function (x, y) { return x - y; }), n = s.length;
-  if (!n) return 0;
-  return n % 2 ? s[(n - 1) / 2] : (s[n / 2 - 1] + s[n / 2]) / 2;
+var s = a.slice().sort(function (x, y) { return x - y; }), n = s.length;
+if (!n) return 0;
+return n % 2 ? s[(n - 1) / 2] : (s[n / 2 - 1] + s[n / 2]) / 2;
 }
 function quantile(a, q) {
-  var s = a.slice().sort(function (x, y) { return x - y; });
-  return s[Math.min(s.length - 1, Math.round(q * (s.length - 1)))];
+var s = a.slice().sort(function (x, y) { return x - y; });
+return s[Math.min(s.length - 1, Math.round(q * (s.length - 1)))];
 }
 function el(tag, attrs, text) {
-  var e = document.createElementNS(SVGNS, tag);
-  for (var k in attrs) e.setAttribute(k, attrs[k]);
-  if (text !== undefined) e.textContent = text;
-  return e;
+var e = document.createElementNS(SVGNS, tag);
+for (var k in attrs) e.setAttribute(k, attrs[k]);
+if (text !== undefined) e.textContent = text;
+return e;
 }
 function label(x, y, text, opts) {
-  opts = opts || {};
-  return el("text", {
-    x: x, y: y, "text-anchor": opts.anchor || "start",
-    "font-size": opts.size || 11, "font-weight": opts.weight || 400,
-    fill: opts.fill || INK3, "font-family": "inherit"
-  }, text);
+opts = opts || {};
+return el("text", {
+x: x, y: y, "text-anchor": opts.anchor || "start",
+"font-size": opts.size || 11, "font-weight": opts.weight || 400,
+fill: opts.fill || INK3, "font-family": "inherit"
+}, text);
 }
 
 // --- revelado: cada gráfico se dibuja una sola vez, al entrar en pantalla ---
 var REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 function reveal(svg) {
-  if (REDUCED || !("IntersectionObserver" in window)) { svg.setAttribute("class", "in"); return; }
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) { e.target.setAttribute("class", "in"); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.2 });
-  io.observe(svg);
+if (REDUCED || !("IntersectionObserver" in window)) { svg.setAttribute("class", "in"); return; }
+var io = new IntersectionObserver(function (entries) {
+entries.forEach(function (e) {
+if (e.isIntersecting) { e.target.setAttribute("class", "in"); io.unobserve(e.target); }
+});
+}, { threshold: 0.2 });
+io.observe(svg);
 }
 function growable(rect, baseY, delayMs) {
-  rect.setAttribute("class", "grow");
-  rect.style.transformOrigin = "0px " + baseY + "px";
-  if (delayMs) rect.style.transitionDelay = delayMs + "ms";
-  return rect;
+rect.setAttribute("class", "grow");
+rect.style.transformOrigin = "0px " + baseY + "px";
+if (delayMs) rect.style.transitionDelay = delayMs + "ms";
+return rect;
 }
 
-var mora    = function (r) { return r.i / r.b * 100; };
+var mora = function (r) { return r.i / r.b * 100; };
 var moraMar = function (r) { return r.pb ? r.pi / r.pb * 100 : null; };
 var moraMic = function (r) { return r.mb > 0 ? r.mi / r.mb * 100 : null; };
 var moraCon = function (r) { return r.cb > 0 ? r.ci / r.cb * 100 : null; };
@@ -272,6 +272,9 @@ var conList = DATA.filter(function (r) { return r.cb > 0; });
 var MED_MIC = median(micList.map(moraMic));
 var MED_CON = median(conList.map(moraCon));
 var improved = withMar.filter(function (r) { return mora(r) < moraMar(r); }).length;
+// Variación mediana del segmento: la mediana de las variaciones individuales,
+// no la variación de la mediana. Son cantidades distintas.
+var MED_DELTA = median(withMar.map(function (r) { return mora(r) - moraMar(r); }));
 
 // ---------- cifra principal y auditoría ----------
 document.getElementById("heroVal").textContent = pct(mora(J));
@@ -284,192 +287,187 @@ document.getElementById("a2").textContent = usd(J.vn);
 document.getElementById("a3").textContent = usd(J.i);
 document.getElementById("a4").textContent = usd(J.b);
 document.getElementById("a5").textContent =
-  num(J.i, 0) + " ÷ " + num(J.b, 0) + " = " + pct(mora(J));
+num(J.i, 0) + " ÷ " + num(J.b, 0) + " = " + pct(mora(J));
 
 Array.prototype.forEach.call(document.querySelectorAll("button.audit"), function (btn) {
-  btn.addEventListener("click", function () {
-    var p = document.getElementById(btn.getAttribute("data-panel"));
-    var open = p.classList.toggle("open");
-    btn.setAttribute("aria-expanded", open ? "true" : "false");
-  });
+btn.addEventListener("click", function () {
+var p = document.getElementById(btn.getAttribute("data-panel"));
+var open = p.classList.toggle("open");
+btn.setAttribute("aria-expanded", open ? "true" : "false");
+});
 });
 
 // ---------- pendiente marzo -> junio ----------
 (function () {
-  var svg = document.getElementById("svgSlope");
-  var x1 = 64, x2 = 266, top = 18, bot = 140;
-  var vals = [moraMar(J), mora(J), MED_MAR, MED];
-  var hi = Math.max.apply(null, vals) + 1.2, lo = Math.min.apply(null, vals) - 1.2;
-  var y = function (v) { return top + (hi - v) / (hi - lo) * (bot - top); };
+var svg = document.getElementById("svgSlope");
+var x1 = 64, x2 = 266, top = 18, bot = 140;
+var vals = [moraMar(J), mora(J), MED_MAR, MED];
+var hi = Math.max.apply(null, vals) + 1.2, lo = Math.min.apply(null, vals) - 1.2;
+var y = function (v) { return top + (hi - v) / (hi - lo) * (bot - top); };
 
-  svg.appendChild(el("line", { x1: x1, y1: bot + 14, x2: x2, y2: bot + 14, stroke: RULE, "stroke-width": 1 }));
+svg.appendChild(el("line", { x1: x1, y1: bot + 14, x2: x2, y2: bot + 14, stroke: RULE, "stroke-width": 1 }));
 
-  [[moraMar(J), mora(J), ACCENT, "Jaspe"], [MED_MAR, MED, NEUTRAL, "Mediana"]].forEach(function (s) {
-    var ln = el("line", { x1: x1, y1: y(s[0]), x2: x2, y2: y(s[1]), stroke: s[2], "stroke-width": 2, "stroke-linecap": "round" });
-    var len = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y(s[1]) - y(s[0]), 2));
-    ln.setAttribute("class", "draw");
-    ln.setAttribute("stroke-dasharray", len);
-    ln.setAttribute("stroke-dashoffset", len);
-    svg.appendChild(ln);
+[[moraMar(J), mora(J), ACCENT, "Jaspe"], [MED_MAR, MED, NEUTRAL, "Mediana"]].forEach(function (s) {
+var ln = el("line", { x1: x1, y1: y(s[0]), x2: x2, y2: y(s[1]), stroke: s[2], "stroke-width": 2, "stroke-linecap": "round" });
+var len = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y(s[1]) - y(s[0]), 2));
+ln.setAttribute("class", "draw");
+ln.setAttribute("stroke-dasharray", len);
+ln.setAttribute("stroke-dashoffset", len);
+svg.appendChild(ln);
 
-    [[x1, s[0]], [x2, s[1]]].forEach(function (p) {
-      var c = el("circle", { cx: p[0], cy: y(p[1]), r: 4.5, fill: s[2], stroke: "#fff", "stroke-width": 2 });
-      c.setAttribute("class", "fade");
-      svg.appendChild(c);
-    });
+[[x1, s[0]], [x2, s[1]]].forEach(function (p) {
+var c = el("circle", { cx: p[0], cy: y(p[1]), r: 4.5, fill: s[2], stroke: "#fff", "stroke-width": 2 });
+c.setAttribute("class", "fade");
+svg.appendChild(c);
+});
 
-    var l1 = label(x1 - 10, y(s[0]) + 4, pct(s[0], 1), { anchor: "end" });
-    l1.setAttribute("class", "fade");
-    svg.appendChild(l1);
+var l1 = label(x1 - 10, y(s[0]) + 4, pct(s[0], 1), { anchor: "end" });
+l1.setAttribute("class", "fade");
+svg.appendChild(l1);
 
-    var isJ = s[3] === "Jaspe";
-    var l2 = label(x2 + 11, y(s[1]) + 4, s[3] + " " + pct(s[1], 1), {
-      fill: isJ ? INK : INK3, weight: isJ ? 650 : 400
-    });
-    l2.setAttribute("class", "fade");
-    svg.appendChild(l2);
-  });
+var isJ = s[3] === "Jaspe";
+var l2 = label(x2 + 11, y(s[1]) + 4, s[3] + " " + pct(s[1], 1), {
+fill: isJ ? INK : INK3, weight: isJ ? 650 : 400
+});
+l2.setAttribute("class", "fade");
+svg.appendChild(l2);
+});
 
-  svg.appendChild(label(x1, bot + 32, "marzo 2026", { anchor: "middle" }));
-  svg.appendChild(label(x2, bot + 32, "junio 2026", { anchor: "middle" }));
-  reveal(svg);
+svg.appendChild(label(x1, bot + 32, "marzo 2026", { anchor: "middle" }));
+svg.appendChild(label(x2, bot + 32, "junio 2026", { anchor: "middle" }));
+reveal(svg);
 
-  document.getElementById("slopeNote").textContent =
-    "Jaspe bajó " + num(moraMar(J) - mora(J), 2) + " puntos. En el mismo trimestre, " +
-    improved + " de las " + withMar.length + " cooperativas presentes en ambos cortes redujeron su morosidad, y la variación mediana del segmento fue de " +
-    num(MED - MED_MAR, 2) + " puntos.";
+document.getElementById("slopeNote").textContent =
+"Jaspe bajó " + num(moraMar(J) - mora(J), 2) + " puntos. En el mismo trimestre, " +
+improved + " de las " + withMar.length + " cooperativas presentes en ambos cortes redujeron su morosidad, y la variación mediana del segmento fue de " +
+num(MED_DELTA, 2) + " puntos.";
 })();
 
 // ---------- por producto ----------
 (function () {
-  var svg = document.getElementById("svgProd");
-  var base = 150, maxV = Math.max(moraMic(J), MED_MIC, moraCon(J), MED_CON) * 1.18;
-  var h = function (v) { return v / maxV * 112; };
-  var groups = [
-    { t: "Microcrédito", j: moraMic(J), m: MED_MIC, cx: 100, nJ: J.mb, iJ: J.mi, cnt: micList.length },
-    { t: "Consumo", j: moraCon(J), m: MED_CON, cx: 260, nJ: J.cb, iJ: J.ci, cnt: conList.length }
-  ];
-  var bw = 44;
-  groups.forEach(function (g) {
-    [[g.j, ACCENT, "Jaspe", g.cx - bw - 1], [g.m, NEUTRAL, "Mediana del segmento", g.cx + 1]].forEach(function (b) {
-      var bh = h(b[0]);
-      var rect = growable(el("rect", { x: b[3], y: base - bh, width: bw, height: bh, fill: b[1], rx: 4, ry: 4 }), base);
-      rect.style.cursor = "pointer";
-      rect.addEventListener("click", function () {
-        document.getElementById("prodOut").innerHTML =
-          "<b>" + g.t + " · " + b[2] + "</b><br>Morosidad " + pct(b[0]) +
-          (b[2] === "Jaspe"
-            ? "<br><span class='muted'>" + usd(g.iJ) + " improductivos sobre " + usd(g.nJ) + " de cartera</span>"
-            : "<br><span class='muted'>mediana de las " + g.cnt + " cooperativas con este producto</span>");
-      });
-      svg.appendChild(rect);
-      svg.appendChild(label(b[3] + bw / 2, base - bh - 8, num(b[0], 1), {
-        anchor: "middle", size: 12, weight: b[2] === "Jaspe" ? 650 : 400, fill: b[2] === "Jaspe" ? INK : INK3
-      }));
-    });
-    svg.appendChild(label(g.cx, base + 20, g.t, { anchor: "middle", size: 12.5, fill: "#374151" }));
-  });
-  svg.appendChild(el("line", { x1: 20, y1: base, x2: 340, y2: base, stroke: RULE, "stroke-width": 1 }));
-  reveal(svg);
+var svg = document.getElementById("svgProd");
+var base = 150, maxV = Math.max(moraMic(J), MED_MIC, moraCon(J), MED_CON) * 1.18;
+var h = function (v) { return v / maxV * 112; };
+var groups = [
+{ t: "Microcrédito", j: moraMic(J), m: MED_MIC, cx: 100, nJ: J.mb, iJ: J.mi, cnt: micList.length },
+{ t: "Consumo", j: moraCon(J), m: MED_CON, cx: 260, nJ: J.cb, iJ: J.ci, cnt: conList.length }
+];
+var bw = 44;
+groups.forEach(function (g) {
+[[g.j, ACCENT, "Jaspe", g.cx - bw - 1], [g.m, NEUTRAL, "Mediana del segmento", g.cx + 1]].forEach(function (b) {
+var bh = h(b[0]);
+var rect = growable(el("rect", { x: b[3], y: base - bh, width: bw, height: bh, fill: b[1], rx: 4, ry: 4 }), base);
+rect.style.cursor = "pointer";
+rect.addEventListener("click", function () {
+document.getElementById("prodOut").innerHTML =
+"<b>" + g.t + " · " + b[2] + "</b><br>Morosidad " + pct(b[0]) +
+(b[2] === "Jaspe"
+? "<br><span class='muted'>" + usd(g.iJ) + " improductivos sobre " + usd(g.nJ) + " de cartera</span>"
+: "<br><span class='muted'>mediana de las " + g.cnt + " cooperativas con este producto</span>");
+});
+svg.appendChild(rect);
+svg.appendChild(label(b[3] + bw / 2, base - bh - 8, num(b[0], 1), {
+anchor: "middle", size: 12, weight: b[2] === "Jaspe" ? 650 : 400, fill: b[2] === "Jaspe" ? INK : INK3
+}));
+});
+svg.appendChild(label(g.cx, base + 20, g.t, { anchor: "middle", size: 12.5, fill: "#374151" }));
+});
+svg.appendChild(el("line", { x1: 20, y1: base, x2: 340, y2: base, stroke: RULE, "stroke-width": 1 }));
+reveal(svg);
 
-  document.getElementById("prodNote").textContent =
-    "En microcrédito Jaspe está " + num(moraMic(J) - MED_MIC, 1) +
-    " puntos por encima de la mediana. En consumo prácticamente la iguala, pero esa cartera creció " +
-    num((J.cb / J.pcb - 1) * 100, 0) + " % en el trimestre y una cartera joven todavía no ha madurado.";
+document.getElementById("prodNote").textContent =
+"En microcrédito Jaspe está " + num(moraMic(J) - MED_MIC, 1) +
+" puntos por encima de la mediana. En consumo prácticamente la iguala, pero esa cartera creció " +
+num((J.cb / J.pcb - 1) * 100, 0) + " % en el trimestre y una cartera joven todavía no ha madurado.";
 })();
 
 // ---------- distribución del segmento ----------
 (function () {
-  var svg = document.getElementById("svgDist");
-  var sorted = DATA.slice().sort(function (a, b) { return mora(a) - mora(b); });
-  var jIdx = sorted.indexOf(J);
-  var left = 34, right = 352, top = 14, base = 160;
-  // El eje se corta en 20 %: sin ese tope, el puñado de cooperativas muy
-  // morosas aplasta a las demás y la barra de Jaspe se vuelve ilegible.
-  var CAP = 20;
-  var realMax = Math.max.apply(null, sorted.map(mora));
-  var over = sorted.filter(function (r) { return mora(r) > CAP; }).length;
-  var bw = (right - left) / sorted.length;
-  var y = function (v) { return base - Math.min(v, CAP) / CAP * (base - top); };
+var svg = document.getElementById("svgDist");
+var sorted = DATA.slice().sort(function (a, b) { return mora(a) - mora(b); });
+var jIdx = sorted.indexOf(J);
+var left = 34, right = 352, top = 14, base = 160;
+// El eje se corta en 20 %: sin ese tope, el puñado de cooperativas muy
+// morosas aplasta a las demás y la barra de Jaspe se vuelve ilegible.
+var CAP = 20;
+var realMax = Math.max.apply(null, sorted.map(mora));
+var over = sorted.filter(function (r) { return mora(r) > CAP; }).length;
+var bw = (right - left) / sorted.length;
+var y = function (v) { return base - Math.min(v, CAP) / CAP * (base - top); };
 
-  sorted.forEach(function (r, i) {
-    var isJ = r === J;
-    svg.appendChild(growable(el("rect", {
-      x: left + i * bw, y: y(mora(r)), width: Math.max(bw - 0.6, 0.9),
-      height: base - y(mora(r)), fill: isJ ? ACCENT : "#D7DCE3"
-    }), base, Math.round(i * 2.2)));
-  });
+sorted.forEach(function (r, i) {
+var isJ = r === J;
+svg.appendChild(growable(el("rect", {
+x: left + i * bw, y: y(mora(r)), width: Math.max(bw - 0.6, 0.9),
+height: base - y(mora(r)), fill: isJ ? ACCENT : "#D7DCE3"
+}), base, Math.round(i * 2.2)));
+});
 
-  svg.appendChild(el("line", { x1: left, y1: y(MED), x2: right, y2: y(MED), stroke: NEUTRAL, "stroke-width": 1, "stroke-dasharray": "none", opacity: .9 }));
-  svg.appendChild(label(left, y(MED) - 6, "mediana " + pct(MED, 1), { size: 10.5 }));
-  svg.appendChild(el("line", { x1: left, y1: base, x2: right, y2: base, stroke: RULE, "stroke-width": 1 }));
-  svg.appendChild(label(left - 6, base + 4, "0", { anchor: "end", size: 10.5 }));
-  svg.appendChild(label(left - 6, top + 4, CAP + " %+", { anchor: "end", size: 10.5 }));
-  svg.appendChild(label(left, base + 20, "menor morosidad", { size: 10.5 }));
-  svg.appendChild(label(right, base + 20, "mayor", { anchor: "end", size: 10.5 }));
+svg.appendChild(el("line", { x1: left, y1: y(MED), x2: right, y2: y(MED), stroke: NEUTRAL, "stroke-width": 1, "stroke-dasharray": "none", opacity: .9 }));
+svg.appendChild(label(left, y(MED) - 6, "mediana " + pct(MED, 1), { size: 10.5 }));
+svg.appendChild(el("line", { x1: left, y1: base, x2: right, y2: base, stroke: RULE, "stroke-width": 1 }));
+svg.appendChild(label(left - 6, base + 4, "0", { anchor: "end", size: 10.5 }));
+svg.appendChild(label(left - 6, top + 4, CAP + " %+", { anchor: "end", size: 10.5 }));
+svg.appendChild(label(left, base + 20, "menor morosidad", { size: 10.5 }));
+svg.appendChild(label(right, base + 20, "mayor", { anchor: "end", size: 10.5 }));
 
-  var jx = left + jIdx * bw + bw / 2;
-  svg.appendChild(el("line", { x1: jx, y1: y(mora(J)) - 10, x2: jx, y2: y(mora(J)) - 22, stroke: ACCENT, "stroke-width": 1.5 }));
-  svg.appendChild(label(Math.min(jx, right - 40), y(mora(J)) - 27, "Jaspe", { anchor: "middle", size: 11.5, weight: 650, fill: ACCENT }));
+var jx = left + jIdx * bw + bw / 2;
+svg.appendChild(el("line", { x1: jx, y1: y(mora(J)) - 10, x2: jx, y2: y(mora(J)) - 22, stroke: ACCENT, "stroke-width": 1.5 }));
+svg.appendChild(label(Math.min(jx, right - 40), y(mora(J)) - 27, "Jaspe", { anchor: "middle", size: 11.5, weight: 650, fill: ACCENT }));
 
-  var out = document.getElementById("distOut");
-  function show(i) {
-    var r = sorted[i];
-    out.innerHTML = "<b>" + (r === J ? "Jaspe Ltda" : r.n) + "</b> · puesto " + (i + 1) + " de " + sorted.length +
-      "<br>Morosidad " + pct(mora(r)) + " <span class='muted'>· cartera " + usd(r.b) + "</span>";
-  }
-  function pick(ev) {
-    var pt = svg.getBoundingClientRect();
-    var cx = (ev.touches ? ev.touches[0].clientX : ev.clientX) - pt.left;
-    var vx = cx / pt.width * 360;
-    var i = Math.round((vx - left - bw / 2) / bw);
-    if (i >= 0 && i < sorted.length) show(i);
-  }
-  reveal(svg);
-  svg.style.cursor = "crosshair";
-  svg.addEventListener("click", pick);
-  svg.addEventListener("touchstart", function (e) { pick(e); }, { passive: true });
-  svg.addEventListener("touchmove", function (e) { pick(e); }, { passive: true });
-  show(jIdx);
+var out = document.getElementById("distOut");
+function show(i) {
+var r = sorted[i];
+out.innerHTML = "<b>" + (r === J ? "Jaspe Ltda" : r.n) + "</b>" +
+"<br>Morosidad " + pct(mora(r)) + " <span class='muted'>· cartera " + usd(r.b) + "</span>";
+}
+function pick(ev) {
+var pt = svg.getBoundingClientRect();
+var cx = (ev.touches ? ev.touches[0].clientX : ev.clientX) - pt.left;
+var vx = cx / pt.width * 360;
+var i = Math.round((vx - left - bw / 2) / bw);
+if (i >= 0 && i < sorted.length) show(i);
+}
+reveal(svg);
+svg.style.cursor = "crosshair";
+svg.addEventListener("click", pick);
+svg.addEventListener("touchstart", function (e) { pick(e); }, { passive: true });
+svg.addEventListener("touchmove", function (e) { pick(e); }, { passive: true });
+show(jIdx);
 
-  document.getElementById("distNote").textContent =
-    jIdx + " cooperativas del segmento tienen menos morosidad que Jaspe y " +
-    (sorted.length - jIdx - 1) + " tienen más. El eje se corta en " + CAP +
-    " % para que las barras se lean: " + over + " cooperativas lo superan y la más alta llega al " +
-    num(realMax, 0) + " %. Esa cola es la razón de comparar contra la mediana y no contra el promedio.";
+document.getElementById("distNote").textContent =
+"El eje se corta en " + CAP +
+" % para que las barras se lean: " + over + " cooperativas lo superan y la más alta llega al " +
+num(realMax, 0) + " %. Esa cola es la razón de comparar contra la mediana y no contra el promedio.";
 })();
 
 // ---------- simulador ----------
 (function () {
-  var slider = document.getElementById("sim");
-  var others = DATA.filter(function (r) { return r !== J; }).map(mora);
-  var cur = moraMic(J);
-  slider.value = cur.toFixed(1);
+var slider = document.getElementById("sim");
+var cur = moraMic(J);
+slider.value = cur.toFixed(1);
 
-  function rankOf(v) {
-    var n = 1;
-    for (var i = 0; i < others.length; i++) if (others[i] < v) n++;
-    return n;
-  }
-  function render() {
-    var rate = parseFloat(slider.value);
-    var newMic = J.mb * rate / 100;
-    var newImp = newMic + J.ci;
-    var tot = newImp / J.b * 100;
-    document.getElementById("simMic").textContent = pct(rate, 1);
-    document.getElementById("simTot").textContent = pct(tot, 2);
-    document.getElementById("simRank").textContent = rankOf(tot) + " de " + DATA.length;
-  }
-  slider.addEventListener("input", render);
-  render();
+function render() {
+var rate = parseFloat(slider.value);
+var newMic = J.mb * rate / 100;
+var newImp = newMic + J.ci;
+var tot = newImp / J.b * 100;
+document.getElementById("simMic").textContent = pct(rate, 1);
+document.getElementById("simTot").textContent = pct(tot, 2);
+var diff = tot - MED;
+document.getElementById("simRank").textContent =
+(diff >= 0 ? "+" : "−") + num(Math.abs(diff), 2) + " pp";
+}
+slider.addEventListener("input", render);
+render();
 
-  var needImp = MED / 100 * J.b;
-  var needMic = (needImp - J.ci) / J.mb * 100;
-  document.getElementById("simNote").textContent =
-    "Hoy la morosidad de microcrédito es " + pct(cur, 2) + " y la mora total " + pct(mora(J)) +
-    ", lo que deja a Jaspe en el puesto " + rankOf(mora(J)) + " de " + DATA.length +
-    " de menor a mayor morosidad. Para igualar la mediana del segmento, la morosidad de microcrédito tendría que bajar a " +
-    pct(needMic, 2) + ", manteniendo todo lo demás igual.";
+var needImp = MED / 100 * J.b;
+var needMic = (needImp - J.ci) / J.mb * 100;
+document.getElementById("simNote").textContent =
+"Hoy la morosidad de microcrédito es " + pct(cur, 2) + " y la mora total " + pct(mora(J)) +
+", lo que la deja " + num(mora(J) - MED, 2) +
+" puntos sobre la mediana del segmento. Para igualar la mediana, la morosidad de microcrédito tendría que bajar a " +
+pct(needMic, 2) + ", manteniendo todo lo demás igual.";
 })();
 
 // ---------- método ----------
@@ -479,9 +477,9 @@ document.getElementById("m3").textContent = pct(MED, 2);
 document.getElementById("m4").textContent = pct(quantile(allMora, 0.9), 0);
 document.getElementById("m5").textContent = pct(Math.max.apply(null, allMora), 0);
 (function () {
-  var share = J.mb / J.b;
-  var sim = DATA.filter(function (r) { return Math.abs(r.mb / r.b - share) <= 0.125; });
-  document.getElementById("m6").textContent = pct(median(sim.map(mora)), 2);
+var share = J.mb / J.b;
+var sim = DATA.filter(function (r) { return Math.abs(r.mb / r.b - share) <= 0.125; });
+document.getElementById("m6").textContent = pct(median(sim.map(mora)), 2);
 })();
 </script>
 </body>
