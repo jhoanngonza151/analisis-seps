@@ -167,7 +167,7 @@ svg.in .fade{opacity:1}
 <section>
 <h2>Qué pasaría si</h2>
 <p class="sub">Mueve la morosidad de microcrédito y mira cómo responde el total. La cartera de consumo y los montos quedan fijos.</p>
-<input type="range" id="sim" min="2" max="16" step="0.1" aria-label="Morosidad de microcrédito simulada">
+<input type="range" id="sim" min="2" max="16" step="0.01" aria-label="Morosidad de microcrédito simulada">
 <div class="simRow"><span>2 %</span><span>16 %</span></div>
 <div class="simOut">
 <div><div class="n" id="simMic">—</div><div class="l">Morosidad de microcrédito</div></div>
@@ -445,14 +445,14 @@ num(realMax, 0) + " %. Esa cola es la razón de comparar contra la mediana y no 
 (function () {
 var slider = document.getElementById("sim");
 var cur = moraMic(J);
-slider.value = cur.toFixed(1);
+slider.value = cur.toFixed(2);
 
 function render() {
 var rate = parseFloat(slider.value);
 var newMic = J.mb * rate / 100;
 var newImp = newMic + J.ci;
 var tot = newImp / J.b * 100;
-document.getElementById("simMic").textContent = pct(rate, 1);
+document.getElementById("simMic").textContent = pct(rate, 2);
 document.getElementById("simTot").textContent = pct(tot, 2);
 var diff = tot - MED;
 document.getElementById("simRank").textContent =
