@@ -384,9 +384,13 @@ Array.prototype.forEach.call(document.querySelectorAll("button.audit"), function
   var sorted = DATA.slice().sort(function (a, b) { return mora(a) - mora(b); });
   var jIdx = sorted.indexOf(J);
   var left = 34, right = 352, top = 14, base = 160;
-  var maxV = Math.max.apply(null, sorted.map(mora));
+  // El eje se corta en 20 %: sin ese tope, el puñado de cooperativas muy
+  // morosas aplasta a las demás y la barra de Jaspe se vuelve ilegible.
+  var CAP = 20;
+  var realMax = Math.max.apply(null, sorted.map(mora));
+  var over = sorted.filter(function (r) { return mora(r) > CAP; }).length;
   var bw = (right - left) / sorted.length;
-  var y = function (v) { return base - v / maxV * (base - top); };
+  var y = function (v) { return base - Math.min(v, CAP) / CAP * (base - top); };
 
   sorted.forEach(function (r, i) {
     var isJ = r === J;
@@ -400,7 +404,7 @@ Array.prototype.forEach.call(document.querySelectorAll("button.audit"), function
   svg.appendChild(label(left, y(MED) - 6, "mediana " + pct(MED, 1), { size: 10.5 }));
   svg.appendChild(el("line", { x1: left, y1: base, x2: right, y2: base, stroke: RULE, "stroke-width": 1 }));
   svg.appendChild(label(left - 6, base + 4, "0", { anchor: "end", size: 10.5 }));
-  svg.appendChild(label(left - 6, top + 4, num(maxV, 0) + " %", { anchor: "end", size: 10.5 }));
+  svg.appendChild(label(left - 6, top + 4, CAP + " %+", { anchor: "end", size: 10.5 }));
   svg.appendChild(label(left, base + 20, "menor morosidad", { size: 10.5 }));
   svg.appendChild(label(right, base + 20, "mayor", { anchor: "end", size: 10.5 }));
 
@@ -430,9 +434,9 @@ Array.prototype.forEach.call(document.querySelectorAll("button.audit"), function
 
   document.getElementById("distNote").textContent =
     jIdx + " cooperativas del segmento tienen menos morosidad que Jaspe y " +
-    (sorted.length - jIdx - 1) + " tienen más. La curva se dispara al final: " +
-    sorted.filter(function (r) { return mora(r) > 20; }).length +
-    " cooperativas superan el 20 %, y por eso la comparación se hace contra la mediana y no contra el promedio.";
+    (sorted.length - jIdx - 1) + " tienen más. El eje se corta en " + CAP +
+    " % para que las barras se lean: " + over + " cooperativas lo superan y la más alta llega al " +
+    num(realMax, 0) + " %. Esa cola es la razón de comparar contra la mediana y no contra el promedio.";
 })();
 
 // ---------- simulador ----------
