@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>De dónde viene la baja de la morosidad de Jaspe · Enero a septiembre 2026</title>
+<meta name="description" content="Nueve cortes mensuales con datos públicos de la SEPS. Elaborado por Jhoann Gonza.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="De dónde viene la baja de la morosidad de Jaspe">
+<meta property="og:description" content="Datos públicos de la SEPS, enero a septiembre 2026. Entre 129 y 136 cooperativas del segmento 4 según el mes. Elaborado por Jhoann Gonza.">
+<meta property="og:locale" content="es_EC">
+<meta property="og:url" content="https://jhoanngonza151.github.io/analisis-seps/septiembre/">
+<meta property="og:image" content="https://jhoanngonza151.github.io/analisis-seps/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<style>
+:root{
+--ink:#111827; --ink2:#374151; --ink3:#6B7280;
+--accent:#2563EB; --neutral:#9CA3AF; --rule:#E5E7EB; --tint:#EFF6FF;
+--warm:#B45309; --warmbg:#FEF3C7;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+margin:0; background:#fff; color:var(--ink2);
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+font-size:16px; line-height:1.6;
+}
+main{max-width:560px; margin:0 auto; padding:28px 20px 56px}
+section{padding:30px 0; border-top:1px solid var(--rule)}
+section:first-of-type{border-top:0; padding-top:10px}
+h1{margin:0 0 8px; font-size:25px; line-height:1.25; letter-spacing:-0.02em; color:var(--ink); font-weight:650}
+h2{margin:0 0 4px; font-size:18px; line-height:1.3; color:var(--ink); font-weight:650; letter-spacing:-0.01em}
+h3{margin:26px 0 2px; font-size:14px; line-height:1.35; color:var(--ink); font-weight:650}
+h3:first-of-type{margin-top:6px}
+.kicker{margin:0 0 20px; font-size:14px; color:var(--ink3)}
+.sub{margin:0 0 18px; font-size:13.5px; color:var(--ink3); line-height:1.5}
+.sub2{margin:0 0 12px; font-size:13px; color:var(--ink3); line-height:1.5}
+p{margin:0 0 14px}
+p:last-child{margin-bottom:0}
+strong{color:var(--ink); font-weight:650}
+.byline{font-size:12.5px; color:var(--ink3); line-height:1.5}
+
+.hero{font-size:64px; line-height:1; font-weight:700; letter-spacing:-0.03em; color:var(--ink); margin:2px 0 10px}
+.heroLabel{font-size:11.5px; font-weight:650; letter-spacing:.09em; text-transform:uppercase; color:var(--ink3); margin:0}
+.vs{font-size:15px; color:var(--ink2); margin:0 0 16px}
+
+button.audit{
+-webkit-appearance:none; appearance:none; display:inline-flex; align-items:center; gap:7px;
+min-height:44px; padding:9px 14px; border:1px solid var(--rule); border-radius:999px;
+background:#fff; color:var(--accent); font:inherit; font-size:13px; font-weight:600; cursor:pointer;
+}
+button.audit:hover{background:var(--tint)}
+button.audit .chev{transition:transform .18s ease; font-size:11px; line-height:1}
+button.audit[aria-expanded="true"] .chev{transform:rotate(90deg)}
+.panel{
+display:none; margin-top:12px; padding:14px 16px; background:var(--tint);
+border-radius:8px; font-size:13.5px; line-height:1.65; color:var(--ink2);
+}
+.panel.open{display:block}
+.panel dl{margin:0; display:grid; grid-template-columns:1fr auto; gap:5px 14px}
+.panel dt{color:var(--ink3)}
+.panel dd{margin:0; text-align:right; font-variant-numeric:tabular-nums; color:var(--ink)}
+.panel .tot{border-top:1px solid #C7DBFB; padding-top:7px; margin-top:4px; font-weight:650}
+.formula{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; color:var(--ink2); margin-top:10px; line-height:1.6}
+
+.swap{margin:16px 0 0}
+.swap a{
+display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:9px 15px;
+border:1px solid #BFD6FB; border-radius:999px; background:var(--tint);
+color:var(--accent); font-size:13.5px; font-weight:600; text-decoration:none;
+}
+.swap a:hover{background:#E0ECFE}
+
+figure{margin:0}
+svg{display:block; width:100%; height:auto; overflow:visible}
+svg:focus{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px}
+.legend{display:flex; gap:16px; margin:0 0 10px; font-size:12.5px; color:var(--ink2); flex-wrap:wrap}
+.legend i{display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:6px; vertical-align:baseline}
+.note{font-size:12px; color:var(--ink3); line-height:1.55; margin-top:12px}
+
+.readout{
+min-height:52px; margin-top:10px; padding:10px 12px; border-radius:8px; background:#F8FAFC;
+font-size:13px; color:var(--ink2); line-height:1.45;
+}
+.readout b{color:var(--ink); font-weight:650}
+.readout .muted{color:var(--ink3)}
+
+.split{display:flex; gap:20px; flex-wrap:wrap; margin:18px 0 0}
+.split div{flex:1; min-width:140px}
+.split .n{font-size:28px; font-weight:700; letter-spacing:-0.02em; color:var(--ink); line-height:1.1}
+.split .l{font-size:12px; color:var(--ink3); line-height:1.4; margin-top:3px}
+
+input[type=range]{
+-webkit-appearance:none; appearance:none; width:100%; height:44px; background:transparent; margin:0;
+}
+input[type=range]::-webkit-slider-runnable-track{height:4px; background:var(--rule); border-radius:2px}
+input[type=range]::-moz-range-track{height:4px; background:var(--rule); border-radius:2px}
+input[type=range]::-webkit-slider-thumb{
+-webkit-appearance:none; appearance:none; width:26px; height:26px; margin-top:-11px;
+border-radius:50%; background:var(--accent); border:3px solid #fff; box-shadow:0 1px 4px rgba(0,0,0,.28); cursor:pointer;
+}
+input[type=range]::-moz-range-thumb{
+width:26px; height:26px; border-radius:50%; background:var(--accent);
+border:3px solid #fff; box-shadow:0 1px 4px rgba(0,0,0,.28); cursor:pointer;
+}
+.simRow{display:flex; justify-content:space-between; font-size:12px; color:var(--ink3); margin-top:-6px}
+.simOut{display:flex; gap:22px; margin-top:14px; flex-wrap:wrap}
+.simOut div{flex:1; min-width:120px}
+.simOut .n{font-size:30px; font-weight:700; letter-spacing:-0.02em; color:var(--ink); line-height:1.1}
+.simOut .l{font-size:12px; color:var(--ink3); line-height:1.4; margin-top:3px}
+
+ol.method{margin:0; padding-left:20px}
+ol.method li{margin-bottom:9px}
+.limit{border-left:3px solid var(--accent); padding-left:16px; margin:0 0 14px}
+.limit:last-child{margin-bottom:0}
+footer{margin-top:34px; padding-top:20px; border-top:1px solid var(--rule); font-size:11.5px; color:var(--ink3); line-height:1.65}
+noscript .ns{padding:14px 16px; background:var(--tint); border-radius:8px; font-size:14px; line-height:1.6; display:block; margin-bottom:10px}
+
+.grow{transform:scaleY(0); transition:transform .6s cubic-bezier(.2,.7,.3,1)}
+svg.in .grow{transform:scaleY(1)}
+.draw{transition:stroke-dashoffset .9s cubic-bezier(.3,.7,.3,1)}
+svg.in .draw{stroke-dashoffset:0}
+.fade{opacity:0; transition:opacity .45s ease .35s}
+svg.in .fade{opacity:1}
+@media (prefers-reduced-motion:reduce){
+.grow,.draw,.fade{transition:none; transform:none; opacity:1; stroke-dashoffset:0}
+}
+</style>
+</head>
+<body>
+<main>
+
+<header>
+<h1>De dónde viene la baja de la morosidad de Jaspe Ltda.</h1>
+<p class="kicker">Nueve cortes mensuales con datos públicos de la SEPS · Enero a septiembre de 2026</p>
+<p class="byline">Elaborado por <strong>Jhoann Gonza</strong> · Noviembre de 2026</p>
+<p class="swap"><a href="../"><span aria-hidden="true">&#8592;</span> Ver el análisis de junio de 2026</a></p>
+</header>
+
+<noscript>
+<span class="ns"><strong>Esta página calcula sus cifras en el navegador y necesita JavaScript.</strong><br>
+Resumen del corte de septiembre de 2026: mora total de Jaspe 9,12 %, mediana del segmento 4 6,64 % sobre 129 cooperativas.
+La mora bajó 2,70 puntos desde el pico de febrero, pero la cartera improductiva solo cayó 41.671 USD mientras los activos castigados subieron 189.139 USD desde enero y la cartera creció 17,9 %.</span>
+</noscript>
+
+<section>
+<p class="heroLabel">Mora total · septiembre 2026</p>
+<div class="hero" id="heroVal">—</div>
+<p class="vs">Mediana del segmento 4: <strong id="medVal">—</strong> sobre <span id="nCoops">—</span> cooperativas</p>
+<button class="audit" type="button" data-panel="p1" aria-expanded="false" aria-controls="p1">
+<span class="chev">&#9654;</span> Ver de dónde sale este número
+</button>
+<div class="panel" id="p1">
+<dl>
+<dt>Cartera que no devenga intereses</dt><dd id="a1">—</dd>
+<dt>Cartera vencida</dt><dd id="a2">—</dd>
+<dt class="tot">Cartera improductiva</dt><dd class="tot" id="a3">—</dd>
+<dt>Cartera bruta total</dt><dd id="a4">—</dd>
+</dl>
+<p class="formula" id="a5">—</p>
+</div>
+</section>
+
+<section>
+<h2>Nueve meses seguidos, no tres cortes</h2>
+<p class="sub">Morosidad total mes a mes. El boletín trimestral solo publica marzo, junio y septiembre; la base mensual permite ver lo que pasó entre medio.</p>
+<div class="legend">
+<span><i style="background:#2563EB"></i>Jaspe</span>
+<span><i style="background:#9CA3AF"></i>Mediana del segmento</span>
+</div>
+<figure><svg id="svgSerie" viewBox="0 0 360 215" role="img" tabindex="0" aria-labelledby="serieDesc"><title id="serieDesc">Morosidad mensual de Jaspe y mediana del segmento 4 entre enero y septiembre de 2026.</title></svg></figure>
+<div class="readout" id="serieOut" aria-live="polite">Toca el gráfico.</div>
+<p class="note" id="serieNote">—</p>
+</section>
+
+<section>
+<h2>La baja no es toda cobro</h2>
+<p class="sub">El porcentaje cayó por tres razones distintas, y conviene separarlas antes de leerlo como una mejora.</p>
+<div class="split">
+<div><div class="n" id="d1">—</div><div class="l">Puntos que vienen de que la cartera creció</div></div>
+<div><div class="n" id="d2">—</div><div class="l">Puntos que vienen de que la improductiva bajó</div></div>
+</div>
+<p class="note" id="decNote">—</p>
+
+<h3>Los activos castigados subieron más que lo que bajó la improductiva</h3>
+<p class="sub2">Saldo de la cuenta de activos castigados de Jaspe, mes a mes. Un crédito castigado sale de la cartera y deja de contar en la mora, sin que nadie lo haya pagado.</p>
+<figure><svg id="svgCas" viewBox="0 0 360 160" role="img" tabindex="0" aria-labelledby="casDesc"><title id="casDesc">Saldo de activos castigados de Jaspe entre enero y septiembre de 2026.</title></svg></figure>
+<p class="note" id="casNote">—</p>
+<p class="note" id="casNote2">—</p>
+</section>
+
+<section>
+<h2>Cuatro señales, dos en cada dirección</h2>
+<p class="sub">Lo que no se ve en el porcentaje, y que apunta a lados contrarios.</p>
+
+<h3>En contra: la cartera en problemas está envejeciendo</h3>
+<p class="sub2">La que no devenga intereses es mora reciente; la vencida es mora que ya lleva tiempo. Una baja y la otra sube.</p>
+<div class="legend">
+<span><i style="background:#9CA3AF"></i>No devenga intereses</span>
+<span><i style="background:#B45309"></i>Vencida</span>
+</div>
+<figure><svg id="svgEdad" viewBox="0 0 360 180" role="img" tabindex="0" aria-labelledby="edadDesc"><title id="edadDesc">Cartera que no devenga intereses y cartera vencida de Jaspe entre enero y septiembre de 2026.</title></svg></figure>
+<p class="note" id="edadNote">—</p>
+
+<h3>A favor: la refinanciada que aún está al día se redujo a un tercio</h3>
+<p class="sub2">Cartera refinanciada y reestructurada de Jaspe, separada entre la que está por vencer y la que ya cayó en mora.</p>
+<div class="legend">
+<span><i style="background:#2563EB"></i>Por vencer</span>
+<span><i style="background:#C7D2DE"></i>Ya improductiva</span>
+</div>
+<figure><svg id="svgRef" viewBox="0 0 360 170" role="img" tabindex="0" aria-labelledby="refDesc"><title id="refDesc">Cartera refinanciada y reestructurada de Jaspe, por vencer y ya improductiva, entre enero y septiembre de 2026.</title></svg></figure>
+<p class="note" id="refNote">—</p>
+<p class="note" id="refNote2">—</p>
+
+<h3>A favor: las provisiones ya cubren la cartera improductiva</h3>
+<p class="sub2">Provisiones acumuladas dividido para cartera improductiva. Sobre 100 % significa que lo provisionado alcanza para toda la cartera en problemas.</p>
+<figure><svg id="svgCob" viewBox="0 0 360 170" role="img" tabindex="0" aria-labelledby="cobDesc"><title id="cobDesc">Cobertura de provisiones de Jaspe entre enero y septiembre de 2026, con la línea de 100 por ciento.</title></svg></figure>
+<p class="note" id="cobNote">—</p>
+<p class="note" id="cobNote2">—</p>
+</section>
+
+<section>
+<h2>La brecha está en microcrédito</h2>
+<p class="sub">Morosidad por producto, septiembre 2026. Toca una barra para ver sus cifras.</p>
+<div class="legend">
+<span><i style="background:#2563EB"></i>Jaspe</span>
+<span><i style="background:#9CA3AF"></i>Mediana del segmento</span>
+</div>
+<figure><svg id="svgProd" viewBox="0 0 360 200" role="img" tabindex="0" aria-labelledby="prodDesc"><title id="prodDesc">Morosidad de microcrédito y de consumo, Jaspe frente a la mediana del segmento.</title></svg></figure>
+<div class="readout" id="prodOut" aria-live="polite">Toca una barra.</div>
+<p class="note" id="prodNote">—</p>
+</section>
+
+<section>
+<h2>Dónde cae Jaspe entre sus pares</h2>
+<p class="sub">Las <span id="nCoops2">—</span> cooperativas del segmento ordenadas por morosidad. Toca el gráfico para identificar cualquiera.</p>
+<figure><svg id="svgDist" viewBox="0 0 360 210" role="img" tabindex="0" aria-labelledby="distDesc"><title id="distDesc">Distribución de la morosidad de todas las cooperativas del segmento 4, ordenadas de menor a mayor, con Jaspe destacada.</title></svg></figure>
+<div class="readout" id="distOut" aria-live="polite">Toca el gráfico.</div>
+<p class="note" id="distNote">—</p>
+</section>
+
+<section>
+<h2>Qué pasaría si</h2>
+<p class="sub">Mueve la morosidad de microcrédito y mira cómo responde el total. La cartera de consumo y los montos quedan fijos.</p>
+<input type="range" id="sim" min="2" max="16" step="0.01" aria-label="Morosidad de microcrédito simulada">
+<div class="simRow"><span>2 %</span><span>16 %</span></div>
+<div class="simOut">
+<div><div class="n" id="simMic">—</div><div class="l">Morosidad de microcrédito</div></div>
+<div><div class="n" id="simTot">—</div><div class="l">Mora total resultante</div></div>
+<div><div class="n" id="simRank">—</div><div class="l">Distancia a la mediana</div></div>
+</div>
+<p class="note" id="simNote">—</p>
+</section>
+
+<section>
+<h2>Cómo se hizo</h2>
+<ol class="method">
+<li><strong>Fuente.</strong> Base de datos de estados financieros mensuales que publica la Superintendencia de Economía Popular y Solidaria, con los nueve cortes de enero a septiembre de 2026. Es el archivo en crudo, a nivel de cuenta contable de cuatro dígitos, no el boletín resumido.</li>
+<li><strong>Verificación contra el boletín.</strong> El corte de junio reconstruido desde esta base reproduce al centavo, cooperativa por cooperativa, las cifras del Boletín Financiero del Segmento 4 para las 133 entidades que trae el boletín. La base incluye una más, de modo que la mediana calculada aquí difiere levemente de la que saldría del boletín.</li>
+<li><strong>Universo.</strong> <span id="m1">—</span> cooperativas con cartera reportada en septiembre, Jaspe incluida. El número varía por mes —<span id="m7">—</span> en enero— porque no todas reportan todos los meses. Con el panel de las <span id="m8">—</span> presentes en los nueve cortes la mediana de septiembre sería <span id="m9">—</span>, y la conclusión no cambia. Para los cálculos por producto se toman solo las que tienen cartera de ese tipo.</li>
+<li><strong>Fórmula.</strong> Morosidad = (cartera que no devenga intereses + cartera vencida) ÷ cartera bruta. Es la definición que usa la propia SEPS, aplicada igual a todas las entidades y en los nueve meses.</li>
+<li><strong>Mediana y no promedio.</strong> La distribución del segmento está sesgada: la mitad de las cooperativas está por debajo de <span id="m3">—</span>, pero el decil superior supera el <span id="m4">—</span> y el máximo llega al <span id="m5">—</span>. Un promedio simple quedaría inflado por ese grupo. Como referencia adicional, la morosidad agregada del segmento —improductiva total sobre cartera total— es <span id="m10">—</span>.</li>
+<li><strong>Control por mezcla de productos.</strong> Para descartar que la diferencia venga de que Jaspe coloque distinto al resto, se tomaron las cooperativas cuya proporción de microcrédito sobre cartera está a menos de 12,5 puntos de la de Jaspe: son <span id="m11">—</span> y su morosidad mediana es <span id="m6">—</span>. Ampliando la tolerancia a 15 puntos sube a <span id="m12">—</span>. La conclusión se sostiene en ambos casos.</li>
+<li><strong>Transformación.</strong> Los datos se cargaron y limpiaron en Power Query y los cálculos se replicaron de forma independiente para verificar cada cifra.</li>
+</ol>
+<p class="note">Todas las cifras de esta página —incluidas las medianas de los nueve meses y los meses que se nombran en el texto— se calculan en el navegador a partir de los saldos de cada cooperativa.</p>
+</section>
+
+<section>
+<h2>Lo que estos datos no pueden decir</h2>
+<p class="limit">Por qué la morosidad está donde está no se puede responder desde afuera. Para eso hace falta ver la mora por agencia, por oficial de crédito, por actividad económica y por fecha de otorgamiento. Esa información solo existe adentro de la cooperativa.</p>
+<p class="limit" id="lim2">—</p>
+<p class="limit" id="lim3">—</p>
+</section>
+
+<footer>
+Fuente: Base de datos de estados financieros mensuales, Superintendencia de Economía Popular y Solidaria del Ecuador. Cortes de enero a septiembre de 2026.<br>
+Elaborado por Jhoann Gonza a partir de información pública.
+</footer>
+
+</main>
+
+<script>
+"use strict";
+var DATA = [{"n": "Señor Del Arbol", "b": 24562539.92, "i": 655296.35, "nd": 295969.55, "vn": 359326.8, "mb": 23837574.27, "mi": 655296.35, "cb": 724965.65, "ci": 0.0, "pv": 754686.84, "ca": 38169.0, "rr": 461.8, "J": 0}, {"n": "Prodvision", "b": 16912572.44, "i": 835615.05, "nd": 401758.06, "vn": 433856.99, "mb": 15860634.03, "mi": 833392.92, "cb": 1051938.41, "ci": 2222.13, "pv": 1070844.99, "ca": 42085.08, "rr": 0.0, "J": 0}, {"n": "27 De Noviembre", "b": 16176082.48, "i": 1271717.2, "nd": 716684.85, "vn": 555032.35, "mb": 12096087.38, "mi": 1061066.61, "cb": 4079995.1, "ci": 210650.59, "pv": 1288447.21, "ca": -6301.76, "rr": 2987.64, "J": 0}, {"n": "Nizag Ltda", "b": 14900015.15, "i": 634609.39, "nd": 333218.18, "vn": 301391.21, "mb": 9991675.91, "mi": 552041.84, "cb": 4908339.24, "ci": 82567.55, "pv": 695990.82, "ca": 0.0, "rr": 6.0, "J": 0}, {"n": "Integracion Solidaria Ltda", "b": 14522866.43, "i": 578597.87, "nd": 289244.9, "vn": 289352.97, "mb": 12771660.14, "mi": 564679.95, "cb": 1751206.29, "ci": 13917.92, "pv": 661469.82, "ca": -8328.58, "rr": 0.0, "J": 0}, {"n": "Familia Ingaseosas Ltda", "b": 14225808.12, "i": 653117.98, "nd": 205113.56, "vn": 448004.42, "mb": 0.0, "mi": 0.0, "cb": 14145512.23, "ci": 636079.89, "pv": 410443.14, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "Valles Del Lirio Aicep", "b": 14165822.05, "i": 602876.76, "nd": 384333.06, "vn": 218543.7, "mb": 14165822.05, "mi": 602876.76, "cb": 0.0, "ci": 0.0, "pv": 593565.81, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "15 De Mayo Ltda", "b": 12357057.89, "i": 550478.16, "nd": 397338.38, "vn": 153139.78, "mb": 12357057.89, "mi": 550478.16, "cb": 0.0, "ci": 0.0, "pv": 531652.0, "ca": 17562.78, "rr": 0.0, "J": 0}, {"n": "Salate Ltda", "b": 11604305.61, "i": 363732.26, "nd": 243004.98, "vn": 120727.28, "mb": 9343739.25, "mi": 156490.39, "cb": 2260566.36, "ci": 207241.87, "pv": 267059.6, "ca": 10796.84, "rr": 0.0, "J": 0}, {"n": "Achik Inti Ltda", "b": 11483112.23, "i": 813083.64, "nd": 585238.82, "vn": 227844.82, "mb": 7292827.49, "mi": 582493.93, "cb": 4165284.68, "ci": 230589.71, "pv": 854517.24, "ca": -1233.65, "rr": 336413.48, "J": 0}, {"n": "Warmikunapak Rikchari Ltda", "b": 10301392.27, "i": 197634.45, "nd": 176370.48, "vn": 21263.97, "mb": 9084042.03, "mi": 197634.45, "cb": 1217350.24, "ci": 0.0, "pv": 229096.95, "ca": 4428.4, "rr": 0.0, "J": 0}, {"n": "Ahorrista Solidario", "b": 9658788.83, "i": 257707.95, "nd": 176283.09, "vn": 81424.86, "mb": 6334105.65, "mi": 176516.85, "cb": 3324683.18, "ci": 81191.1, "pv": 654123.98, "ca": 52826.67, "rr": 0.0, "J": 0}, {"n": "Camara De Comercio El Carmen Ltda", "b": 7338364.3, "i": 549539.27, "nd": 119161.0, "vn": 430378.27, "mb": 4299744.62, "mi": 410393.69, "cb": 3038619.68, "ci": 139145.58, "pv": 504840.75, "ca": 33082.89, "rr": 156755.25, "J": 0}, {"n": "Mi Tierra Ltda", "b": 6708052.83, "i": 434191.17, "nd": 188037.9, "vn": 246153.27, "mb": 5465077.61, "mi": 424038.67, "cb": 1242975.22, "ci": 10152.5, "pv": 577206.93, "ca": 53539.38, "rr": 18849.98, "J": 0}, {"n": "Santa Rosa De Patutan Ltda", "b": 6578685.14, "i": 410907.34, "nd": 189118.53, "vn": 221788.81, "mb": 6103045.0, "mi": 410907.34, "cb": 475640.14, "ci": 0.0, "pv": 427853.36, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "La Mana", "b": 6569118.28, "i": 364208.99, "nd": 137445.68, "vn": 226763.31, "mb": 6569118.28, "mi": 364208.99, "cb": 0.0, "ci": 0.0, "pv": 383907.3, "ca": 38138.7, "rr": 435865.05, "J": 0}, {"n": "Rey David Ltda", "b": 6477122.53, "i": 549533.75, "nd": 226524.53, "vn": 323009.22, "mb": 6171588.29, "mi": 549533.75, "cb": 305534.24, "ci": 0.0, "pv": 575413.23, "ca": -12974.56, "rr": 0.0, "J": 0}, {"n": "Innovacion Andina Ltda", "b": 6471247.91, "i": 511904.3, "nd": 365692.99, "vn": 146211.31, "mb": 6471247.91, "mi": 511904.3, "cb": 0.0, "ci": 0.0, "pv": 395221.65, "ca": 43227.79, "rr": 0.0, "J": 0}, {"n": "Simon Bolivar", "b": 6366804.71, "i": 125532.09, "nd": 101148.42, "vn": 24383.67, "mb": 4561717.4, "mi": 52250.59, "cb": 1805087.31, "ci": 73281.5, "pv": 226221.1, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "Alli Tarpuk Ltda", "b": 6341785.69, "i": 139970.93, "nd": 72959.64, "vn": 67011.29, "mb": 5917564.93, "mi": 138537.03, "cb": 424220.76, "ci": 1433.9, "pv": 201434.89, "ca": 6362.14, "rr": 0.0, "J": 0}, {"n": "Achik Ñan", "b": 6178807.13, "i": 306407.03, "nd": 144824.61, "vn": 161582.42, "mb": 5721096.47, "mi": 306407.03, "cb": 457710.66, "ci": 0.0, "pv": 316140.71, "ca": 535.97, "rr": 0.0, "J": 0}, {"n": "Coopartamos Ltda", "b": 6162136.05, "i": 602052.31, "nd": 390466.01, "vn": 211586.3, "mb": 3471583.38, "mi": 382117.62, "cb": 2635693.36, "ci": 219934.69, "pv": 350392.02, "ca": 15036.83, "rr": 6225.06, "J": 0}, {"n": "1 De Julio", "b": 5805538.99, "i": 410155.25, "nd": 237327.63, "vn": 172827.62, "mb": 5678344.14, "mi": 395360.18, "cb": 127194.85, "ci": 14795.07, "pv": 462663.23, "ca": 446753.59, "rr": 26039.44, "J": 0}, {"n": "Solidaria Ltda", "b": 5140327.53, "i": 104143.05, "nd": 72015.9, "vn": 32127.15, "mb": 3922255.26, "mi": 59046.28, "cb": 1128328.82, "ci": 26237.3, "pv": 145925.29, "ca": -1.0, "rr": 0.0, "J": 0}, {"n": "Pijal", "b": 4781055.69, "i": 280282.4, "nd": 164337.59, "vn": 115944.81, "mb": 4781055.69, "mi": 280282.4, "cb": 0.0, "ci": 0.0, "pv": 350700.24, "ca": -1070.34, "rr": 0.0, "J": 0}, {"n": "Union Popular Ltda", "b": 4663086.53, "i": 662376.48, "nd": 200253.22, "vn": 462123.26, "mb": 4628543.09, "mi": 662361.48, "cb": 34543.44, "ci": 15.0, "pv": 578915.59, "ca": -9585.3, "rr": 0.0, "J": 0}, {"n": "Surangay Ltda", "b": 4659295.19, "i": 339664.86, "nd": 205577.45, "vn": 134087.41, "mb": 2041570.55, "mi": 275601.6, "cb": 2617724.64, "ci": 64063.26, "pv": 333202.96, "ca": 18929.19, "rr": 0.0, "J": 0}, {"n": "Jaspe Ltda", "b": 4565482.23, "i": 416187.83, "nd": 211877.43, "vn": 204310.4, "mb": 3327857.58, "mi": 358402.8, "cb": 1237624.65, "ci": 57785.03, "pv": 452788.58, "ca": 189139.03, "rr": 287301.63, "J": 1}, {"n": "Catamayo", "b": 4527086.36, "i": 126001.02, "nd": 84816.34, "vn": 41184.68, "mb": 692081.72, "mi": 25410.91, "cb": 3835003.64, "ci": 100589.11, "pv": 263576.34, "ca": 11603.33, "rr": 117148.29, "J": 0}, {"n": "Obras Publicas Fiscales De Loja Y Zamora", "b": 4507465.19, "i": 150363.3, "nd": 91573.2, "vn": 58790.1, "mb": 1878215.93, "mi": 100293.54, "cb": 2629247.26, "ci": 50067.76, "pv": 157720.83, "ca": 18461.85, "rr": 0.0, "J": 0}, {"n": "La Nueva Jerusalen", "b": 4488136.57, "i": 227691.08, "nd": 29073.96, "vn": 198617.12, "mb": 3471516.91, "mi": 182860.77, "cb": 668360.23, "ci": 44829.31, "pv": 411748.62, "ca": 25629.11, "rr": 10437.11, "J": 0}, {"n": "Jatun Runa Ltda", "b": 4486134.16, "i": 960190.23, "nd": 531407.44, "vn": 428782.79, "mb": 4346294.83, "mi": 959363.85, "cb": 139819.33, "ci": 806.38, "pv": 1070682.38, "ca": -41671.54, "rr": 0.0, "J": 0}, {"n": "Puerto Lopez Ltda", "b": 4455125.81, "i": 368522.06, "nd": 226568.05, "vn": 141954.01, "mb": 4357634.96, "mi": 348074.21, "cb": 97490.85, "ci": 20447.85, "pv": 336856.06, "ca": -999.0, "rr": 2.0, "J": 0}, {"n": "San Valentin", "b": 4444487.84, "i": 559675.19, "nd": 385743.65, "vn": 173931.54, "mb": 4227712.19, "mi": 555622.48, "cb": 216775.65, "ci": 4052.71, "pv": 347864.53, "ca": -15633.08, "rr": 0.0, "J": 0}, {"n": "Quilanga Ltda", "b": 4444253.63, "i": 420501.34, "nd": 293036.88, "vn": 127464.46, "mb": 1631867.02, "mi": 202761.89, "cb": 2812386.61, "ci": 217739.45, "pv": 700153.05, "ca": 7724.1, "rr": 3.0, "J": 0}, {"n": "Nacional Llano Grande Ltda", "b": 4317128.15, "i": 286613.18, "nd": 181863.57, "vn": 104749.61, "mb": 2235524.95, "mi": 82138.25, "cb": 2081603.2, "ci": 204474.93, "pv": 267257.98, "ca": -10708.25, "rr": 4706.63, "J": 0}, {"n": "La Merced Ltda-Ambato", "b": 4249618.49, "i": 711513.6, "nd": 369495.57, "vn": 342018.03, "mb": 2065164.38, "mi": 546964.36, "cb": 2174224.44, "ci": 164548.24, "pv": 708684.98, "ca": -19960.87, "rr": 1.0, "J": 0}, {"n": "General Angel Flores Ltda", "b": 4244334.94, "i": 645627.33, "nd": 405813.07, "vn": 239814.26, "mb": 0.0, "mi": 0.0, "cb": 4244334.94, "ci": 645627.33, "pv": 407707.81, "ca": 8213.01, "rr": 0.0, "J": 0}, {"n": "Divino Niño", "b": 4135805.17, "i": 133117.02, "nd": 65455.31, "vn": 67661.71, "mb": 3040729.5, "mi": 108896.79, "cb": 1095075.67, "ci": 24220.23, "pv": 210023.12, "ca": -536.32, "rr": 0.0, "J": 0}, {"n": "Indigena Sac Latacunga Ltda", "b": 3990037.56, "i": 342198.64, "nd": 158146.65, "vn": 184051.99, "mb": 2954301.15, "mi": 238442.5, "cb": 1035736.41, "ci": 103756.14, "pv": 342199.22, "ca": 6879.36, "rr": 0.0, "J": 0}, {"n": "Esperanza Y Progreso Del Valle", "b": 3827125.22, "i": 264987.71, "nd": 179024.75, "vn": 85962.96, "mb": 2629091.43, "mi": 209800.27, "cb": 1198033.79, "ci": 55187.44, "pv": 148996.1, "ca": 4883.26, "rr": 0.0, "J": 0}, {"n": "Mocache Ltda", "b": 3655488.79, "i": 428589.34, "nd": 349699.59, "vn": 78889.75, "mb": 3655488.79, "mi": 428589.34, "cb": 0.0, "ci": 0.0, "pv": 260981.05, "ca": 55243.24, "rr": 57902.0, "J": 0}, {"n": "Del Sindicato De Choferes Profesionales Del Canton Yantzaza", "b": 3644307.02, "i": 203972.55, "nd": 113196.88, "vn": 90775.67, "mb": 2168773.29, "mi": 151844.51, "cb": 1475533.73, "ci": 52128.04, "pv": 208693.78, "ca": 4.0, "rr": 7172.93, "J": 0}, {"n": "Empresa Electrica Riobamba", "b": 3639298.18, "i": 189825.83, "nd": 177305.31, "vn": 12520.52, "mb": 23801.44, "mi": 0.0, "cb": 2827514.49, "ci": 159114.13, "pv": 66964.02, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "Por El Pan Y El Agua", "b": 3623642.17, "i": 187174.22, "nd": 121389.65, "vn": 65784.57, "mb": 3157122.02, "mi": 183962.78, "cb": 466520.15, "ci": 3211.44, "pv": 219680.84, "ca": 26134.14, "rr": 197019.67, "J": 0}, {"n": "Economia Del Sur Ecosur", "b": 3495564.08, "i": 355847.96, "nd": 246399.02, "vn": 109448.94, "mb": 2554616.36, "mi": 340182.57, "cb": 940947.72, "ci": 15665.39, "pv": 374196.6, "ca": -6716.03, "rr": 0.0, "J": 0}, {"n": "San Jose Sj", "b": 3480413.24, "i": 169603.64, "nd": 131324.82, "vn": 38278.82, "mb": 623677.77, "mi": 94129.43, "cb": 2856735.47, "ci": 75474.21, "pv": 190821.72, "ca": 11226.55, "rr": 1.0, "J": 0}, {"n": "Inticoop Ltda", "b": 3470926.02, "i": 149691.51, "nd": 95138.44, "vn": 54553.07, "mb": 2286398.59, "mi": 112073.13, "cb": 1184527.43, "ci": 37618.38, "pv": 175716.61, "ca": 20928.96, "rr": 7210.63, "J": 0}, {"n": "Servidores Municipales De Loja Ltda", "b": 3404541.95, "i": 9498.25, "nd": 6494.41, "vn": 3003.84, "mb": 0.0, "mi": 0.0, "cb": 3404541.95, "ci": 9498.25, "pv": 58350.21, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "Fomento Para La Produccion De Pequeñas Y Medianas Empresas", "b": 3370649.71, "i": 251934.96, "nd": 95073.61, "vn": 156861.35, "mb": 2666920.24, "mi": 197888.05, "cb": 572513.58, "ci": 54046.91, "pv": 245342.07, "ca": 380.5, "rr": 54370.63, "J": 0}, {"n": "Camara De Comercio Indigena De Guamote Ltda", "b": 3339374.64, "i": 130479.29, "nd": 88472.12, "vn": 42007.17, "mb": 3339374.64, "mi": 130479.29, "cb": 0.0, "ci": 0.0, "pv": 149306.14, "ca": -5054.57, "rr": 0.0, "J": 0}, {"n": "Solidaria Ltda-Cotopaxi", "b": 3326746.05, "i": 329013.28, "nd": 135018.57, "vn": 193994.71, "mb": 3099720.2, "mi": 315056.47, "cb": 227025.85, "ci": 13956.81, "pv": 328138.2, "ca": 37920.99, "rr": 130412.81, "J": 0}, {"n": "La Candelaria Ltda", "b": 3262803.48, "i": 262630.54, "nd": 125071.52, "vn": 137559.02, "mb": 753367.94, "mi": 138627.88, "cb": 2358993.41, "ci": 124002.66, "pv": 298900.02, "ca": 44750.03, "rr": 1.0, "J": 0}, {"n": "Solidaridad Y Progreso Oriental", "b": 3175398.85, "i": 59985.45, "nd": 33741.66, "vn": 26243.79, "mb": 2379590.88, "mi": 37333.16, "cb": 795807.97, "ci": 22652.29, "pv": 94696.37, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "Camara De Comercio De Santo Domingo", "b": 3145909.29, "i": 2550328.5, "nd": 147118.88, "vn": 2403209.62, "mb": 2931449.19, "mi": 2483092.42, "cb": 63065.59, "ci": 44861.98, "pv": 42.35, "ca": 2641132.04, "rr": 322575.21, "J": 0}, {"n": "Puerto Limon", "b": 3106345.15, "i": 62475.36, "nd": 22123.15, "vn": 40352.21, "mb": 2404059.24, "mi": 60791.88, "cb": 702285.91, "ci": 1683.48, "pv": 120505.08, "ca": 5571.04, "rr": 0.0, "J": 0}, {"n": "Docentes Universitarios", "b": 3096674.59, "i": 105447.76, "nd": 67132.22, "vn": 38315.54, "mb": 0.0, "mi": 0.0, "cb": 3096674.59, "ci": 105447.76, "pv": 120870.45, "ca": 14990.56, "rr": 60102.12, "J": 0}, {"n": "La Inmaculada De San Placido Ltda", "b": 3001080.38, "i": 213770.68, "nd": 186756.59, "vn": 27014.09, "mb": 2793353.0, "mi": 189373.88, "cb": 207727.38, "ci": 24396.8, "pv": 214216.66, "ca": 28763.48, "rr": 0.0, "J": 0}, {"n": "El Paraiso Manga Del Cura", "b": 2978037.45, "i": 60709.7, "nd": 31365.79, "vn": 29343.91, "mb": 2697026.12, "mi": 44928.14, "cb": 281011.33, "ci": 15781.56, "pv": 77407.77, "ca": -6637.61, "rr": 38449.48, "J": 0}, {"n": "Huaquillas Ltda", "b": 2890263.93, "i": 85007.81, "nd": 48758.55, "vn": 36249.26, "mb": 1172858.74, "mi": 50834.87, "cb": 1717405.19, "ci": 34172.94, "pv": 85436.62, "ca": -11713.74, "rr": 66467.39, "J": 0}, {"n": "De Los Profesores Empleados Y Trabajadores De La Universidad Tecnica De Manabi", "b": 2865379.3, "i": 203.13, "nd": 0.0, "vn": 203.13, "mb": 0.0, "mi": 0.0, "cb": 2858967.68, "ci": 203.13, "pv": 51879.72, "ca": 0.0, "rr": 2165.39, "J": 0}, {"n": "Servidores Municipales De Ambato Ltda", "b": 2828804.73, "i": 32041.78, "nd": 28208.29, "vn": 3833.49, "mb": 0.0, "mi": 0.0, "cb": 2828804.73, "ci": 32041.78, "pv": 46554.7, "ca": -400.08, "rr": 8809.61, "J": 0}, {"n": "Imbabura Ltda", "b": 2823341.75, "i": 154437.66, "nd": 66681.86, "vn": 87755.8, "mb": 2823341.75, "mi": 154437.66, "cb": 0.0, "ci": 0.0, "pv": 150329.23, "ca": 53973.19, "rr": 0.0, "J": 0}, {"n": "15 De Junio Ltda", "b": 2821534.1, "i": 181252.56, "nd": 66143.02, "vn": 115109.54, "mb": 2821534.1, "mi": 181252.56, "cb": 0.0, "ci": 0.0, "pv": 181692.06, "ca": -5301.49, "rr": 0.0, "J": 0}, {"n": "San Isidro Ltda", "b": 2771272.09, "i": 362125.7, "nd": 74038.51, "vn": 288087.19, "mb": 2434375.68, "mi": 346989.33, "cb": 336896.41, "ci": 15136.37, "pv": 358641.82, "ca": 33355.27, "rr": 40469.32, "J": 0}, {"n": "De Los Empleados De Cerveceria Nacional Sa Y Dinadec Sa Crecer", "b": 2743919.42, "i": 68861.57, "nd": 48544.08, "vn": 20317.49, "mb": 0.0, "mi": 0.0, "cb": 2743919.42, "ci": 68861.57, "pv": 102061.47, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "Las Lagunas", "b": 2711733.69, "i": 136006.76, "nd": 102018.08, "vn": 33988.68, "mb": 2108392.28, "mi": 112835.47, "cb": 603341.41, "ci": 23171.29, "pv": 202612.59, "ca": -5314.64, "rr": 0.0, "J": 0}, {"n": "Universidad Tecnica De Ambato Ltda", "b": 2672249.74, "i": 127583.84, "nd": 101297.53, "vn": 26286.31, "mb": 0.0, "mi": 0.0, "cb": 2672249.74, "ci": 127583.84, "pv": 193264.01, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "Mushuk Kawsay Ltda", "b": 2598941.82, "i": 279527.3, "nd": 146255.71, "vn": 133271.59, "mb": 1999666.77, "mi": 234363.24, "cb": 599275.05, "ci": 45164.06, "pv": 475188.98, "ca": -46808.26, "rr": 0.0, "J": 0}, {"n": "Padre Vicente Ponce Rubio", "b": 2554579.88, "i": 714024.9, "nd": 254924.19, "vn": 459100.71, "mb": 2042685.87, "mi": 675176.77, "cb": 505720.35, "ci": 38848.13, "pv": 509973.36, "ca": -799.92, "rr": 2.0, "J": 0}, {"n": "El Calvario Ltda", "b": 2553153.8, "i": 405843.18, "nd": 341803.22, "vn": 64039.96, "mb": 2553152.8, "mi": 405842.18, "cb": 1.0, "ci": 1.0, "pv": 170603.74, "ca": 85403.69, "rr": 0.0, "J": 0}, {"n": "Vonnelan", "b": 2478354.99, "i": 75441.47, "nd": 50527.76, "vn": 24913.71, "mb": 118533.74, "mi": 24626.33, "cb": 2359821.25, "ci": 50815.14, "pv": 92934.22, "ca": 1957.87, "rr": 0.0, "J": 0}, {"n": "Usuarios Del Agua Maria Inmaculada Ltda", "b": 2455331.65, "i": 97068.32, "nd": 38501.34, "vn": 58566.98, "mb": 1802872.83, "mi": 78896.21, "cb": 652458.82, "ci": 18172.11, "pv": 119209.5, "ca": 2250.79, "rr": 0.0, "J": 0}, {"n": "Pisa Ltda", "b": 2449618.48, "i": 2032.9, "nd": 0.0, "vn": 2032.9, "mb": 0.0, "mi": 0.0, "cb": 2449618.48, "ci": 2032.9, "pv": 28463.22, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "18 De Noviembre", "b": 2435759.52, "i": 418782.51, "nd": 330183.01, "vn": 88599.5, "mb": 1384881.02, "mi": 332656.54, "cb": 1050878.5, "ci": 86125.97, "pv": 289937.51, "ca": -1270.31, "rr": 0.0, "J": 0}, {"n": "San Antonio De Toacaso", "b": 2384896.67, "i": 110102.76, "nd": 85378.79, "vn": 24723.97, "mb": 2259987.66, "mi": 110102.76, "cb": 0.0, "ci": 0.0, "pv": 169835.13, "ca": -2322.27, "rr": 0.0, "J": 0}, {"n": "Indigena Alfa Y Omega Ltda", "b": 2363627.89, "i": 504696.93, "nd": 111862.18, "vn": 392834.75, "mb": 1627256.03, "mi": 474426.11, "cb": 736371.86, "ci": 30270.82, "pv": 505810.82, "ca": 77827.57, "rr": 11412.16, "J": 0}, {"n": "Union Familiar", "b": 2336527.17, "i": 541238.3, "nd": 140950.93, "vn": 400287.37, "mb": 2152724.91, "mi": 541238.3, "cb": 183802.26, "ci": 0.0, "pv": 393325.14, "ca": 492763.48, "rr": 2561.34, "J": 0}, {"n": "De La Microempresa De Chimborazo Ltda", "b": 2325325.96, "i": 103120.89, "nd": 90046.81, "vn": 13074.08, "mb": 2045524.52, "mi": 103117.89, "cb": 279801.44, "ci": 3.0, "pv": 122446.97, "ca": -1642.9, "rr": 0.0, "J": 0}, {"n": "Conecel", "b": 2311673.65, "i": 120.47, "nd": 51.63, "vn": 68.84, "mb": 0.0, "mi": 0.0, "cb": 2311673.65, "ci": 120.47, "pv": 31258.31, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "Monseñor Leonidas Proaño", "b": 2290785.37, "i": 207529.36, "nd": 47340.8, "vn": 160188.56, "mb": 2290770.1, "mi": 207514.09, "cb": 15.27, "ci": 15.27, "pv": 319756.92, "ca": 541.56, "rr": 0.0, "J": 0}, {"n": "Futuro Salcedense", "b": 2274929.11, "i": 249886.96, "nd": 140858.79, "vn": 109028.17, "mb": 2237046.88, "mi": 236836.96, "cb": 37882.23, "ci": 13050.0, "pv": 189205.68, "ca": -2403.41, "rr": 485.21, "J": 0}, {"n": "Dorado Ltda", "b": 2269696.13, "i": 93409.8, "nd": 40081.19, "vn": 53328.61, "mb": 2261749.61, "mi": 91619.33, "cb": 7946.52, "ci": 1790.47, "pv": 98755.76, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "De La Camara De Comercio De Macara Cadecom", "b": 2018291.9, "i": 276907.21, "nd": 115473.55, "vn": 161433.66, "mb": 1595834.72, "mi": 234564.53, "cb": 422456.18, "ci": 42341.68, "pv": 273708.96, "ca": 91182.61, "rr": 0.0, "J": 0}, {"n": "Camara De Comercio Del Canton Bolivar Ltda", "b": 2008417.83, "i": 379932.41, "nd": 122624.76, "vn": 257307.65, "mb": 1426115.19, "mi": 336810.22, "cb": 582302.64, "ci": 43122.19, "pv": 188107.51, "ca": 49039.58, "rr": 117417.47, "J": 0}, {"n": "15 De Agosto Ltda", "b": 2008207.72, "i": 185471.65, "nd": 61309.17, "vn": 124162.48, "mb": 2008207.72, "mi": 185471.65, "cb": 0.0, "ci": 0.0, "pv": 213643.19, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "Casag", "b": 1999202.48, "i": 281617.91, "nd": 94663.27, "vn": 186954.64, "mb": 208385.44, "mi": 90765.0, "cb": 1790817.04, "ci": 190852.91, "pv": 291912.81, "ca": 35114.92, "rr": 11805.18, "J": 0}, {"n": "Gestion Para El Desarrollo", "b": 1946210.18, "i": 607539.49, "nd": 247043.46, "vn": 360496.03, "mb": 586206.98, "mi": 103613.27, "cb": 1360000.2, "ci": 503923.22, "pv": 94697.22, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "Santa Maria De La Manga Del Cura Ltda", "b": 1934299.36, "i": 104307.96, "nd": 81497.62, "vn": 22810.34, "mb": 1665297.29, "mi": 86027.32, "cb": 269001.07, "ci": 18279.64, "pv": 103854.7, "ca": -2950.61, "rr": 63958.38, "J": 0}, {"n": "De Los Empleados De Standard Fruit Compañy", "b": 1887192.62, "i": 2964.11, "nd": 0.0, "vn": 2964.11, "mb": 10149.5, "mi": 0.0, "cb": 1877043.12, "ci": 2964.11, "pv": 21193.71, "ca": 0.0, "rr": 33971.96, "J": 0}, {"n": "Costa Azul Ltda", "b": 1840135.49, "i": 72516.81, "nd": 34964.1, "vn": 37552.71, "mb": 1840135.49, "mi": 72516.81, "cb": 0.0, "ci": 0.0, "pv": 60282.57, "ca": 47460.54, "rr": 0.0, "J": 0}, {"n": "Futuro Y Desarrollo Fundesarrollo", "b": 1773815.92, "i": 284638.66, "nd": 154028.07, "vn": 130610.59, "mb": 1773815.92, "mi": 284638.66, "cb": 0.0, "ci": 0.0, "pv": 292932.85, "ca": -6302.12, "rr": 0.0, "J": 0}, {"n": "Educadores De Quevedo", "b": 1734385.51, "i": 127098.28, "nd": 92186.99, "vn": 34911.29, "mb": 0.0, "mi": 0.0, "cb": 1734385.51, "ci": 127098.28, "pv": 88076.17, "ca": 1651.12, "rr": 0.0, "J": 0}, {"n": "Jesus De Nazareth Ltda", "b": 1695948.22, "i": 344620.31, "nd": 171187.96, "vn": 173432.35, "mb": 452507.53, "mi": 56365.88, "cb": 1243440.69, "ci": 288254.43, "pv": 364391.57, "ca": -37.65, "rr": 0.0, "J": 0}, {"n": "Meteorologia Dac Ltda", "b": 1646902.87, "i": 52477.1, "nd": 46304.52, "vn": 6172.58, "mb": 0.0, "mi": 0.0, "cb": 1646902.87, "ci": 52477.1, "pv": 116110.3, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "Cacma Ltda", "b": 1623278.95, "i": 0.0, "nd": 0.0, "vn": 0.0, "mb": 0.0, "mi": 0.0, "cb": 1623278.95, "ci": 0.0, "pv": 16810.18, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "Bola Amarilla Ltda", "b": 1578971.78, "i": 124367.37, "nd": 71111.04, "vn": 53256.33, "mb": 1354425.72, "mi": 119035.14, "cb": 224546.06, "ci": 5332.23, "pv": 84658.05, "ca": 11003.3, "rr": 0.0, "J": 0}, {"n": "Vision Ltda", "b": 1484141.86, "i": 12.0, "nd": 0.0, "vn": 12.0, "mb": 0.0, "mi": 0.0, "cb": 1484141.86, "ci": 12.0, "pv": 15676.69, "ca": 948.47, "rr": 0.0, "J": 0}, {"n": "Guamote Ltda", "b": 1460661.84, "i": 416036.55, "nd": 110325.34, "vn": 305711.21, "mb": 1460658.84, "mi": 416033.55, "cb": 3.0, "ci": 3.0, "pv": 357796.69, "ca": -17353.6, "rr": 109916.66, "J": 0}, {"n": "Integracion Desarrollo Y Futuro Limitada", "b": 1430172.3, "i": 162177.79, "nd": 76285.15, "vn": 85892.64, "mb": 1251635.62, "mi": 143001.1, "cb": 178536.22, "ci": 19176.69, "pv": 148740.11, "ca": -3145.67, "rr": 79159.34, "J": 0}, {"n": "Servicoop", "b": 1424042.69, "i": 591.2, "nd": 546.43, "vn": 44.77, "mb": 368306.71, "mi": 0.0, "cb": 1055735.98, "ci": 591.2, "pv": 24352.2, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "De Trabajadores Agrifondos", "b": 1383981.56, "i": 0.0, "nd": 0.0, "vn": 0.0, "mb": 0.0, "mi": 0.0, "cb": 1383981.56, "ci": 0.0, "pv": 17853.3, "ca": 0.0, "rr": 719453.85, "J": 0}, {"n": "Seguracoop", "b": 1337226.78, "i": 57547.57, "nd": 6736.24, "vn": 50811.33, "mb": 1204806.16, "mi": 57526.57, "cb": 38791.87, "ci": 3.0, "pv": 75865.77, "ca": -24891.81, "rr": 9761.34, "J": 0}, {"n": "Futuro Esfuerzo Y Disciplina", "b": 1326071.7, "i": 180938.58, "nd": 140171.22, "vn": 40767.36, "mb": 722847.47, "mi": 142502.82, "cb": 603224.23, "ci": 38435.76, "pv": 231523.61, "ca": 93538.5, "rr": 45424.0, "J": 0}, {"n": "Corpotranst", "b": 1231010.78, "i": 443956.85, "nd": 340870.67, "vn": 103086.18, "mb": 741642.35, "mi": 252241.58, "cb": 489368.43, "ci": 191715.27, "pv": 231026.92, "ca": 81605.33, "rr": 0.0, "J": 0}, {"n": "De Trabajadores Agropecuarios Y De Servicios El Porvenir", "b": 1218346.77, "i": 18271.97, "nd": 10423.57, "vn": 7848.4, "mb": 0.0, "mi": 0.0, "cb": 1218346.77, "ci": 18271.97, "pv": 31358.58, "ca": 602.02, "rr": 0.0, "J": 0}, {"n": "Rumiñahui Limitada", "b": 1213555.49, "i": 433714.29, "nd": 130404.06, "vn": 303310.23, "mb": 818038.54, "mi": 281099.36, "cb": 395516.95, "ci": 152614.93, "pv": 476389.87, "ca": 60401.13, "rr": 0.0, "J": 0}, {"n": "De Accion Popular", "b": 1189068.73, "i": 157910.13, "nd": 118105.58, "vn": 39804.55, "mb": 491742.13, "mi": 50340.88, "cb": 697326.6, "ci": 107569.25, "pv": 134281.73, "ca": -7655.36, "rr": 21273.37, "J": 0}, {"n": "Educadores De Bolivar", "b": 1185565.44, "i": 300495.81, "nd": 62968.15, "vn": 237527.66, "mb": 4866.52, "mi": 0.0, "cb": 1180529.63, "ci": 300326.52, "pv": 381901.52, "ca": 259722.73, "rr": 3309.68, "J": 0}, {"n": "Salinerita Ltda", "b": 1158424.84, "i": 89730.94, "nd": 29599.13, "vn": 60131.81, "mb": 994508.25, "mi": 72898.47, "cb": 145448.72, "ci": 16832.47, "pv": 167825.34, "ca": 79134.36, "rr": 0.0, "J": 0}, {"n": "Luz De El Oro Ltda", "b": 1126512.48, "i": 11594.7, "nd": 9740.28, "vn": 1854.42, "mb": 0.0, "mi": 0.0, "cb": 1126512.48, "ci": 11594.7, "pv": 17760.46, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "El Altar Ltda", "b": 1114950.07, "i": 215808.92, "nd": 129580.83, "vn": 86228.09, "mb": 663009.61, "mi": 122397.97, "cb": 451940.46, "ci": 93410.95, "pv": 187490.73, "ca": 82232.82, "rr": 52044.53, "J": 0}, {"n": "Universidad De Guayaquil Ltda", "b": 1111420.44, "i": 136948.34, "nd": 101484.2, "vn": 35464.14, "mb": 0.0, "mi": 0.0, "cb": 1111420.44, "ci": 136948.34, "pv": 88693.09, "ca": 162295.83, "rr": 127246.69, "J": 0}, {"n": "De Los Empleados De La Corporacion Financiera Nacional Corfinal", "b": 1095696.64, "i": 100999.04, "nd": 67036.56, "vn": 33962.48, "mb": 0.0, "mi": 0.0, "cb": 1057474.09, "ci": 67807.41, "pv": 106668.85, "ca": -33129.03, "rr": 90224.14, "J": 0}, {"n": "Manuela Leon", "b": 1079871.56, "i": 228970.2, "nd": 80240.08, "vn": 148730.12, "mb": 1079871.56, "mi": 228970.2, "cb": 0.0, "ci": 0.0, "pv": 265612.88, "ca": -4666.38, "rr": 0.0, "J": 0}, {"n": "Cica Colegio De Ingenieros Civiles Del Azuay", "b": 1046835.82, "i": 230972.88, "nd": 102265.61, "vn": 128707.27, "mb": 71161.31, "mi": 23961.87, "cb": 975674.51, "ci": 207011.01, "pv": 148000.51, "ca": -1552.19, "rr": 0.0, "J": 0}, {"n": "Llacta Pura", "b": 1022333.7, "i": 95577.5, "nd": 5433.29, "vn": 90144.21, "mb": 609780.9, "mi": 55790.97, "cb": 412552.8, "ci": 39786.53, "pv": 121693.25, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "Plastigama", "b": 978603.75, "i": 3465.27, "nd": 3327.77, "vn": 137.5, "mb": 0.0, "mi": 0.0, "cb": 978603.75, "ci": 3465.27, "pv": 19940.01, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "Servidores De La Universidad Tecnica De Machala", "b": 903435.67, "i": 19019.36, "nd": 5416.68, "vn": 13602.68, "mb": 0.0, "mi": 0.0, "cb": 903435.67, "ci": 19019.36, "pv": 36957.51, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "Trabajadores Y Ex Trabajadores Del Ministerio De Salud Publica - Coacmin", "b": 888974.2, "i": 151826.09, "nd": 96879.08, "vn": 54947.01, "mb": 0.0, "mi": 0.0, "cb": 888974.2, "ci": 151826.09, "pv": 106813.13, "ca": 16774.49, "rr": 0.0, "J": 0}, {"n": "De Empleados Trabajadores Jubilados Y Ex-Empleados De Petroecuador Ltda", "b": 861240.24, "i": 73244.99, "nd": 11570.02, "vn": 61674.97, "mb": 3092.73, "mi": 1.0, "cb": 858147.51, "ci": 73243.99, "pv": 106740.54, "ca": 835.23, "rr": 27399.23, "J": 0}, {"n": "Bienestar, Desarrollo Y Emprendimiento Coopbde", "b": 811910.43, "i": 45170.01, "nd": 24340.98, "vn": 20829.03, "mb": 0.0, "mi": 0.0, "cb": 811910.43, "ci": 45170.01, "pv": 83448.01, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "Del Emigrante Ecuatoriano Y Su Familia Ltda", "b": 789420.98, "i": 102761.0, "nd": 8807.17, "vn": 93953.83, "mb": 52763.2, "mi": 2390.59, "cb": 736657.78, "ci": 100370.41, "pv": 107006.92, "ca": 17945.31, "rr": 0.0, "J": 0}, {"n": "La Union Ltda", "b": 731366.32, "i": 51335.71, "nd": 42826.82, "vn": 8508.89, "mb": 550433.16, "mi": 45738.0, "cb": 168739.78, "ci": 5597.71, "pv": 45750.5, "ca": 13776.86, "rr": 22472.07, "J": 0}, {"n": "26 De Julio Ltda", "b": 728491.15, "i": 141090.64, "nd": 7245.88, "vn": 133844.76, "mb": 279270.01, "mi": 34864.56, "cb": 449203.14, "ci": 106208.08, "pv": 141526.47, "ca": 65874.6, "rr": 79750.41, "J": 0}, {"n": "Atahualpa Ltda", "b": 675297.36, "i": 18257.51, "nd": 0.0, "vn": 18257.51, "mb": 51368.79, "mi": 0.0, "cb": 469402.94, "ci": 254.48, "pv": 27578.39, "ca": 0.0, "rr": 19875.67, "J": 0}, {"n": "Camara De Comercio De Riobamba Ltda", "b": 659923.46, "i": 395399.74, "nd": 110588.72, "vn": 284811.02, "mb": 250017.28, "mi": 119210.68, "cb": 397074.49, "ci": 263357.37, "pv": 438965.86, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "Educadores Del Napo", "b": 653786.68, "i": 16833.13, "nd": 2526.58, "vn": 14306.55, "mb": 213491.23, "mi": 5659.68, "cb": 440295.45, "ci": 11173.45, "pv": 22638.94, "ca": 0.0, "rr": 0.0, "J": 0}, {"n": "Grupo Numero Tres Limitada", "b": 89491.11, "i": 24200.48, "nd": 0.0, "vn": 24200.48, "mb": 77057.7, "mi": 14322.05, "cb": 12433.41, "ci": 9878.43, "pv": 24456.05, "ca": 0.0, "rr": 0.0, "J": 0}];
+var MES  = [[[3598748, 195613, 0], [1030204, 221846, 1], [8029637, 328001, 2], [1173136, 663180, 3], [1407786, 0, 4], [2891333, 83545, 5], [9168875, 728819, 6], [2528806, 740113, 7], [2019787, 207614, 8], [5041465, 324634, 9], [4725178, 396076, 10], [4879249, 473567, 11], [10709860, 402586, 12], [5014228, 134555, 13], [16413471, 381715, 14], [4862116, 233541, 15], [2744722, 285952, 16], [1873325, 183352, 17], [1508686, 86443, 18], [4327060, 417588, 19], [2170875, 1738747, 20], [12320285, 1082337, 21], [978172, 134227, 22], [1000024, 347141, 23], [3082691, 44099, 24], [1239036, 464501, 25], [2622955, 90736, 26], [2153027, 73329, 27], [3408783, 102346, 28], [3910343, 445314, 29], [2233098, 90531, 30], [13762926, 508559, 31], [1451104, 361308, 32], [1115757, 236816, 33], [1074134, 6288, 34], [873423, 24534, 35], [2523351, 73046, 36], [220312, 23831, 37], [717545, 18258, 38], [1503862, 278783, 39], [980458, 260222, 40], [920629, 312261, 41], [10005893, 627216, 42], [940973, 171871, 43], [1881907, 10381, 44], [1381465, 2453, 45], [2365986, 6119, 46], [700610, 114485, 47], [3085931, 102991, 48], [1322937, 200, 49], [1001361, 9881, 50], [1781317, 54019, 51], [1494333, 95473, 52], [1084068, 169866, 53], [2242845, 161034, 54], [3971766, 218179, 55], [3854079, 150238, 56], [3306268, 147295, 57], [2327796, 86729, 58], [2419150, 186751, 59], [3062638, 20037, 60], [1912021, 323700, 61], [4479847, 408402, 62], [4054930, 99850, 63], [3143481, 238544, 64], [3317363, 390057, 65], [1551749, 112658, 66], [1187125, 26183, 67], [2518742, 34750, 68], [2790777, 159902, 69], [2884098, 20120, 70], [3430911, 133118, 71], [2068296, 383795, 72], [3967389, 274690, 73], [2798395, 400366, 74], [1567433, 964, 75], [860034, 109807, 76], [6308088, 362479, 77], [2212268, 178457, 78], [672315, 17741, 79], [1241769, 65652, 80], [792864, 93521, 81], [1563946, 16363, 82], [4132338, 512915, 83], [2053126, 364826, 84], [2477599, 256407, 85], [1316197, 402518, 86], [2442763, 239018, 87], [700771, 73862, 88], [3232678, 105265, 89], [1641648, 61806, 90], [2116262, 69783, 91], [4008695, 245850, 92], [550628, 82555, 93], [1909153, 530253, 94], [1882119, 271171, 96], [3149235, 168071, 97], [1069015, 97613, 98], [1143309, 505160, 99], [2402541, 593894, 100], [5010427, 82559, 101], [4688390, 436106, 102], [2776397, 258112, 103], [3160737, 431856, 104], [1145345, 116032, 105], [1381757, 148185, 106], [3275230, 503731, 107], [4080957, 598089, 108], [2524640, 132615, 109], [6964380, 282394, 110], [4647543, 901955, 111], [3585896, 303423, 112], [2351517, 409334, 113], [9449419, 328988, 114], [5242726, 470177, 115], [2076308, 199273, 116], [2942480, 210948, 117], [4731620, 1164913, 118], [2753369, 106523, 119], [1333065, 519675, 120], [1872814, 160729, 121], [9824124, 230732, 122], [3822024, 176193, 123], [5152272, 417182, 124], [3278351, 309406, 125], [6773277, 186480, 126], [2943200, 234367, 127], [2320137, 449417, 128], [1999582, 52565, 129], [2151790, 3563, 130], [12917186, 731703, 131], [3203834, 1067136, 132], [1110517, 960711, 133], [2557629, 250808, 134], [1681083, 63216, 135], [1818946, 84429, 136]], [[3562230, 222768, 0], [1024169, 319373, 1], [8082256, 296207, 2], [1185714, 639008, 3], [1448054, 0, 4], [2892637, 83002, 5], [9660068, 931970, 6], [2552055, 738515, 7], [2134262, 184710, 8], [5265491, 303994, 9], [4962393, 450361, 10], [4971398, 452096, 11], [11105268, 431488, 12], [5217604, 122729, 13], [18611919, 476424, 14], [5009519, 238254, 15], [2793067, 310102, 16], [1955892, 221931, 17], [1604259, 127194, 18], [4541393, 433394, 19], [1566586, 1093321, 20], [12917099, 1174530, 21], [960051, 118605, 22], [1046967, 290344, 23], [3101499, 187849, 24], [1273445, 471825, 25], [2691347, 96631, 26], [2172205, 87102, 27], [3450432, 149915, 28], [3873893, 457859, 29], [2236184, 117921, 30], [13384676, 538070, 31], [1484842, 364817, 32], [1148694, 236853, 33], [1078217, 2275, 34], [899196, 23441, 35], [2592216, 73521, 36], [200949, 24128, 37], [717015, 18258, 38], [1495893, 270018, 39], [1003990, 258781, 40], [878358, 269207, 41], [10143333, 539605, 42], [904298, 152748, 43], [1880515, 4512, 44], [1363734, 7516, 45], [2338924, 3962, 46], [724879, 127340, 47], [3081382, 60321, 48], [1325158, 0, 49], [996463, 3106, 50], [1771527, 54019, 51], [1512303, 95473, 52], [1066316, 157682, 53], [2279726, 167954, 54], [4079662, 215185, 55], [4079666, 156261, 56], [3355942, 132087, 57], [2362754, 106201, 58], [2603067, 189838, 59], [3055156, 15198, 60], [1934744, 335137, 61], [4442305, 446641, 62], [4039672, 99464, 63], [3223425, 182877, 64], [3310633, 366303, 65], [1552421, 106184, 66], [1165085, 18779, 67], [2540350, 34532, 68], [2940273, 190812, 69], [2882729, 16636, 70], [3467929, 129166, 71], [2095683, 382355, 72], [4025956, 270119, 73], [2737663, 393437, 74], [1529646, 964, 75], [845626, 99876, 76], [6435360, 401205, 77], [2328295, 199788, 78], [654903, 17712, 79], [1240082, 70485, 80], [808005, 82830, 81], [1657451, 10241, 82], [4142475, 397273, 83], [2053867, 356890, 84], [2538627, 321955, 85], [1312671, 382793, 86], [2418859, 239665, 87], [684808, 48816, 88], [3228361, 104099, 89], [1644817, 54520, 90], [2145217, 52595, 91], [4071364, 255269, 92], [549787, 36195, 93], [1929462, 566883, 94], [1901547, 271948, 96], [3191989, 230510, 97], [1076264, 88406, 98], [1046710, 487423, 99], [2346194, 576817, 100], [5126472, 79373, 101], [4811023, 464016, 102], [2846886, 264650, 103], [3260476, 428497, 104], [1116106, 118145, 105], [1342527, 167585, 106], [3402133, 519405, 107], [4254113, 631473, 108], [2526376, 112236, 109], [7177813, 306151, 110], [4792951, 861955, 111], [3639333, 346334, 112], [2343739, 503012, 113], [9648824, 435808, 114], [5365411, 509461, 115], [2154299, 224882, 116], [3024544, 208197, 117], [4756760, 1310146, 118], [2779674, 55339, 119], [1335545, 531501, 120], [1852635, 201800, 121], [10023114, 360895, 122], [4005221, 232786, 123], [5499313, 431225, 124], [3294165, 309985, 125], [7042403, 155899, 126], [3041010, 466081, 127], [2026472, 79437, 129], [2175524, 2167, 130], [13371948, 798839, 131], [3200807, 1215925, 132], [1084324, 957693, 133], [2544344, 256126, 134], [1737269, 117091, 135], [1876411, 82159, 136]], [[3544194, 170086, 0], [1019511, 247172, 1], [8373813, 335317, 2], [1187657, 666749, 3], [1451837, 15530, 4], [3086945, 82054, 5], [10061666, 726063, 6], [2559320, 744359, 7], [2255706, 184156, 8], [5485193, 290643, 9], [5080180, 373229, 10], [5419141, 416776, 11], [11623434, 446259, 12], [5526135, 128433, 13], [19797553, 473272, 14], [5129259, 251235, 15], [2822957, 281947, 16], [1942180, 198591, 17], [1810892, 80546, 18], [4488922, 420554, 19], [861498, 390989, 20], [13348286, 1197583, 21], [983379, 90968, 22], [1040946, 293815, 23], [3177825, 234815, 24], [1307459, 459250, 25], [2824336, 78270, 26], [2226429, 81121, 27], [3598970, 128681, 28], [3850443, 454318, 29], [2292583, 119859, 30], [13493435, 646948, 31], [1521610, 351148, 32], [1153551, 240134, 33], [1069935, 2275, 34], [924530, 28721, 35], [2661180, 77580, 36], [183743, 25960, 37], [700106, 18258, 38], [1453927, 314432, 39], [993446, 252554, 40], [881827, 279217, 41], [10260740, 566699, 42], [893812, 146660, 43], [1872385, 9229, 44], [1321188, 1183, 45], [2302054, 4056, 46], [724007, 111284, 47], [3008830, 102703, 48], [1324984, 0, 49], [999944, 1951, 50], [1311549, 54017, 51], [1489770, 74854, 52], [1091631, 155947, 53], [2350666, 153678, 54], [4147904, 224145, 55], [4106979, 146919, 56], [3592635, 124408, 57], [2376611, 111503, 58], [2750650, 196664, 59], [3071078, 19673, 60], [1970078, 344493, 61], [4413498, 415401, 62], [4099940, 97812, 63], [3230774, 328254, 64], [3310309, 366726, 65], [1533759, 85268, 66], [1120147, 11656, 67], [2603220, 36665, 68], [2927701, 186302, 69], [2843209, 10562, 70], [3509308, 186715, 71], [2166099, 379561, 72], [4111654, 292145, 73], [2757733, 369763, 74], [1489396, 12, 75], [848792, 119928, 76], [6548450, 446881, 77], [2410738, 189938, 78], [668274, 17357, 79], [1274089, 57704, 80], [826659, 81043, 81], [1730666, 12245, 82], [4093732, 466317, 83], [2024893, 326126, 84], [2489454, 222558, 85], [1367631, 372907, 86], [2480376, 227180, 87], [708311, 31184, 88], [3115302, 112361, 89], [1615184, 82777, 90], [2224833, 50470, 91], [4147233, 251609, 92], [536634, 90634, 93], [1880250, 673667, 94], [1948928, 284038, 96], [3290068, 211248, 97], [1050655, 105377, 98], [1074737, 462203, 99], [2388455, 592379, 100], [5305400, 74005, 101], [4983451, 455582, 102], [2891641, 239449, 103], [3430947, 469880, 104], [1120894, 136783, 105], [1371283, 163167, 106], [3490894, 536051, 107], [4275185, 538777, 108], [2571471, 125100, 109], [7596788, 306903, 110], [4454578, 410708, 111], [3685468, 320562, 112], [2289117, 523451, 113], [9933752, 423572, 114], [5482315, 487852, 115], [2245306, 198113, 116], [3101875, 261734, 117], [4507515, 1084696, 118], [2833024, 93536, 119], [1323472, 515312, 120], [1878788, 174915, 121], [10572383, 381706, 122], [4282917, 242429, 123], [5702971, 438261, 124], [3403117, 326951, 125], [7492769, 147657, 126], [3240131, 248510, 127], [2017861, 64981, 129], [2207050, 2167, 130], [13621216, 839824, 131], [3103468, 1183999, 132], [2489679, 276727, 134], [1779191, 103076, 135], [1948425, 78041, 136]], [[3588360, 198100, 0], [975742, 348921, 1], [8655169, 352305, 2], [1204091, 662252, 3], [1475710, 8236, 4], [3065974, 81534, 5], [10604556, 794290, 6], [2570809, 729030, 7], [2219711, 184156, 8], [5591188, 297066, 9], [5213576, 488045, 10], [5507431, 492950, 11], [12217688, 460383, 12], [5706947, 150103, 13], [20904236, 481971, 14], [5271932, 260894, 15], [2853821, 263461, 16], [1997157, 195808, 17], [1897644, 79110, 18], [4496221, 418996, 19], [795486, 424777, 20], [13906368, 1238049, 21], [978444, 93920, 22], [1047903, 264351, 23], [3258092, 168017, 24], [1336432, 452557, 25], [2996807, 85238, 26], [2234787, 102553, 27], [3633900, 116435, 28], [3880903, 433041, 29], [2328076, 123652, 30], [13593976, 610843, 31], [1598368, 348584, 32], [1175191, 225281, 33], [1071135, 2275, 34], [902870, 26353, 35], [2711964, 70750, 36], [164690, 25628, 37], [750515, 18926, 38], [1401122, 317250, 39], [1016560, 245002, 40], [859116, 265372, 41], [10523556, 664792, 42], [878071, 144415, 43], [1845504, 11660, 44], [1321533, 1546, 45], [2217487, 0, 46], [713211, 122320, 47], [2873624, 63267, 48], [1331828, 0, 49], [652746, 0, 50], [1226055, 54015, 51], [1526331, 85080, 52], [1067322, 142559, 53], [2417649, 151405, 54], [4353089, 230145, 55], [4206174, 137775, 56], [3816773, 178006, 57], [2362539, 120693, 58], [2975837, 259351, 59], [3044425, 19321, 60], [2002782, 339764, 61], [4408454, 438751, 62], [4322169, 103101, 63], [3231431, 229054, 64], [3324591, 417447, 65], [1595182, 80503, 66], [1130329, 9337, 67], [2674415, 39527, 68], [2926517, 278450, 69], [2806911, 10740, 70], [3423310, 159568, 71], [2160542, 371517, 72], [4215879, 323226, 73], [2819544, 395227, 74], [1458685, 89, 75], [838242, 125975, 76], [6809903, 532160, 77], [2473662, 163030, 78], [670086, 17014, 79], [1499391, 69173, 80], [827112, 103366, 81], [1724634, 11232, 82], [4095971, 475143, 83], [1997048, 346346, 84], [2519496, 356106, 85], [1379305, 369629, 86], [2864713, 248738, 87], [713104, 25511, 88], [3097135, 100677, 89], [1623400, 75737, 90], [2416621, 60349, 91], [4151712, 252396, 92], [525983, 73425, 93], [1902314, 739269, 94], [1840234, 263409, 96], [3419871, 223483, 97], [1042885, 105377, 98], [1150076, 515693, 99], [2472089, 568102, 100], [5556819, 73279, 101], [5122782, 462164, 102], [2959125, 230314, 103], [3660638, 446680, 104], [1114074, 132654, 105], [1392869, 174637, 106], [3496719, 566815, 107], [4315860, 563411, 108], [2577627, 124379, 109], [8160214, 358095, 110], [4616331, 434740, 111], [3823028, 331638, 112], [2334796, 555972, 113], [10388003, 482461, 114], [5658205, 541847, 115], [2338854, 175202, 116], [3332268, 316371, 117], [4481149, 1030647, 118], [2848434, 79393, 119], [1320991, 516597, 120], [1867012, 188070, 121], [11493994, 425149, 122], [4558440, 252833, 123], [5889323, 451200, 124], [3390351, 337262, 125], [7848032, 172290, 126], [3179672, 238585, 127], [2049585, 73834, 129], [2234008, 2110, 130], [13935207, 877427, 131], [2433586, 537724, 132], [2495078, 251042, 134], [1795222, 127430, 135], [1971461, 68836, 136]], [[3638331, 184450, 0], [989455, 296789, 1], [8819676, 369264, 2], [1204682, 675165, 3], [1524980, 6900, 4], [3159824, 75141, 5], [10383118, 888308, 6], [2585487, 728606, 7], [2264216, 202840, 8], [5787085, 383198, 9], [5438433, 535933, 10], [5558782, 507071, 11], [12729150, 464389, 12], [5796576, 143616, 13], [21497921, 488064, 14], [5474672, 269927, 15], [2907152, 286810, 16], [1999356, 216378, 17], [2002206, 89944, 18], [4595098, 446733, 19], [767518, 428404, 20], [14363677, 1295055, 21], [989864, 90708, 22], [1052231, 264182, 23], [3388557, 139853, 24], [1305726, 441467, 25], [3053950, 89509, 26], [2280382, 87688, 27], [3745939, 120768, 28], [3988863, 417564, 29], [2360618, 122874, 30], [13627631, 596605, 31], [1553604, 354265, 32], [1157941, 267718, 33], [1060161, 5950, 34], [917467, 25526, 35], [2756760, 59268, 36], [140611, 24286, 37], [665197, 21022, 38], [1349814, 325433, 39], [807436, 275233, 41], [11243584, 562303, 42], [886314, 162326, 43], [1828079, 19077, 44], [1333430, 682, 45], [2202736, 3470, 46], [697270, 128742, 47], [2777537, 66548, 48], [1361194, 0, 49], [814652, 3694, 50], [1317771, 54013, 51], [1511387, 96828, 52], [1051836, 158967, 53], [2508693, 166481, 54], [4503036, 227034, 55], [4139133, 143854, 56], [4035929, 151961, 57], [2441372, 173460, 58], [3069878, 224080, 59], [3049003, 41268, 60], [2111896, 366679, 61], [4431216, 458620, 62], [4359852, 104050, 63], [3249905, 187148, 64], [3295611, 352436, 65], [1584133, 83946, 66], [1156137, 13521, 67], [2759908, 41349, 68], [3073281, 299931, 69], [2808758, 2025, 70], [3381929, 162379, 71], [2127304, 385522, 72], [4306785, 379216, 73], [2845473, 375942, 74], [1470740, 157, 75], [807082, 118969, 76], [6881831, 550116, 77], [2591290, 214040, 78], [649503, 31838, 79], [1593840, 69689, 80], [814523, 78412, 81], [1728978, 20552, 82], [4043408, 487655, 83], [1978092, 368344, 84], [2336094, 405574, 85], [1360683, 347552, 86], [3236615, 250400, 87], [720539, 30652, 88], [3165642, 96977, 89], [1623986, 76705, 90], [2610247, 70606, 91], [4224529, 241348, 92], [512386, 50044, 93], [1886299, 677272, 94], [1829929, 267069, 96], [3467038, 218958, 97], [1045319, 105719, 98], [1181074, 491815, 99], [2455665, 575059, 100], [5582632, 77371, 101], [5429473, 514120, 102], [2995274, 250873, 103], [3923852, 661440, 104], [1113595, 113162, 105], [1429804, 144280, 106], [3549807, 587156, 107], [4332506, 583725, 108], [2561740, 137440, 109], [8654096, 335798, 110], [4865434, 451168, 111], [3884096, 331709, 112], [2354390, 525241, 113], [10986470, 444403, 114], [5707311, 585936, 115], [2454978, 215318, 116], [3666245, 278280, 117], [4432861, 984998, 118], [2861508, 64266, 119], [1300987, 542017, 120], [1908284, 217194, 121], [11915623, 418837, 122], [5042851, 245766, 123], [6002212, 383030, 124], [3430048, 324246, 125], [8233082, 217644, 126], [3103512, 310083, 127], [2004298, 83042, 129], [2374644, 2110, 130], [14401887, 846501, 131], [2403041, 499693, 132], [2492042, 271463, 134], [1793167, 111035, 135], [1897744, 59870, 136]], [[3595106, 202494, 0], [1023559, 295316, 1], [9080805, 294342, 2], [941728, 341864, 3], [1539125, 0, 4], [3293404, 56529, 5], [10407565, 1053478, 6], [2554651, 745906, 7], [2223880, 182277, 8], [6124169, 354066, 9], [5630794, 498496, 10], [5693521, 461382, 11], [12996571, 445521, 12], [5959093, 154202, 13], [21739899, 599301, 14], [5774436, 277083, 15], [3119941, 305106, 16], [2022768, 225108, 17], [2122826, 91408, 18], [4616638, 494253, 19], [730540, 414808, 20], [14890091, 1290959, 21], [979280, 91679, 22], [1059368, 272235, 23], [3561270, 209862, 24], [1354135, 465064, 25], [3065855, 96282, 26], [2323780, 96717, 27], [3869097, 111605, 28], [4106391, 401835, 29], [2373255, 84158, 30], [13637174, 602490, 31], [1623149, 349369, 32], [1136630, 270626, 33], [1062902, 3126, 34], [945233, 21442, 35], [2789942, 55857, 36], [127232, 26371, 37], [644376, 38802, 38], [1286516, 236420, 39], [789490, 251980, 41], [12238141, 612322, 42], [889428, 168675, 43], [1833868, 3115, 44], [1368337, 417, 45], [2205525, 3470, 46], [717360, 108980, 47], [2763647, 57476, 48], [1416260, 0, 49], [851907, 2389, 50], [1248275, 54012, 51], [1515556, 95485, 52], [1040465, 125961, 53], [2582862, 172254, 54], [4650361, 244406, 55], [4146155, 122508, 56], [4075387, 145547, 57], [2587470, 160853, 58], [3320868, 197142, 59], [3134381, 36992, 60], [2117347, 351158, 61], [4336538, 406330, 62], [4450333, 104371, 63], [3329834, 168510, 64], [3293482, 339451, 65], [1675252, 96716, 66], [1186223, 11072, 67], [2835313, 47416, 68], [3277337, 279388, 69], [2823778, 11915, 70], [3351637, 159933, 71], [2076261, 372844, 72], [4359973, 381418, 73], [2797840, 359535, 74], [1524592, 12, 75], [767713, 132558, 76], [7090790, 548122, 77], [2688724, 179425, 78], [673664, 18102, 79], [1828271, 92062, 80], [830458, 86852, 81], [1706796, 5256, 82], [4135115, 855440, 83], [1971021, 313128, 84], [2433399, 237225, 85], [1288846, 290121, 86], [3473204, 240690, 87], [753178, 28862, 88], [3180315, 85315, 89], [1600306, 80248, 90], [2720036, 53647, 91], [4267208, 249085, 92], [547935, 49491, 93], [1891675, 624745, 94], [3256666, 2556284, 95], [1781331, 259617, 96], [3610577, 239825, 97], [1040130, 105375, 98], [1218583, 469017, 99], [2465764, 548803, 100], [5968084, 98639, 101], [5609050, 577484, 102], [3083857, 247058, 103], [4083164, 414907, 104], [1138981, 130019, 105], [1472895, 141562, 106], [3744411, 618260, 107], [4444886, 617110, 108], [2581258, 132643, 109], [9587041, 403459, 110], [5015625, 419055, 111], [3985086, 335086, 112], [2375976, 455443, 113], [11362310, 440906, 114], [5853614, 565122, 115], [2561000, 184327, 116], [3828004, 266934, 117], [4391490, 923472, 118], [2830479, 60411, 119], [1265141, 557152, 120], [1919018, 160897, 121], [13163509, 414835, 122], [5427748, 222095, 123], [6107782, 405469, 124], [3459191, 342805, 125], [8910238, 138117, 126], [3154972, 250319, 127], [2168717, 87098, 129], [2405146, 2110, 130], [14916274, 824236, 131], [2358246, 520449, 132], [2546488, 287386, 134], [1882522, 137338, 135], [1937092, 57717, 136]], [[3502730, 155784, 0], [1023298, 382383, 1], [9163005, 316437, 2], [1077358, 323166, 3], [1584702, 7482, 4], [3227792, 53898, 5], [10496125, 832945, 6], [2537408, 749016, 7], [2220609, 181572, 8], [6415162, 365847, 9], [5904424, 464226, 10], [5954080, 461104, 11], [13571651, 488285, 12], [6187203, 154531, 13], [22635423, 553165, 14], [5942263, 292346, 15], [3198108, 307132, 16], [2151364, 319609, 17], [2164890, 109958, 18], [4785518, 538368, 19], [711220, 432067, 20], [15380900, 1271323, 21], [956039, 91367, 22], [1076197, 276353, 23], [3656887, 180304, 24], [1398677, 437263, 25], [3158073, 93529, 26], [2373607, 108456, 27], [3988809, 109587, 28], [4288633, 415412, 29], [2408101, 90297, 30], [14052915, 602068, 31], [1698112, 362193, 32], [1095319, 148856, 33], [1104240, 4265, 34], [921491, 20098, 35], [2800607, 71902, 36], [112935, 26546, 37], [563241, 38444, 38], [1172594, 135493, 39], [781202, 243158, 41], [12820417, 631717, 42], [899766, 198861, 43], [1870364, 11840, 44], [1369174, 2809, 45], [2230678, 3590, 46], [758246, 116221, 47], [2697688, 70732, 48], [1425699, 0, 49], [898732, 0, 50], [1349152, 53977, 51], [1554493, 107102, 52], [1065255, 89885, 53], [2667858, 135805, 54], [4696954, 252072, 55], [4366079, 123423, 56], [4277437, 142103, 57], [2632049, 175127, 58], [3456807, 248673, 59], [3212716, 50392, 60], [2125827, 354862, 61], [4396107, 385149, 62], [4633915, 102747, 63], [3332871, 154126, 64], [3348709, 314659, 65], [1721214, 97273, 66], [1197851, 16809, 67], [2912882, 64714, 68], [3446424, 316586, 69], [2848683, 1861, 70], [3387579, 177377, 71], [2004430, 373245, 72], [4449978, 406107, 73], [2804367, 347146, 74], [1497276, 12, 75], [771581, 61784, 76], [7205083, 518764, 77], [2803714, 192478, 78], [689824, 15985, 79], [1950380, 97629, 80], [821319, 85378, 81], [1697978, 8860, 82], [4105152, 588713, 83], [1951684, 319371, 84], [2445360, 422201, 85], [1313027, 255465, 86], [3698757, 246562, 87], [767011, 52167, 88], [3208497, 109670, 89], [1595903, 76796, 90], [2845056, 108934, 91], [4336173, 241140, 92], [566451, 89689, 93], [1907523, 632257, 94], [3210480, 2519208, 95], [1764840, 260478, 96], [3688081, 241234, 97], [1031585, 118957, 98], [1205383, 471017, 99], [2396539, 528961, 100], [6103353, 125306, 101], [5799432, 670315, 102], [3179652, 241818, 103], [4269051, 602888, 104], [1128373, 136321, 105], [1472495, 143091, 106], [4004667, 664364, 107], [4588462, 613256, 108], [2655236, 152511, 109], [10882717, 397078, 110], [5334401, 420403, 111], [4173677, 319735, 112], [2432291, 480906, 113], [11463116, 561534, 114], [6122513, 620431, 115], [2645424, 176476, 116], [3984174, 246478, 117], [4480314, 1045687, 118], [2756233, 46742, 119], [1258167, 563413, 120], [1986707, 170069, 121], [14057391, 398987, 122], [5868882, 238028, 123], [6383300, 424469, 124], [3554198, 346266, 125], [9264230, 123104, 126], [3267347, 400611, 127], [2232269, 106433, 129], [2461930, 2110, 130], [15482696, 814629, 131], [2330992, 462319, 132], [2583699, 248211, 134], [1933823, 145116, 135], [1863057, 50765, 136]], [[3467177, 158608, 0], [991083, 379757, 1], [9511901, 311744, 2], [1130476, 303470, 3], [1599636, 0, 4], [3162906, 53425, 5], [10931898, 698207, 6], [2498046, 713754, 7], [2208978, 207583, 8], [6517302, 364953, 9], [6251296, 489876, 10], [6167691, 438775, 11], [13962971, 583210, 12], [6255045, 171685, 13], [23325052, 622095, 14], [6006187, 260485, 15], [3306264, 339775, 16], [2188897, 402481, 17], [2330065, 99519, 18], [4836416, 555333, 19], [693193, 448090, 20], [15814399, 1273021, 21], [974490, 91493, 22], [1075433, 226591, 23], [3625083, 258772, 24], [1418448, 433531, 25], [3235389, 108337, 26], [2334698, 104215, 27], [4070929, 139797, 28], [4415171, 406298, 29], [2419431, 100935, 30], [14638763, 783590, 31], [1713111, 387407, 32], [1127611, 208864, 33], [1123708, 15014, 34], [886211, 19573, 35], [2784412, 56760, 36], [96418, 25985, 37], [618020, 38296, 38], [1142606, 111859, 39], [785942, 227131, 41], [13517597, 630141, 42], [887962, 144737, 43], [1880854, 425, 44], [1404679, 646, 45], [2263742, 120, 46], [780769, 114352, 47], [2723510, 68040, 48], [1431771, 0, 49], [969372, 0, 50], [1341316, 58166, 51], [1560993, 122864, 52], [1101207, 81486, 53], [2767442, 137062, 54], [4797957, 262114, 55], [4461789, 145159, 56], [4349895, 153474, 57], [2665906, 151277, 58], [3581115, 197576, 59], [3342284, 42277, 60], [2115881, 345809, 61], [4431652, 410389, 62], [5000692, 102888, 63], [3380122, 162498, 64], [3413313, 313955, 65], [1739035, 113133, 66], [1206560, 19459, 67], [3003242, 54725, 68], [3579699, 459183, 69], [2829991, 12452, 70], [3502268, 182716, 71], [1994585, 370322, 72], [4388759, 388876, 73], [2755991, 357919, 74], [1512629, 12, 75], [770767, 50788, 76], [7267763, 596700, 77], [2843633, 196910, 78], [684135, 17279, 79], [2177165, 92039, 80], [825779, 83964, 81], [4153731, 621099, 83], [1985136, 311427, 84], [2423047, 409096, 85], [1324898, 210971, 86], [4051108, 254546, 87], [764391, 58781, 88], [3192496, 120679, 89], [1640469, 66708, 90], [3087203, 63530, 91], [4425559, 238784, 92], [1944451, 621136, 94], [3191785, 2532167, 95], [1809287, 272916, 96], [3728549, 253392, 97], [1036345, 103114, 98], [1200353, 486268, 99], [2332704, 509524, 100], [6248000, 155227, 101], [5979549, 646501, 102], [3197503, 262766, 103], [4307580, 580408, 104], [1171579, 137414, 105], [1455776, 156891, 106], [4176673, 719606, 107], [4699845, 673906, 108], [2700749, 140915, 109], [11541859, 371804, 110], [5530024, 419545, 111], [4502120, 374333, 112], [2476076, 471935, 113], [11600239, 567178, 114], [6306492, 553306, 115], [2787483, 168546, 116], [4444849, 937099, 118], [2785948, 28444, 119], [1269968, 579512, 120], [1979238, 215852, 121], [14043732, 531554, 122], [6546608, 451925, 124], [3689441, 352541, 125], [9842529, 170074, 126], [3190681, 488330, 127], [2256750, 89946, 129], [2438304, 2110, 130], [16162315, 819179, 131], [2343748, 500543, 132], [2589779, 281755, 134], [1919191, 151556, 135], [1804438, 69151, 136]], [[3480413, 169604, 0], [1046836, 230973, 1], [9658789, 257708, 2], [1185565, 300496, 3], [1623279, 0, 4], [3175399, 59985, 5], [11483112, 813084, 6], [2554580, 714025, 7], [2290785, 207529, 8], [6569118, 364209, 9], [6471248, 511904, 10], [6578685, 410907, 11], [14522866, 578598, 12], [6366805, 125532, 13], [24562540, 655296, 14], [6178807, 306407, 15], [3326746, 329013, 16], [2274929, 249887, 17], [2384897, 110103, 18], [659923, 395400, 20], [16176082, 1271717, 21], [1022334, 95577, 22], [1079872, 228970, 23], [3639298, 189826, 24], [1460662, 416037, 25], [3339375, 130479, 26], [2325326, 103121, 27], [4135805, 133117, 28], [4565482, 416188, 29], [2455332, 97068, 30], [14900015, 634609, 31], [1695948, 344620, 32], [1114950, 215809, 33], [1126512, 11595, 34], [903436, 19019, 35], [2890264, 85008, 36], [89491, 24200, 37], [675297, 18258, 38], [1111420, 136948, 39], [728491, 141091, 41], [14225808, 653118, 42], [888974, 151826, 43], [1887193, 2964, 44], [1424043, 591, 45], [2311674, 120, 46], [789421, 102761, 47], [2743919, 68862, 48], [1383982, 0, 49], [978604, 3465, 50], [1337227, 57548, 51], [1578972, 124367, 52], [1158425, 89731, 53], [2823342, 154438, 54], [4781056, 280282, 55], [4507465, 150363, 56], [4527086, 126001, 57], [2711734, 136007, 58], [3644307, 203973, 59], [3404542, 9498, 60], [2018292, 276907, 61], [4444254, 420501, 62], [5140328, 104143, 63], [3470926, 149692, 64], [3495564, 355848, 65], [1734386, 127098, 66], [1218347, 18272, 67], [2978037, 60710, 68], [3655489, 428589, 69], [2865379, 203, 70], [3623642, 187174, 71], [2008418, 379932, 72], [4455126, 368522, 73], [2771272, 362126, 74], [1484142, 12, 75], [731366, 51336, 76], [7338364, 549539, 77], [3001080, 213771, 78], [653787, 16833, 79], [2478355, 75441, 80], [861240, 73245, 81], [4244335, 645627, 83], [1999202, 281618, 84], [2435760, 418783, 85], [1326072, 180939, 86], [4317128, 286613, 87], [811910, 45170, 88], [3096675, 105448, 89], [1646903, 52477, 90], [3106345, 62475, 91], [4488137, 227691, 92], [1946210, 607539, 94], [3145909, 2550328, 95], [1773816, 284639, 96], [3827125, 264988, 97], [1095697, 100999, 98], [1213555, 433714, 99], [2363628, 504697, 100], [6341786, 139971, 101], [6162136, 602052, 102], [3262803, 262631, 103], [4444488, 559675, 104], [1189069, 157910, 105], [1430172, 162178, 106], [4249618, 711514, 107], [4663087, 662376, 108], [2672250, 127584, 109], [11604306, 363732, 110], [5805539, 410155, 111], [4659295, 339665, 112], [2553154, 405843, 113], [12357058, 550478, 114], [6477123, 549534, 115], [2821534, 181253, 116], [4486134, 960190, 118], [2828805, 32042, 119], [1231011, 443957, 120], [2008208, 185472, 121], [14165822, 602877, 122], [6708053, 434191, 124], [3990038, 342199, 125], [10301392, 197634, 126], [3370650, 251935, 127], [2269696, 93410, 129], [2449618, 2033, 130], [16912572, 835615, 131], [2336527, 541238, 132], [2598942, 279527, 134], [1934299, 104308, 135], [1840135, 72517, 136]]];
+var JAS  = [{"b": 3910343.47, "i": 445313.81, "nd": 290015.66, "vn": 155298.15, "pv": 418042.93, "cb": 692554.33, "mb": 3217789.14, "rv": 238681.45, "ri": 225614.63, "ca": 81705.64}, {"b": 3873893.07, "i": 457859.47, "nd": 300361.85, "vn": 157497.62, "pv": 322372.13, "cb": 719901.99, "mb": 3153991.08, "rv": 193691.24, "ri": 183904.73, "ca": 190647.38}, {"b": 3850442.77, "i": 454317.7, "nd": 282784.75, "vn": 171532.95, "pv": 299242.15, "cb": 701898.51, "mb": 3148544.26, "rv": 147293.87, "ri": 188567.02, "ca": 254314.46}, {"b": 3880902.59, "i": 433040.94, "nd": 254951.74, "vn": 178089.2, "pv": 316083.2, "cb": 766423.08, "mb": 3114479.51, "rv": 118689.92, "ri": 213449.88, "ca": 254314.46}, {"b": 3988863.21, "i": 417564.42, "nd": 239059.67, "vn": 178504.75, "pv": 328795.49, "cb": 895894.48, "mb": 3092968.73, "rv": 109799.32, "ri": 204127.15, "ca": 257475.15}, {"b": 4106391.39, "i": 401834.93, "nd": 218851.56, "vn": 182983.37, "pv": 338847.3, "cb": 970053.32, "mb": 3136338.07, "rv": 105792.7, "ri": 194377.14, "ca": 256781.09}, {"b": 4288632.96, "i": 415412.12, "nd": 218375.53, "vn": 197036.59, "pv": 456607.78, "cb": 1079286.86, "mb": 3209346.1, "rv": 87332.69, "ri": 205585.81, "ca": 256781.09}, {"b": 4415170.6, "i": 406298.24, "nd": 209146.17, "vn": 197152.07, "pv": 449712.92, "cb": 1175213.62, "mb": 3239956.98, "rv": 84668.92, "ri": 205357.17, "ca": 265541.55}, {"b": 4565482.23, "i": 416187.83, "nd": 211877.43, "vn": 204310.4, "pv": 452788.58, "cb": 1237624.65, "mb": 3327857.58, "rv": 81225.95, "ri": 206075.68, "ca": 270844.67}];
+var MESN = ["E","F","M","A","M","J","J","A","S"];
+var MESL = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre"];
+var LAST = JAS.length - 1;
+
+var ACCENT = "#2563EB", NEUTRAL = "#9CA3AF", RULE = "#E5E7EB", INK = "#111827", INK3 = "#6B7280";
+var WARM = "#B45309", SOFT = "#C7D2DE";
+var SVGNS = "http://www.w3.org/2000/svg";
+
+function num(v, d) {
+return v.toLocaleString("es-EC", { minimumFractionDigits: d === undefined ? 2 : d, maximumFractionDigits: d === undefined ? 2 : d });
+}
+function pct(v, d) { return num(v, d === undefined ? 2 : d) + " %"; }
+function usd(v) { return v.toLocaleString("es-EC", { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + " USD"; }
+function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+function median(a) {
+var s = a.slice().sort(function (x, y) { return x - y; }), n = s.length;
+if (!n) return 0;
+return n % 2 ? s[(n - 1) / 2] : (s[n / 2 - 1] + s[n / 2]) / 2;
+}
+function quantile(a, q) {
+var s = a.slice().sort(function (x, y) { return x - y; });
+return s[Math.min(s.length - 1, Math.round(q * (s.length - 1)))];
+}
+function el(tag, attrs, text) {
+var e = document.createElementNS(SVGNS, tag);
+for (var k in attrs) e.setAttribute(k, attrs[k]);
+if (text !== undefined) e.textContent = text;
+return e;
+}
+function label(x, y, text, opts) {
+opts = opts || {};
+return el("text", {
+x: x, y: y, "text-anchor": opts.anchor || "start",
+"font-size": opts.size || 11, "font-weight": opts.weight || 400,
+fill: opts.fill || INK3, "font-family": "inherit"
+}, text);
+}
+var REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function reveal(svg) {
+if (REDUCED || !("IntersectionObserver" in window)) { svg.setAttribute("class", "in"); return; }
+var io = new IntersectionObserver(function (entries) {
+entries.forEach(function (e) {
+if (e.isIntersecting) { e.target.setAttribute("class", "in"); io.unobserve(e.target); }
+});
+}, { threshold: 0.2 });
+io.observe(svg);
+}
+function growable(rect, baseY, delayMs) {
+rect.setAttribute("class", "grow");
+rect.style.transformOrigin = "0px " + baseY + "px";
+if (delayMs) rect.style.transitionDelay = delayMs + "ms";
+return rect;
+}
+function drawLine(svg, pts, color, width, dash) {
+var d = pts.map(function (p, i) { return (i ? "L" : "M") + p[0] + " " + p[1]; }).join(" ");
+var ln = el("path", { d: d, fill: "none", stroke: color, "stroke-width": width || 2, "stroke-linecap": "round", "stroke-linejoin": "round" });
+if (dash) { ln.setAttribute("stroke-dasharray", dash); svg.appendChild(ln); return ln; }
+var len = 0;
+for (var i = 1; i < pts.length; i++) len += Math.sqrt(Math.pow(pts[i][0] - pts[i - 1][0], 2) + Math.pow(pts[i][1] - pts[i - 1][1], 2));
+ln.setAttribute("class", "draw");
+ln.setAttribute("stroke-dasharray", len);
+ln.setAttribute("stroke-dashoffset", len);
+svg.appendChild(ln);
+return ln;
+}
+// navegación por teclado y por toque sobre un gráfico de N posiciones
+function scrub(svg, n, left, step, show, start) {
+var i = start;
+function set(k) { i = Math.max(0, Math.min(n - 1, k)); show(i); }
+function pick(ev) {
+var pt = svg.getBoundingClientRect();
+var cx = (ev.touches ? ev.touches[0].clientX : ev.clientX) - pt.left;
+set(Math.round((cx / pt.width * 360 - left) / step));
+}
+svg.style.cursor = "crosshair";
+svg.addEventListener("click", pick);
+svg.addEventListener("touchstart", function (e) { pick(e); }, { passive: true });
+svg.addEventListener("touchmove", function (e) { pick(e); }, { passive: true });
+svg.addEventListener("keydown", function (e) {
+if (e.key === "ArrowRight") { set(i + 1); e.preventDefault(); }
+else if (e.key === "ArrowLeft") { set(i - 1); e.preventDefault(); }
+else if (e.key === "Home") { set(0); e.preventDefault(); }
+else if (e.key === "End") { set(n - 1); e.preventDefault(); }
+});
+show(i);
+}
+
+var mora = function (r) { return r.i / r.b * 100; };
+var moraMic = function (r) { return r.mb > 0 ? r.mi / r.mb * 100 : null; };
+var moraCon = function (r) { return r.cb > 0 ? r.ci / r.cb * 100 : null; };
+
+var J = DATA.filter(function (r) { return r.J === 1; })[0];
+var N = DATA.length;
+var allMora = DATA.map(mora);
+var MED = median(allMora);
+var micList = DATA.filter(function (r) { return r.mb > 0; });
+var conList = DATA.filter(function (r) { return r.cb > 0; });
+var MED_MIC = median(micList.map(moraMic));
+var MED_CON = median(conList.map(moraCon));
+
+var SERIE_MED = MES.map(function (mes) {
+return median(mes.map(function (p) { return p[1] / p[0] * 100; }));
+});
+var SERIE_J = JAS.map(function (x) { return x.i / x.b * 100; });
+var SERIE_COB = JAS.map(function (x) { return x.pv / x.i * 100; });
+var PEAK = SERIE_J.indexOf(Math.max.apply(null, SERIE_J));
+
+// ---------- cifra principal y auditoría ----------
+document.getElementById("heroVal").textContent = pct(mora(J));
+document.getElementById("medVal").textContent = pct(MED);
+document.getElementById("nCoops").textContent = N;
+document.getElementById("nCoops2").textContent = N;
+document.getElementById("a1").textContent = usd(J.nd);
+document.getElementById("a2").textContent = usd(J.vn);
+document.getElementById("a3").textContent = usd(J.i);
+document.getElementById("a4").textContent = usd(J.b);
+document.getElementById("a5").textContent = num(J.i, 0) + " ÷ " + num(J.b, 0) + " = " + pct(mora(J));
+
+Array.prototype.forEach.call(document.querySelectorAll("button.audit"), function (btn) {
+btn.addEventListener("click", function () {
+var p = document.getElementById(btn.getAttribute("data-panel"));
+var open = p.classList.toggle("open");
+btn.setAttribute("aria-expanded", open ? "true" : "false");
+});
+});
+
+// ---------- serie de nueve meses ----------
+(function () {
+var svg = document.getElementById("svgSerie");
+var left = 36, right = 264, top = 16, base = 152;
+var vals = SERIE_J.concat(SERIE_MED);
+var hi = Math.ceil(Math.max.apply(null, vals) + 1), lo = Math.floor(Math.min.apply(null, vals) - 1);
+if (lo < 0) lo = 0;
+var step = (right - left) / (SERIE_J.length - 1);
+var x = function (i) { return left + i * step; };
+var y = function (v) { return base - (v - lo) / (hi - lo) * (base - top); };
+
+[hi, (hi + lo) / 2, lo].forEach(function (v) {
+svg.appendChild(el("line", { x1: left, y1: y(v), x2: right, y2: y(v), stroke: RULE, "stroke-width": 1 }));
+svg.appendChild(label(left - 7, y(v) + 4, num(v, 0), { anchor: "end", size: 10.5 }));
+});
+drawLine(svg, SERIE_MED.map(function (v, i) { return [x(i), y(v)]; }), NEUTRAL, 1.8);
+drawLine(svg, SERIE_J.map(function (v, i) { return [x(i), y(v)]; }), ACCENT, 2.4);
+SERIE_J.forEach(function (v, i) {
+var c = el("circle", { cx: x(i), cy: y(v), r: 3.2, fill: ACCENT, stroke: "#fff", "stroke-width": 1.6 });
+c.setAttribute("class", "fade"); svg.appendChild(c);
+});
+MESN.forEach(function (m, i) { svg.appendChild(label(x(i), base + 18, m, { anchor: "middle", size: 10.5 })); });
+var lj = label(right + 9, y(SERIE_J[LAST]) + 4, "Jaspe " + pct(SERIE_J[LAST], 1), { fill: INK, weight: 650 });
+var lm = label(right + 9, y(SERIE_MED[LAST]) + 4, "Mediana " + pct(SERIE_MED[LAST], 1), { fill: INK3 });
+lj.setAttribute("class", "fade"); lm.setAttribute("class", "fade");
+svg.appendChild(lj); svg.appendChild(lm);
+reveal(svg);
+
+var out = document.getElementById("serieOut");
+scrub(svg, SERIE_J.length, left, step, function (i) {
+out.innerHTML = "<b>" + cap(MESL[i]) + " 2026</b>" +
+"<br>Jaspe " + pct(SERIE_J[i]) + " · mediana del segmento " + pct(SERIE_MED[i]) +
+"<br><span class='muted'>" + usd(JAS[i].i) + " improductivos sobre " + usd(JAS[i].b) + " de cartera</span>";
+}, LAST);
+
+document.getElementById("serieNote").textContent =
+"El punto más alto fue " + MESL[PEAK] + " con " + pct(SERIE_J[PEAK], 2) +
+". Desde ahí la mora de Jaspe bajó " + num(SERIE_J[PEAK] - SERIE_J[LAST], 2) +
+" puntos y la mediana del segmento bajó " + num(SERIE_MED[PEAK] - SERIE_MED[LAST], 2) +
+". La sección siguiente separa de dónde viene esa caída, porque el porcentaje y los dólares no se movieron igual.";
+})();
+
+// ---------- descomposición y castigos ----------
+(function () {
+var p = JAS[PEAK], s = JAS[LAST];
+var moraPeak = p.i / p.b * 100, moraNow = s.i / s.b * 100;
+var conCarteraPeak = s.i / p.b * 100;          // mismo numerador de hoy, cartera del pico
+var porNumerador = moraPeak - conCarteraPeak;  // lo que aportó la mejora del numerador
+var porDenominador = conCarteraPeak - moraNow; // lo que aportó el crecimiento de la cartera
+document.getElementById("d1").textContent = num(porDenominador, 1) + " pp";
+document.getElementById("d2").textContent = num(porNumerador, 1) + " pp";
+
+document.getElementById("decNote").textContent =
+"Entre " + MESL[PEAK] + " y " + MESL[LAST] + " la cartera improductiva bajó " + usd(p.i - s.i) +
+" (" + num(Math.abs(s.i / p.i - 1) * 100, 1) + " %) mientras la cartera total creció " + usd(s.b - p.b) +
+" (" + num((s.b / p.b - 1) * 100, 1) + " %). Con la cartera de " + MESL[PEAK] +
+", la mora de " + MESL[LAST] + " sería " + pct(conCarteraPeak, 2) + " en lugar de " + pct(moraNow, 2) +
+". El crecimiento vino sobre todo de consumo: " + usd(s.cb - p.cb) + " frente a " + usd(s.mb - p.mb) +
+" de microcrédito. Es cartera nueva, que todavía no ha tenido tiempo de caer en mora.";
+
+var svg = document.getElementById("svgCas");
+var CA = JAS.map(function (x) { return x.ca; });
+var left = 52, right = 348, top = 14, base = 112;
+var hi = Math.max.apply(null, CA) * 1.12;
+var bw = (right - left) / CA.length;
+var h = function (v) { return v / hi * (base - top); };
+CA.forEach(function (v, i) {
+var jump = i > 0 && (v - CA[i - 1]) > (CA[LAST] - CA[0]) * 0.15;
+svg.appendChild(growable(el("rect", {
+x: left + i * bw + 2, y: base - h(v), width: bw - 4, height: h(v),
+fill: jump ? WARM : SOFT, rx: 2, ry: 2
+}), base, i * 55));
+svg.appendChild(label(left + i * bw + bw / 2, base + 16, MESN[i], { anchor: "middle", size: 10.5 }));
+});
+svg.appendChild(el("line", { x1: left, y1: base, x2: right, y2: base, stroke: RULE, "stroke-width": 1 }));
+svg.appendChild(label(left - 7, base - h(CA[0]) + 4, num(CA[0] / 1000, 0) + " mil", { anchor: "end", size: 10.5 }));
+svg.appendChild(label(left - 7, base - h(CA[LAST]) + 4, num(CA[LAST] / 1000, 0) + " mil", { anchor: "end", size: 10.5, fill: INK, weight: 650 }));
+reveal(svg);
+
+var dCas = CA[LAST] - CA[0], dImp = JAS[0].i - s.i;
+var proforma = (s.i + dCas) / (s.b + dCas) * 100;
+document.getElementById("casNote").textContent =
+"Entre enero y " + MESL[LAST] + " los activos castigados subieron " + usd(dCas) +
+", casi todo en " + MESL[1] + " y " + MESL[2] + ". En el mismo lapso la cartera improductiva bajó " + usd(dImp) +
+". Si esos créditos siguieran en la cartera, la mora de " + MESL[LAST] + " estaría cerca de " + pct(proforma, 1) +
+" en vez de " + pct(moraNow, 2) + ".";
+
+var rCas = DATA.map(function (r) { return r.ca / r.b * 100; });
+document.getElementById("casNote2").textContent =
+"Castigar es la contabilidad correcta para un crédito que ya no se va a recuperar, y Jaspe tenía las provisiones para absorberlo. Lo que llama la atención es el tamaño: esos castigos equivalen al " +
+pct(J.ca / J.b * 100, 1) + " de la cartera de Jaspe, mientras la mediana del segmento es " +
+pct(median(rCas), 1) + " y el decil superior empieza en " + pct(quantile(rCas, 0.9), 1) +
+". La cuenta incluye otros activos además de cartera y baja cuando se recupera un castigado, así que la cifra comparable es aproximada.";
+})();
+
+// ---------- envejecimiento: no devenga vs vencida ----------
+(function () {
+var svg = document.getElementById("svgEdad");
+var ND = JAS.map(function (x) { return x.nd; }), VN = JAS.map(function (x) { return x.vn; });
+var left = 40, right = 268, top = 16, base = 122;
+var hi = Math.max.apply(null, ND.concat(VN)) * 1.1, lo = 0;
+var step = (right - left) / (ND.length - 1);
+var x = function (i) { return left + i * step; };
+var y = function (v) { return base - (v - lo) / (hi - lo) * (base - top); };
+[hi, hi / 2].forEach(function (v) {
+svg.appendChild(el("line", { x1: left, y1: y(v), x2: right, y2: y(v), stroke: RULE, "stroke-width": 1 }));
+svg.appendChild(label(left - 7, y(v) + 4, num(v / 1000, 0) + " mil", { anchor: "end", size: 10 }));
+});
+drawLine(svg, ND.map(function (v, i) { return [x(i), y(v)]; }), NEUTRAL, 2);
+drawLine(svg, VN.map(function (v, i) { return [x(i), y(v)]; }), WARM, 2.2);
+MESN.forEach(function (m, i) { svg.appendChild(label(x(i), base + 18, m, { anchor: "middle", size: 10.5 })); });
+svg.appendChild(el("line", { x1: left, y1: base, x2: right, y2: base, stroke: RULE, "stroke-width": 1 }));
+var l1 = label(right + 9, y(Math.max(ND[LAST], VN[LAST])) - 4, usd(Math.max(ND[LAST], VN[LAST])), { fill: INK3, size: 10.5 });
+var l2 = label(right + 9, y(Math.min(ND[LAST], VN[LAST])) + 13, usd(Math.min(ND[LAST], VN[LAST])), { fill: WARM, size: 10.5, weight: 650 });
+l1.setAttribute("class", "fade"); l2.setAttribute("class", "fade");
+svg.appendChild(l1); svg.appendChild(l2);
+reveal(svg);
+
+var shareNow = VN[LAST] / JAS[LAST].i * 100, shareIni = VN[0] / JAS[0].i * 100;
+var shareSeg = median(DATA.filter(function (r) { return r.i > 0; }).map(function (r) { return r.vn / r.i * 100; }));
+document.getElementById("edadNote").textContent =
+"La cartera vencida subió " + num((VN[LAST] / VN[0] - 1) * 100, 1) + " % desde enero y la que no devenga intereses bajó " +
+num(Math.abs(ND[LAST] / ND[0] - 1) * 100, 1) + " %. La vencida era el " + pct(shareIni, 1) +
+" de la cartera improductiva y hoy es el " + pct(shareNow, 1) + "; la mediana del segmento es " + pct(shareSeg, 1) +
+". La mora no solo no se redujo en dólares: la que queda lleva más tiempo sin pagarse.";
+})();
+
+// ---------- refinanciada: por vencer vs improductiva ----------
+(function () {
+var svg = document.getElementById("svgRef");
+var RV = JAS.map(function (x) { return x.rv; }), RI = JAS.map(function (x) { return x.ri; });
+var left = 14, right = 348, top = 26, base = 122;
+var hi = Math.max.apply(null, RV.map(function (v, i) { return v + RI[i]; })) * 1.08;
+var bw = (right - left) / RV.length;
+var h = function (v) { return v / hi * (base - top); };
+RV.forEach(function (v, i) {
+var hi1 = h(RI[i]), hi2 = h(v);
+svg.appendChild(growable(el("rect", { x: left + i * bw + 2, y: base - hi1, width: bw - 4, height: hi1, fill: SOFT, rx: 2, ry: 2 }), base, i * 55));
+svg.appendChild(growable(el("rect", { x: left + i * bw + 2, y: base - hi1 - hi2, width: bw - 4, height: hi2, fill: ACCENT, rx: 2, ry: 2 }), base, i * 55));
+svg.appendChild(label(left + i * bw + bw / 2, base + 16, MESN[i], { anchor: "middle", size: 10.5 }));
+if (i === 0 || i === LAST) {
+svg.appendChild(label(left + i * bw + bw / 2, base - hi1 - hi2 - 7, num((v + RI[i]) / 1000, 0) + " mil", {
+anchor: "middle", size: 10.5, weight: i === LAST ? 650 : 400, fill: i === LAST ? INK : INK3
+}));
+}
+});
+svg.appendChild(el("line", { x1: left, y1: base, x2: right, y2: base, stroke: RULE, "stroke-width": 1 }));
+reveal(svg);
+
+document.getElementById("refNote").textContent =
+"El saldo total pasó de " + usd(RV[0] + RI[0]) + " a " + usd(RV[LAST] + RI[LAST]) +
+". Pero el movimiento está casi todo en la parte por vencer, que cayó " +
+num(Math.abs(RV[LAST] / RV[0] - 1) * 100, 0) + " %, de " + usd(RV[0]) + " a " + usd(RV[LAST]) +
+". La parte que ya está en mora casi no se movió y hoy es el " +
+pct(RI[LAST] / JAS[LAST].i * 100, 1) + " de toda la cartera improductiva.";
+
+var rRR = DATA.map(function (r) { return r.rr / r.b * 100; });
+var ceros = DATA.filter(function (r) { return r.rr < 1; }).length;
+document.getElementById("refNote2").textContent =
+"Importa porque un crédito refinanciado vuelve a contar como vigente: si la mora bajara por refinanciar, esta cuenta estaría subiendo. Está haciendo lo contrario. Dicho eso, el nivel sigue siendo alto: es el " +
+pct(J.rr / J.b * 100, 1) + " de la cartera de Jaspe, cuando " + ceros + " de las " + N +
+" cooperativas del segmento no tienen nada y la mediana es " + pct(median(rRR), 1) +
+". Y buena parte de la baja ocurrió en " + MESL[1] + " y " + MESL[2] +
+", los mismos meses de los castigos, así que con datos públicos no se puede separar cuánto fue cobro y cuánto fue castigo.";
+})();
+
+// ---------- cobertura de provisiones ----------
+(function () {
+var svg = document.getElementById("svgCob");
+var left = 44, right = 288, top = 16, base = 118;
+var hi = Math.max.apply(null, SERIE_COB) + 12, lo = Math.min.apply(null, SERIE_COB) - 12;
+var step = (right - left) / (SERIE_COB.length - 1);
+var x = function (i) { return left + i * step; };
+var y = function (v) { return base - (v - lo) / (hi - lo) * (base - top); };
+svg.appendChild(el("line", { x1: left, y1: y(100), x2: right, y2: y(100), stroke: NEUTRAL, "stroke-width": 1, "stroke-dasharray": "4 3" }));
+svg.appendChild(label(left, y(100) - 6, "100 %", { size: 10.5 }));
+drawLine(svg, SERIE_COB.map(function (v, i) { return [x(i), y(v)]; }), ACCENT, 2.4);
+SERIE_COB.forEach(function (v, i) {
+var c = el("circle", { cx: x(i), cy: y(v), r: 3.2, fill: ACCENT, stroke: "#fff", "stroke-width": 1.6 });
+c.setAttribute("class", "fade"); svg.appendChild(c);
+svg.appendChild(label(x(i), base + 18, MESN[i], { anchor: "middle", size: 10.5 }));
+});
+svg.appendChild(el("line", { x1: left, y1: base, x2: right, y2: base, stroke: RULE, "stroke-width": 1 }));
+var lc = label(right + 9, y(SERIE_COB[LAST]) + 4, pct(SERIE_COB[LAST], 1), { fill: INK, weight: 650 });
+lc.setAttribute("class", "fade"); svg.appendChild(lc);
+reveal(svg);
+
+var minIdx = SERIE_COB.indexOf(Math.min.apply(null, SERIE_COB));
+var cross = -1;
+for (var i = 1; i < SERIE_COB.length; i++) { if (SERIE_COB[i] >= 100 && SERIE_COB[i - 1] < 100) { cross = i; break; } }
+var MED_COB = median(DATA.filter(function (r) { return r.i > 0; }).map(function (r) { return r.pv / r.i * 100; }));
+document.getElementById("cobNote").textContent =
+"El punto más bajo del año fue " + MESL[minIdx] + " con " + pct(SERIE_COB[minIdx], 1) +
+(cross >= 0 ? ". La cobertura cruzó el 100 % en " + MESL[cross] : "") +
+" y en " + MESL[LAST] + " está en " + pct(SERIE_COB[LAST], 1) + ", frente a una mediana del segmento de " +
+pct(MED_COB, 1) + ". La pérdida que esa cartera podría generar está provisionada en el balance.";
+
+document.getElementById("cobNote2").textContent =
+"Un matiz: el salto ocurrió en un solo mes. Con los saldos públicos no se puede saber contra qué cuenta se cargó finalmente esa provisión, y la cuenta de provisiones incluye además lo constituido sobre cartera sana. Está cubierta en el balance; eso no equivale a decir que la pérdida ya pasó por el resultado del año.";
+})();
+
+// ---------- por producto ----------
+(function () {
+var svg = document.getElementById("svgProd");
+var base = 150, maxV = Math.max(moraMic(J), MED_MIC, moraCon(J), MED_CON) * 1.18;
+var h = function (v) { return v / maxV * 112; };
+var groups = [
+{ t: "Microcrédito", j: moraMic(J), m: MED_MIC, cx: 100, nJ: J.mb, iJ: J.mi, cnt: micList.length },
+{ t: "Consumo", j: moraCon(J), m: MED_CON, cx: 260, nJ: J.cb, iJ: J.ci, cnt: conList.length }
+];
+var bw = 44;
+groups.forEach(function (g) {
+[[g.j, ACCENT, "Jaspe", g.cx - bw - 1], [g.m, NEUTRAL, "Mediana del segmento", g.cx + 1]].forEach(function (b) {
+var bh = h(b[0]);
+var rect = growable(el("rect", { x: b[3], y: base - bh, width: bw, height: bh, fill: b[1], rx: 4, ry: 4 }), base);
+rect.style.cursor = "pointer";
+rect.addEventListener("click", function () {
+document.getElementById("prodOut").innerHTML =
+"<b>" + g.t + " · " + b[2] + "</b><br>Morosidad " + pct(b[0]) +
+(b[2] === "Jaspe"
+? "<br><span class='muted'>" + usd(g.iJ) + " improductivos sobre " + usd(g.nJ) + " de cartera</span>"
+: "<br><span class='muted'>mediana de las " + g.cnt + " cooperativas con este producto</span>");
+});
+svg.appendChild(rect);
+svg.appendChild(label(b[3] + bw / 2, base - bh - 8, num(b[0], 1), {
+anchor: "middle", size: 12, weight: b[2] === "Jaspe" ? 650 : 400, fill: b[2] === "Jaspe" ? INK : INK3
+}));
+});
+svg.appendChild(label(g.cx, base + 20, g.t, { anchor: "middle", size: 12.5, fill: "#374151" }));
+});
+svg.appendChild(el("line", { x1: 20, y1: base, x2: 340, y2: base, stroke: RULE, "stroke-width": 1 }));
+reveal(svg);
+document.getElementById("prodNote").textContent =
+"En microcrédito Jaspe está " + num(moraMic(J) - MED_MIC, 1) +
+" puntos por encima de la mediana, y ahí se concentra el " + num(J.mi / J.i * 100, 0) +
+" % de toda la cartera improductiva. En consumo prácticamente iguala a la mediana, pero esa cartera creció " +
+num((J.cb / JAS[0].cb - 1) * 100, 0) + " % desde enero y una cartera joven todavía no ha madurado.";
+})();
+
+// ---------- distribución del segmento ----------
+(function () {
+var svg = document.getElementById("svgDist");
+var sorted = DATA.slice().sort(function (a, b) { return mora(a) - mora(b); });
+var jIdx = sorted.indexOf(J);
+var left = 34, right = 352, top = 14, base = 160;
+var CAP = 20;
+var realMax = Math.max.apply(null, sorted.map(mora));
+var over = sorted.filter(function (r) { return mora(r) > CAP; }).length;
+var bw = (right - left) / sorted.length;
+var y = function (v) { return base - Math.min(v, CAP) / CAP * (base - top); };
+sorted.forEach(function (r, i) {
+svg.appendChild(growable(el("rect", {
+x: left + i * bw, y: y(mora(r)), width: Math.max(bw - 0.6, 0.9),
+height: base - y(mora(r)), fill: r === J ? ACCENT : "#D7DCE3"
+}), base, Math.round(i * 2.2)));
+});
+svg.appendChild(el("line", { x1: left, y1: y(MED), x2: right, y2: y(MED), stroke: NEUTRAL, "stroke-width": 1, opacity: .9 }));
+svg.appendChild(label(left, y(MED) - 6, "mediana " + pct(MED, 1), { size: 10.5 }));
+svg.appendChild(el("line", { x1: left, y1: base, x2: right, y2: base, stroke: RULE, "stroke-width": 1 }));
+svg.appendChild(label(left - 6, base + 4, "0", { anchor: "end", size: 10.5 }));
+svg.appendChild(label(left - 6, top + 4, CAP + " %+", { anchor: "end", size: 10.5 }));
+svg.appendChild(label(left, base + 20, "menor morosidad", { size: 10.5 }));
+svg.appendChild(label(right, base + 20, "mayor", { anchor: "end", size: 10.5 }));
+var jx = left + jIdx * bw + bw / 2;
+svg.appendChild(el("line", { x1: jx, y1: y(mora(J)) - 10, x2: jx, y2: y(mora(J)) - 22, stroke: ACCENT, "stroke-width": 1.5 }));
+svg.appendChild(label(Math.min(jx, right - 40), y(mora(J)) - 27, "Jaspe", { anchor: "middle", size: 11.5, weight: 650, fill: ACCENT }));
+reveal(svg);
+var out = document.getElementById("distOut");
+scrub(svg, sorted.length, left + bw / 2, bw, function (i) {
+var r = sorted[i];
+out.innerHTML = "<b>" + (r === J ? "Jaspe Ltda" : r.n) + "</b>" +
+"<br>Morosidad " + pct(mora(r)) + " <span class='muted'>· cartera " + usd(r.b) + "</span>";
+}, jIdx);
+document.getElementById("distNote").textContent =
+"El eje se corta en " + CAP + " % para que las barras se lean: " + over +
+" cooperativas lo superan y la más alta llega al " + num(realMax, 0) +
+" %. Esa cola es la razón de comparar contra la mediana y no contra el promedio simple, que es " +
+pct(allMora.reduce(function (a, b) { return a + b; }, 0) / N, 1) + ".";
+})();
+
+// ---------- simulador ----------
+(function () {
+var slider = document.getElementById("sim");
+var cur = moraMic(J);
+slider.value = cur.toFixed(2);
+function render() {
+var rate = parseFloat(slider.value);
+var tot = (J.mb * rate / 100 + J.ci) / J.b * 100;
+document.getElementById("simMic").textContent = pct(rate, 2);
+document.getElementById("simTot").textContent = pct(tot, 2);
+var diff = Math.round((tot - MED) * 100) / 100;
+document.getElementById("simRank").textContent =
+(diff === 0 ? "" : diff > 0 ? "+" : "−") + num(Math.abs(diff), 2) + " pp";
+}
+slider.addEventListener("input", render);
+render();
+var needMic = (MED / 100 * J.b - J.ci) / J.mb * 100;
+document.getElementById("simNote").textContent =
+"Hoy la morosidad de microcrédito es " + pct(cur, 2) + " y la mora total " + pct(mora(J)) +
+", lo que la deja " + num(mora(J) - MED, 2) +
+" puntos sobre la mediana del segmento. Para igualar la mediana, la morosidad de microcrédito tendría que bajar a " +
+pct(needMic, 2) + ", manteniendo todo lo demás igual. El cálculo suma solo microcrédito y consumo, que son toda la cartera de Jaspe.";
+})();
+
+// ---------- método ----------
+(function () {
+document.getElementById("m1").textContent = N;
+document.getElementById("m7").textContent = MES[0].length;
+document.getElementById("m3").textContent = pct(MED, 2);
+document.getElementById("m4").textContent = pct(quantile(allMora, 0.9), 0);
+document.getElementById("m5").textContent = pct(Math.max.apply(null, allMora), 0);
+var agg = DATA.reduce(function (a, r) { return a + r.i; }, 0) / DATA.reduce(function (a, r) { return a + r.b; }, 0) * 100;
+document.getElementById("m10").textContent = pct(agg, 2);
+var share = J.mb / J.b;
+var g1 = DATA.filter(function (r) { return Math.abs(r.mb / r.b - share) <= 0.125; });
+var g2 = DATA.filter(function (r) { return Math.abs(r.mb / r.b - share) <= 0.15; });
+document.getElementById("m11").textContent = g1.length;
+document.getElementById("m6").textContent = pct(median(g1.map(mora)), 2);
+document.getElementById("m12").textContent = pct(median(g2.map(mora)), 2);
+// panel constante: entidades presentes en los nueve cortes
+var cuenta = {};
+MES.forEach(function (m) { m.forEach(function (p) { cuenta[p[2]] = (cuenta[p[2]] || 0) + 1; }); });
+var panel = MES[LAST].filter(function (p) { return cuenta[p[2]] === MES.length; });
+document.getElementById("m8").textContent = panel.length;
+document.getElementById("m9").textContent = pct(median(panel.map(function (p) { return p[1] / p[0] * 100; })), 2);
+})();
+
+// ---------- límites ----------
+(function () {
+var q = JAS[LAST - 3], s = JAS[LAST];
+document.getElementById("lim2").textContent =
+"En el último trimestre la cartera improductiva no bajó: subió " + usd(s.i - q.i) + ", de " + usd(q.i) +
+" en " + MESL[LAST - 3] + " a " + usd(s.i) + " en " + MESL[LAST] +
+". Lo que siguió bajando fue el porcentaje, porque la cartera creció " + num((s.b / q.b - 1) * 100, 1) +
+" % en esos tres meses. Con la cartera de " + MESL[LAST - 3] + ", " + MESL[LAST] + " estaría en " +
+pct(s.i / q.b * 100, 2) + ".";
+document.getElementById("lim3").textContent =
+"Qué parte de los castigos corresponde a cartera refinanciada, contra qué cuenta se cargó la provisión de " +
+MESL[6] + ", y por qué faltan cooperativas en los últimos cortes, son preguntas que los estados financieros públicos no responden. Están señaladas para que quien tenga los libros adentro pueda cerrarlas.";
+})();
+</script>
+</body>
+</html>
