@@ -152,6 +152,7 @@ function modeloSep() {
   m.cruceCob = -1;
   for (var i = 1; i < serieCob.length; i++) if (serieCob[i] >= 100 && serieCob[i - 1] < 100) { m.cruceCob = i; break; }
   m.medCob = mediana(conImp.map(function (r) { return r.pv / r.i * 100; }));
+  m.subeProvCruce = m.cruceCob > 0 ? jas[m.cruceCob].pv - jas[m.cruceCob - 1].pv : 0;
 
   m.crecConsumo = (J.cb / jas[0].cb - 1) * 100; m.crecConsumoDesde = "desde enero";
 
@@ -178,6 +179,7 @@ function modeloJun() {
   m.saldos = [{ i: J.pi, b: J.pb }, { i: J.i, b: J.b }];
   m.ult = 1; m.pico = 0; m.baja = moraMar(J) - m.mora;
   m.enAmbos = conMar.length;
+  m.enSegmento = SEPS.jun.segmento;   // cooperativas del segmento según el boletín, hayan reportado o no
   m.mejoraron = conMar.filter(function (r) { return mora(r) < moraMar(r); }).length;
   // mediana de las variaciones individuales, no variación de la mediana: son cantidades distintas
   m.varMediana = mediana(conMar.map(function (r) { return mora(r) - moraMar(r); }));
@@ -542,7 +544,7 @@ function figura(o) {
   var n = ++contador.fig;
   var lienzo = h("div", { class: "lienzo" });
   var fig = h("figure", { class: "figura" + (o.clase ? " " + o.clase : "") }, [
-    o.signo ? h("p", { class: "etiqueta " + (o.signo > 0 ? "favor" : "contra"), text: o.signo > 0 ? "+ A favor" : "− En contra" }) : null,
+    o.signo ? h("p", { class: "etiqueta " + (o.signo > 0 ? "favor" : "contra"), text: o.signo > 0 ? "Favorable" : "Para seguimiento" }) : null,
     h("h3", { text: o.titulo }),
     h("p", { class: "figura-sub" }, [h("span", { class: "ref", text: "Figura " + n + "." }), " " + o.sub]),
     o.leyenda ? leyenda(o.leyenda) : null,
@@ -571,10 +573,9 @@ function pintarPortada(m) {
   lede.appendChild(h("b", { text: pct(m.mora) }));
   lede.appendChild(document.createTextNode(", " + num(m.brecha) + " puntos sobre la mediana de las " + m.N + " cooperativas del segmento 4. " +
     (m.id === "sep"
-      ? "Bajó " + num(m.baja) + " puntos desde " + MESES[m.pico] + ", pero " + (m.porCartera > m.porImproductiva
-          ? "más por el crecimiento de la cartera que por la reducción de la cartera improductiva."
-          : "más por la reducción de la cartera improductiva que por el crecimiento de la cartera.")
-      : "Bajó " + num(m.baja) + " puntos frente a marzo; la brecha se concentra en microcrédito.")));
+      ? "Bajó " + num(m.baja) + " puntos desde " + MESES[m.pico] + ": " + num(m.porCartera, 1) + " por el crecimiento de la cartera y " +
+        num(m.porImproductiva, 1) + " por la reducción de la cartera improductiva."
+      : "Bajó " + num(m.baja) + " puntos frente a marzo; la diferencia con el segmento se concentra en microcrédito.")));
 
   var caj = vaciar($("cajetin"));
   [["Documento", "INF-SEPS-01", "cod"], ["Revisión", "2", "cod"],
@@ -626,9 +627,10 @@ function pintarIndicadores(m) {
 /* ---------- Resumen ejecutivo ---------- */
 function secResumen(m) {
   var serie = m.id === "sep";
+  var acorta = m.serieJ[m.pico] - m.serieMed[m.pico] > m.brecha;   // la distancia con la mediana es menor que al inicio
   var fig = figura({
-    titulo: serie ? "La mora de Jaspe baja desde " + MESES[m.pico] + " y sigue por encima de la mediana"
-                  : "La mora de Jaspe bajó en el trimestre y sigue por encima de la mediana",
+    titulo: (serie ? "La mora de Jaspe baja desde " + MESES[m.pico] : "La mora de Jaspe bajó en el trimestre") +
+      (acorta ? " y acorta su distancia con la mediana" : " y mantiene su distancia con la mediana"),
     sub: serie ? "Morosidad total mensual, enero a septiembre de 2026, en % de la cartera bruta"
                : "Morosidad total, marzo y junio de 2026, en % de la cartera bruta",
     leyenda: [["Jaspe", COLOR.jaspe], ["Mediana del segmento 4", COLOR.mediana]],
@@ -651,12 +653,12 @@ function secResumen(m) {
     }
   });
 
-  var brechaMic = ["La brecha con el segmento está en microcrédito",
+  var brechaMic = ["La diferencia con el segmento se concentra en microcrédito",
     pct(m.mic) + " frente a una mediana de " + pct(m.medMic) + ". Consumo está en línea: " + pct(m.con) + " frente a " + pct(m.medCon) + ".", "pares"];
   var items = serie ? [
     ["La mora bajó " + num(m.baja) + " puntos desde " + MESES[m.pico],
      "De " + pct(m.serieJ[m.pico]) + " a " + pct(m.mora) + ". En el mismo lapso la mediana del segmento bajó " + num(m.bajaMed) + " puntos."],
-    [(m.porCartera > m.porImproductiva ? "Más de la mitad" : "Menos de la mitad") + " de la baja viene del crecimiento de la cartera",
+    ["La baja combina crecimiento de la cartera y menor cartera improductiva",
      num(m.porCartera, 1) + " puntos se explican porque la cartera creció " + num(m.crecCartera, 1) + " %; " + num(m.porImproductiva, 1) +
      " porque la cartera improductiva bajó " + usd(m.bajaImpUsd) + ".", "origen"],
     brechaMic
@@ -665,7 +667,7 @@ function secResumen(m) {
      "De " + pct(m.serieJ[0]) + " en marzo a " + pct(m.mora) + " en junio. " + m.mejoraron + " de las " + m.enAmbos +
      " cooperativas presentes en ambos cortes también la redujeron; la variación mediana fue de " + signo(m.varMediana) + " puntos."],
     brechaMic,
-    ["Para igualar la mediana, microcrédito tendría que bajar a " + pct(m.micObjetivo),
+    ["Con microcrédito en " + pct(m.micObjetivo) + ", Jaspe igualaría la mediana",
      "Hoy está en " + pct(m.mic) + ". El cálculo mantiene fijos la cartera de consumo y los montos.", "simulador"]
   ];
   var hall = h("ol", { class: "hallazgos", "aria-label": "Hallazgos principales" }, items.map(function (it) {
@@ -710,9 +712,9 @@ function secOrigen(m) {
     ], "compacta")]),
     h("ul", { class: "puntos" }, [
       h("li", { text: "Con la cartera de " + mp + ", la mora de " + mu + " sería " + pct(m.conCarteraPico) + " en lugar de " + pct(m.mora) + "." }),
-      h("li", { text: "El crecimiento vino sobre todo de consumo, que es cartera nueva y todavía no ha tenido tiempo de caer en mora." }),
-      h("li", { text: "En el último trimestre la cartera improductiva " + (m.varImpTrim > 0 ? "no bajó: subió " : "bajó ") + usd(Math.abs(m.varImpTrim)) +
-        ". El porcentaje siguió bajando porque la cartera creció " + num(m.crecTrim, 1) + " %; con la cartera de " + MESES[m.mesTrim] + " estaría en " + pct(m.moraConCarteraTrim) + "." })
+      h("li", { text: "El crecimiento vino sobre todo de consumo, una cartera reciente cuya morosidad todavía no se puede evaluar." }),
+      h("li", { text: "En el último trimestre la cartera improductiva " + (m.varImpTrim > 0 ? "aumentó " : "bajó ") + usd(Math.abs(m.varImpTrim)) +
+        " y la cartera total creció " + num(m.crecTrim, 1) + " %. Con la cartera de " + MESES[m.mesTrim] + ", la mora sería " + pct(m.moraConCarteraTrim) + "." })
     ])
   ]);
   return seccion(m, "origen", [h("div", { class: "dos-col mitad" }, [fig, lado])]);
@@ -726,12 +728,12 @@ function secSenales(m) {
 
   var castigos = figura({
     signo: -1,
-    titulo: "Los activos castigados subieron más de lo que bajó la cartera improductiva",
+    titulo: "Los activos castigados aumentaron " + usd(m.subeCastigos) + " desde enero",
     sub: "Saldo de activos castigados, en miles de USD",
-    lectura: "Subieron " + usd(m.subeCastigos) + " desde enero, casi todo en " + saltos + ". En el mismo lapso la improductiva bajó " + usd(m.bajaImpDesdeEnero) + ".",
+    lectura: "El aumento se concentró en " + saltos + ". En el mismo periodo la cartera improductiva bajó " + usd(m.bajaImpDesdeEnero) + ".",
     detalle: [
-      "Un crédito castigado sale de la cartera y deja de contar en la mora sin que nadie lo haya pagado. Si esos créditos siguieran en la cartera, la mora de " + m.mes + " estaría cerca de " + pct(m.moraSinCastigos, 1) + ".",
-      "Castigar es la contabilidad correcta para un crédito que ya no se va a recuperar, y Jaspe tenía las provisiones para absorberlo. Llama la atención el tamaño: equivale al " + pct(m.castigosSobreCartera, 1) + " de la cartera, frente a una mediana del segmento de " + pct(m.medCastigos, 1) + "; el decil superior empieza en " + pct(m.p90Castigos, 1) + ".",
+      "Un crédito castigado sale de la cartera y deja de contar en la mora. Como referencia, si esos créditos siguieran en la cartera la mora de " + m.mes + " estaría cerca de " + pct(m.moraSinCastigos, 1) + ".",
+      "Castigar es el tratamiento contable que corresponde a un crédito que ya no se va a recuperar, y Jaspe contaba con las provisiones para hacerlo. El aumento equivale al " + pct(m.castigosSobreCartera, 1) + " de la cartera; la mediana del segmento es " + pct(m.medCastigos, 1) + " y el decil superior empieza en " + pct(m.p90Castigos, 1) + ".",
       "La cuenta incluye otros activos además de cartera y baja cuando se recupera un castigado, así que la comparación es aproximada."
     ],
     fuente: fuente, datos: porMes(["Activos castigados"], [m.castigos]),
@@ -745,11 +747,11 @@ function secSenales(m) {
 
   var edad = figura({
     signo: -1,
-    titulo: "La cartera en problemas está envejeciendo",
+    titulo: "La cartera vencida gana peso dentro de la improductiva",
     sub: "Cartera que no devenga intereses y cartera vencida, en miles de USD",
     leyenda: [["No devenga intereses (mora reciente)", COLOR.mediana], ["Vencida (mora antigua)", COLOR.adverso]],
     lectura: "La vencida subió " + num(m.subeVencida, 1) + " % desde enero y la que no devenga intereses bajó " + num(m.bajaNoDevenga, 1) + " %.",
-    detalle: ["La vencida era el " + pct(m.pesoVencidaIni, 1) + " de la cartera improductiva y hoy es el " + pct(m.pesoVencida, 1) + "; la mediana del segmento es " + pct(m.medPesoVencida, 1) + ". La mora que queda lleva más tiempo sin pagarse."],
+    detalle: ["La vencida era el " + pct(m.pesoVencidaIni, 1) + " de la cartera improductiva y hoy es el " + pct(m.pesoVencida, 1) + "; la mediana del segmento es " + pct(m.medPesoVencida, 1) + ". La cartera improductiva de hoy tiene más antigüedad que la de enero."],
     fuente: fuente, datos: porMes(["No devenga", "Vencida"], [m.noDevenga, m.vencida]),
     dibujar: function (l) {
       graficoLineas(l, { descripcion: "Cartera que no devenga intereses y cartera vencida de Jaspe, por mes.", etiquetas: E, etiquetasLargas: EL,
@@ -763,11 +765,11 @@ function secSenales(m) {
     titulo: "La cartera refinanciada que sigue al día cayó " + num(m.bajaRefVigente, 0) + " %",
     sub: "Cartera refinanciada y reestructurada, en miles de USD",
     leyenda: [["Por vencer", COLOR.jaspe, true], ["Ya improductiva", COLOR.suave, true]],
-    lectura: "De " + usd(m.refVigente[0]) + " a " + usd(m.refVigente[u]) + ". Si la mora bajara por refinanciar, esta cuenta estaría subiendo.",
+    lectura: "De " + usd(m.refVigente[0]) + " a " + usd(m.refVigente[u]) + ". La baja de la mora no se apoya en refinanciamientos.",
     detalle: [
-      "El saldo total pasó de " + usd(m.refVigente[0] + m.refImp[0]) + " a " + usd(m.refVigente[u] + m.refImp[u]) + ". La parte que ya está en mora casi no se movió y hoy es el " + pct(m.pesoRefImp, 1) + " de toda la cartera improductiva.",
-      "El nivel sigue siendo alto: es el " + pct(m.refSobreCartera, 1) + " de la cartera de Jaspe, cuando " + m.sinRef + " de las " + m.N + " cooperativas no tienen nada y la mediana es " + pct(m.medRef, 1) + ".",
-      "Buena parte de la baja ocurrió en " + saltos + ", los meses de los castigos; con datos públicos no se puede separar cuánto fue cobro y cuánto fue castigo."
+      "El saldo total pasó de " + usd(m.refVigente[0] + m.refImp[0]) + " a " + usd(m.refVigente[u] + m.refImp[u]) + ". La parte improductiva pasó de " + usd(m.refImp[0]) + " a " + usd(m.refImp[u]) + " y es el " + pct(m.pesoRefImp, 1) + " de toda la cartera improductiva.",
+      "El saldo representa el " + pct(m.refSobreCartera, 1) + " de la cartera de Jaspe; " + m.sinRef + " de las " + m.N + " cooperativas no registran saldo y la mediana es " + pct(m.medRef, 1) + ".",
+      "Buena parte de la baja ocurrió en " + saltos + "; los datos públicos no permiten distinguir cuánto corresponde a cobros y cuánto a castigos."
     ],
     fuente: fuente, datos: porMes(["Por vencer", "Ya improductiva", "Total"], [m.refVigente, m.refImp, m.refVigente.map(function (v, i) { return v + m.refImp[i]; })]),
     dibujar: function (l) {
@@ -781,7 +783,8 @@ function secSenales(m) {
     titulo: "Las provisiones ya cubren toda la cartera improductiva",
     sub: "Provisiones acumuladas sobre cartera improductiva, en %",
     lectura: (m.cruceCob >= 0 ? "Cruzó el 100 % en " + MESES[m.cruceCob] + " y está en " : "Está en ") + pct(m.cobertura, 1) + "; la mediana del segmento es " + pct(m.medCob, 1) + ".",
-    detalle: ["El salto ocurrió en un solo mes. Con los saldos públicos no se puede saber contra qué cuenta se cargó esa provisión, y la cuenta incluye lo constituido sobre cartera sana. Está cubierta en el balance; eso no equivale a decir que la pérdida ya pasó por el resultado del año."],
+    detalle: [(m.cruceCob > 0 ? "El aumento se concentró en " + MESES[m.cruceCob] + ", cuando las provisiones subieron " + usd(m.subeProvCruce) + ". " : "") +
+      "La cuenta de provisiones incluye también lo constituido sobre cartera por vencer."],
     fuente: fuente,
     datos: [["Mes", "Cobertura", "Provisiones", "Improductiva"], EL.map(function (mes, i) { return [cap(mes), pct(m.serieCob[i], 1), usd(m.saldos[i].pv), usd(m.saldos[i].i)]; })],
     dibujar: function (l) {
@@ -794,7 +797,7 @@ function secSenales(m) {
   });
 
   return seccion(m, "senales", [
-    h("p", { class: "entrada", text: "Cuatro indicadores que el porcentaje de mora no muestra. Dos apuntan en contra y dos a favor." }),
+    h("p", { class: "entrada", text: "Cuatro indicadores que complementan el porcentaje de mora: dos favorables y dos que conviene seguir." }),
     h("div", { class: "rejilla-2" }, [castigos, edad, ref, cob])
   ]);
 }
@@ -810,18 +813,18 @@ function secPares(m) {
     ] };
   };
   var producto = figura({
-    titulo: "La brecha está en microcrédito",
+    titulo: "La diferencia con el segmento está en microcrédito",
     sub: "Morosidad por producto en " + m.mes + " de 2026, en %",
     leyenda: [["Jaspe", COLOR.jaspe, true], ["Mediana del segmento", COLOR.mediana, true]],
     lectura: "En microcrédito Jaspe está " + num(m.mic - m.medMic, 1) + " puntos sobre la mediana, y ahí se concentra el " + num(m.pesoMicEnImp, 0) +
-      " % de su cartera improductiva. Consumo iguala a la mediana, pero creció " + num(m.crecConsumo, 0) + " % " + m.crecConsumoDesde + " y una cartera joven todavía no ha madurado.",
+      " % de su cartera improductiva. Consumo está en línea con la mediana; como creció " + num(m.crecConsumo, 0) + " % " + m.crecConsumoDesde + ", es una cartera reciente y conviene seguir su evolución.",
     fuente: m.fuenteCorta + ". Cada mediana se calcula sobre las cooperativas que tienen ese producto.",
     dibujar: function (l) {
       barrasH(l, { max: max, paso: max > 10 ? 4 : 2, rotulo: 96, filas: [par("Microcrédito", m.mic, m.medMic, m.nMic, J.mi, J.mb), par("Consumo", m.con, m.medCon, m.nCon, J.ci, J.cb)] });
     }
   });
   var dist = figura({
-    titulo: (m.puesto - 1) + " de las " + m.N + " cooperativas tienen menos mora que Jaspe",
+    titulo: "Jaspe ocupa el puesto " + m.puesto + " de " + m.N + " por morosidad",
     sub: "Morosidad total de cada cooperativa del segmento 4, ordenadas de menor a mayor, en %",
     lectura: "El eje se corta en " + m.tope + " %: " + m.sobreTope + " cooperativas lo superan y la más alta llega al " + num(m.maxMora, 0) +
       " %. Por esa cola se compara contra la mediana y no contra el promedio simple, que es " + pct(m.promedio, 1) + ".",
@@ -902,8 +905,8 @@ function secSimulador(m) {
   bIni.addEventListener("click", function () { desl.value = actual.toFixed(2); calcular(); });
   calcular();
   var caja = h("div", { class: "figura sim" }, [
-    h("h3", { text: "Para igualar la mediana, microcrédito tendría que bajar de " + pct(actual) + " a " + pct(m.micObjetivo) }),
-    h("p", { class: "figura-sub", text: "Mueva la morosidad de microcrédito y vea cómo responde la mora total. La cartera de consumo y los montos quedan fijos." }),
+    h("h3", { text: "Con microcrédito en " + pct(m.micObjetivo) + ", Jaspe igualaría la mediana del segmento" }),
+    h("p", { class: "figura-sub", text: "Hoy está en " + pct(actual) + ". Mueva la morosidad de microcrédito y vea cómo responde la mora total; la cartera de consumo y los montos quedan fijos." }),
     h("div", { class: "sim-cuerpo" }, [
       h("div", { class: "sim-control" }, [
         h("label", { for: "sim", text: "Morosidad de microcrédito simulada" }), desl,
@@ -926,11 +929,11 @@ function secSimulador(m) {
 /* ---------- Límites ---------- */
 function secLimites(m) {
   var puntos = [
-    "Por qué la morosidad está donde está no se puede responder desde afuera. Hace falta ver la mora por agencia, por oficial de crédito, por actividad económica y por fecha de otorgamiento, y esa información solo existe dentro de la cooperativa."
+    "Este informe describe lo que muestran los datos públicos. No evalúa decisiones de gestión, que dependen de información que solo existe dentro de la cooperativa.",
+    "Las causas de la morosidad se explican con información interna: mora por agencia, por oficial de crédito, por actividad económica y por fecha de otorgamiento."
   ];
   if (m.id === "sep") puntos.push(
-    "Los estados financieros públicos tampoco dicen qué parte de los castigos corresponde a cartera refinanciada, contra qué cuenta se cargó la provisión de " +
-    (m.cruceCob >= 0 ? MESES[m.cruceCob] : "este año") + " ni por qué faltan cooperativas en los últimos cortes. Quedan señaladas para que quien tenga los libros pueda cerrarlas.");
+    "Con información pública tampoco se puede saber qué parte de los castigos corresponde a cartera refinanciada ni por qué en los últimos cortes reportan menos cooperativas.");
   return seccion(m, "limites", [h("div", { class: "limites" }, puntos.map(function (t) { return h("p", { text: t }); }))]);
 }
 
@@ -946,12 +949,13 @@ function secFicha(m) {
     ["Universo", sep
       ? m.N + " cooperativas con cartera reportada en septiembre (" + m.nEnero + " en enero), Jaspe incluida. Con las " + m.nPanel +
         " presentes en los nueve cortes la mediana sería " + pct(m.medPanel) + " y la conclusión no cambia."
-      : m.N + " cooperativas con cartera reportada en junio, Jaspe incluida; " + m.enAmbos + " están en ambos cortes."],
+      : m.N + " cooperativas con cartera reportada en junio, Jaspe incluida; " + m.enAmbos + " están en ambos cortes. Según el boletín, el segmento tenía " +
+        m.enSegmento + " y " + (m.enSegmento - m.N) + " no habían enviado información."],
     ["Fórmula", "Morosidad = (cartera que no devenga intereses + cartera vencida) ÷ cartera bruta. Es la definición de la SEPS, aplicada igual a todas las entidades."],
     ["Referencia", "Mediana y no promedio, porque la distribución está sesgada: el decil superior supera el " + pct(m.p90, 0) + " y el máximo llega al " + pct(m.maxMora, 0) +
       ". Promedio simple: " + pct(m.promedio, 1) + ". Morosidad agregada del segmento: " + pct(m.agregada) + "."],
     ["Control por mezcla", "Las " + m.nMezcla + " cooperativas cuya proporción de microcrédito está a menos de 12,5 puntos de la de Jaspe tienen una mediana de " + pct(m.medMezcla) +
-      "; con 15 puntos de tolerancia, " + pct(m.medMezcla15) + ". La diferencia no se explica por colocar distinto."],
+      "; con 15 puntos de tolerancia, " + pct(m.medMezcla15) + ". La mezcla de productos no explica la diferencia con el segmento."],
     ["Por producto", "Cada mediana usa solo las cooperativas con cartera de ese tipo: " + m.nMic + " en microcrédito y " + m.nCon + " en consumo."],
     ["Proceso", "Datos cargados y limpiados en Power Query; cálculos replicados de forma independiente. Todas las cifras de este informe se calculan en el navegador a partir de los saldos por cooperativa (archivos en data/)."]
   ].filter(Boolean);
