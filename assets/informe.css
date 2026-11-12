@@ -1,0 +1,209 @@
+/* Informe técnico: morosidad de Jaspe Ltda. frente al segmento 4.
+   Hoja única para todas las vistas. Tipografía IBM Plex autoalojada (SIL OFL, ver fonts/OFL.txt). */
+
+@font-face{font-family:"IBM Plex Sans";font-weight:400;font-style:normal;font-display:swap;src:url("fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"IBM Plex Sans";font-weight:500;font-style:normal;font-display:swap;src:url("fonts/ibm-plex-sans-latin-500-normal.woff2") format("woff2")}
+@font-face{font-family:"IBM Plex Sans";font-weight:600;font-style:normal;font-display:swap;src:url("fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-weight:400;font-style:normal;font-display:swap;src:url("fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-weight:500;font-style:normal;font-display:swap;src:url("fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2")}
+
+:root{
+  color-scheme:light;
+  --plano:#f3f4f6;        /* fondo de página */
+  --papel:#ffffff;        /* superficie de figuras y tablas */
+  --tinta:#101828;        /* texto principal */
+  --tinta-2:#475467;      /* texto de apoyo */
+  --tinta-3:#667085;      /* ejes, notas, metadatos */
+  --regla:#e4e7ec;        /* líneas de rejilla y divisores */
+  --regla-2:#cfd4dc;      /* ejes y bordes de control */
+  --jaspe:#1d5fc4;        /* serie Jaspe */
+  --mediana:#8791a3;      /* serie de referencia: mediana del segmento */
+  --adverso:#b45309;      /* señal en contra */
+  --favorable:#067647;    /* señal a favor */
+  --tinte:#eef4fd;        /* selección y foco suave */
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --barra-alto:52px;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--barra-alto) + 16px)}
+body{margin:0;background:var(--plano);color:var(--tinta-2);font-family:var(--sans);font-size:16px;line-height:1.55}
+h1,h2,h3,p,figure,dl,dd,ol,ul{margin:0}
+ol,ul{padding:0;list-style:none}
+strong{font-weight:600;color:var(--tinta)}
+a{color:var(--jaspe)}
+:focus-visible{outline:2px solid var(--jaspe);outline-offset:2px;border-radius:2px}
+.solo-lector{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* ---------- barra de documento ---------- */
+.barra{
+  position:sticky;top:0;z-index:20;height:var(--barra-alto);
+  display:flex;align-items:center;gap:16px;padding:0 24px;
+  background:var(--papel);border-bottom:1px solid var(--regla-2);
+}
+.barra-doc{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--tinta);white-space:nowrap}
+.barra-titulo{font-size:14px;color:var(--tinta-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.barra-acciones{margin-left:auto;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.corte{display:flex;border:1px solid var(--regla-2);border-radius:4px;overflow:hidden}
+.corte button{
+  appearance:none;border:0;background:var(--papel);color:var(--tinta-2);
+  font:inherit;font-size:13px;padding:0 12px;height:32px;cursor:pointer;white-space:nowrap;
+}
+.corte button + button{border-left:1px solid var(--regla-2)}
+.corte button:hover{background:var(--plano)}
+.corte button[aria-pressed="true"]{background:var(--tinta);color:#fff;font-weight:500}
+.boton{
+  appearance:none;border:1px solid var(--regla-2);border-radius:4px;background:var(--papel);color:var(--tinta);
+  font:inherit;font-size:13px;height:32px;padding:0 12px;cursor:pointer;white-space:nowrap;
+}
+.boton:hover{background:var(--plano)}
+
+/* ---------- marco: índice + contenido ---------- */
+.marco{max-width:1360px;margin:0 auto;display:grid;grid-template-columns:216px minmax(0,1fr);gap:0 40px;padding:0 24px}
+.indice{position:sticky;top:var(--barra-alto);align-self:start;padding:28px 0;font-size:14px}
+.indice-titulo{font-size:13px;color:var(--tinta-3);margin-bottom:8px}
+.indice ol{border-left:2px solid var(--regla)}
+.indice li a,.indice li span{display:flex;align-items:baseline;gap:10px;padding:6px 10px;margin-left:-2px;border-left:2px solid transparent;color:var(--tinta-2);text-decoration:none}
+.indice li a:hover{color:var(--tinta);border-left-color:var(--regla-2)}
+.indice li a[aria-current="true"]{color:var(--tinta);font-weight:500;border-left-color:var(--tinta)}
+.indice li span{color:#98a2b3}
+.indice .num{font-family:var(--mono);font-size:13px;width:14px;flex-shrink:0}
+main{min-width:0;max-width:1080px;padding:28px 0 72px}
+
+/* ---------- portada: título + cajetín ---------- */
+.portada{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:32px;align-items:start}
+h1{font-size:34px;line-height:1.15;font-weight:600;letter-spacing:-0.015em;color:var(--tinta);max-width:17em}
+.lede{margin-top:16px;font-size:18px;line-height:1.5;color:var(--tinta-2);max-width:34em}
+.lede b{font-weight:600;color:var(--tinta)}
+
+/* Cajetín: bloque de identificación del documento, como en un plano. */
+.cajetin{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--tinta);background:var(--papel);font-size:13px}
+.cajetin div{padding:7px 10px 8px;border-top:1px solid var(--regla-2)}
+.cajetin div:nth-child(-n+2){border-top:0}
+.cajetin div:nth-child(odd){border-right:1px solid var(--regla-2)}
+.cajetin .ancho{grid-column:1 / -1;border-right:0}
+.cajetin .ancho + div{border-right:1px solid var(--regla-2)}
+.cajetin dt{font-size:12px;color:var(--tinta-3);line-height:1.3}
+.cajetin dd{color:var(--tinta);line-height:1.35;margin-top:1px}
+.cajetin dd.cod{font-family:var(--mono);font-weight:500}
+
+/* ---------- indicadores ---------- */
+.indicadores{margin-top:24px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--regla-2);background:var(--papel)}
+.ind{padding:16px 18px 14px;border-left:1px solid var(--regla);display:flex;flex-direction:column;min-width:0}
+.ind:first-child{border-left:0}
+.ind-rotulo{font-size:13px;color:var(--tinta-2)}
+.ind-valor{font-size:32px;line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:var(--tinta);margin-top:4px;white-space:nowrap}
+.ind-valor small{font-size:16px;font-weight:500;letter-spacing:0;color:var(--tinta-2)}
+.ind-nota{font-size:13px;color:var(--tinta-3);line-height:1.4;margin-top:4px}
+.ind-graf{margin-top:auto;padding-top:12px}
+.ind-graf svg{display:block}
+.pista{position:relative;height:6px;background:var(--regla);border-radius:3px;margin:9px 0 5px}
+.pista i{position:absolute;top:-4px;width:4px;height:14px;margin-left:-2px;background:var(--jaspe);border-radius:2px;box-shadow:0 0 0 2px var(--papel)}
+.pista b{position:absolute;top:-2px;left:50%;width:1px;height:10px;background:var(--tinta-3)}
+.pista-ejes{display:flex;justify-content:space-between;font-size:12px;color:var(--tinta-3);line-height:1.2}
+
+.auditoria{margin-top:12px;font-size:14px}
+.auditoria summary{cursor:pointer;color:var(--tinta-2);width:fit-content;padding:4px 0}
+.auditoria summary:hover{color:var(--tinta)}
+.auditoria-cuerpo{margin-top:8px;padding:14px 18px;background:var(--papel);border:1px solid var(--regla-2);max-width:560px}
+.auditoria dl{display:grid;grid-template-columns:1fr auto;gap:4px 24px}
+.auditoria dd{text-align:right;font-family:var(--mono);font-size:13px;color:var(--tinta)}
+.auditoria .total{border-top:1px solid var(--regla-2);padding-top:6px;margin-top:2px;font-weight:500;color:var(--tinta)}
+.formula{margin-top:10px;font-family:var(--mono);font-size:13px;color:var(--tinta)}
+
+/* ---------- secciones ---------- */
+.seccion{margin-top:36px}
+.seccion-cab{display:flex;align-items:baseline;gap:12px;padding-bottom:10px;border-bottom:1px solid var(--tinta);margin-bottom:20px}
+.seccion-cab .num{font-family:var(--mono);font-size:15px;font-weight:500;color:var(--tinta)}
+h2{font-size:20px;line-height:1.3;font-weight:600;color:var(--tinta)}
+.dos-col{display:grid;grid-template-columns:minmax(0,8fr) minmax(0,4fr);gap:24px;align-items:start}
+
+/* ---------- figuras ---------- */
+.figura{background:var(--papel);border:1px solid var(--regla-2);padding:18px 20px 14px;min-width:0}
+.figura h3{font-size:16px;line-height:1.35;font-weight:600;color:var(--tinta)}
+.figura-sub{font-size:13px;color:var(--tinta-3);margin-top:2px}
+.figura-sub .ref{font-weight:500;color:var(--tinta-2)}
+.leyenda{display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:12px;font-size:13px;color:var(--tinta-2)}
+.leyenda span{display:inline-flex;align-items:center;gap:7px}
+.leyenda i{width:16px;height:0;border-top:2px solid}
+.lienzo{position:relative;margin-top:8px}
+.lienzo svg{display:block;width:100%;overflow:visible;touch-action:pan-y;outline-offset:4px}
+.lienzo text{font-family:var(--sans);font-size:12px;fill:var(--tinta-3)}
+.lienzo text.eje{font-variant-numeric:tabular-nums}
+.lienzo text.fin{font-size:13px;fill:var(--tinta-2)}
+.lienzo text.fin.fuerte{fill:var(--tinta);font-weight:600}
+.lienzo text.marca{fill:var(--tinta-2)}
+.pista-lectura{
+  position:absolute;top:0;left:0;z-index:5;pointer-events:none;min-width:168px;
+  background:var(--papel);border:1px solid var(--regla-2);box-shadow:0 2px 8px rgba(16,24,40,.10);
+  padding:8px 10px;font-size:13px;line-height:1.45;
+}
+.pista-lectura[hidden]{display:none}
+.pista-lectura .t{color:var(--tinta-3);font-size:12px;margin-bottom:2px}
+.pista-lectura .f{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.pista-lectura .f i{width:12px;height:0;border-top:2px solid;flex-shrink:0}
+.pista-lectura .f b{font-weight:600;color:var(--tinta);font-variant-numeric:tabular-nums;margin-left:auto;padding-left:14px}
+.pista-lectura .x{color:var(--tinta-3);font-size:12px;margin-top:3px;white-space:nowrap}
+.figura-pie{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 24px;margin-top:10px;padding-top:10px;border-top:1px solid var(--regla);font-size:12.5px;color:var(--tinta-3);line-height:1.45}
+.figura-pie p{max-width:62ch}
+.datos{font-size:13px}
+.datos summary{cursor:pointer;color:var(--tinta-2);white-space:nowrap}
+.datos summary:hover{color:var(--tinta)}
+.datos[open]{flex-basis:100%}
+.tabla{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
+.tabla th,.tabla td{padding:5px 10px;text-align:right;border-bottom:1px solid var(--regla);font-variant-numeric:tabular-nums}
+.tabla th{font-weight:500;color:var(--tinta-2);border-bottom-color:var(--regla-2)}
+.tabla th:first-child,.tabla td:first-child{text-align:left}
+.tabla td{color:var(--tinta)}
+.tabla td:first-child{color:var(--tinta-2)}
+
+/* ---------- hallazgos ---------- */
+.hallazgos{display:flex;flex-direction:column}
+.hallazgos li{padding:14px 0 14px;border-top:1px solid var(--regla-2)}
+.hallazgos li:first-child{border-top:0;padding-top:2px}
+.hallazgos h3{font-size:16px;line-height:1.35;font-weight:600;color:var(--tinta)}
+.hallazgos p{font-size:14px;line-height:1.5;margin-top:4px}
+.hallazgos .ir{display:inline-block;margin-top:6px;font-size:13px}
+
+.pendiente{margin-top:48px;padding:14px 18px;border:1px dashed var(--regla-2);font-size:14px;color:var(--tinta-3)}
+noscript p{margin:16px 24px;padding:14px 18px;background:var(--papel);border:1px solid var(--regla-2);font-size:15px}
+
+/* ---------- pantallas medianas ---------- */
+@media (max-width:1100px){
+  .marco{grid-template-columns:minmax(0,1fr)}
+  .indice{display:none}
+  main{max-width:none}
+  .dos-col{grid-template-columns:minmax(0,1fr)}
+  .hallazgos{flex-direction:row;gap:24px;border-top:1px solid var(--regla-2);padding-top:14px}
+  .hallazgos li{flex:1;border-top:0;padding:0}
+  .hallazgos li:first-child{padding-top:0}
+}
+@media (max-width:820px){
+  .portada{grid-template-columns:minmax(0,1fr);gap:20px}
+  .cajetin{max-width:560px}
+  .indicadores{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ind:nth-child(3){border-left:0}
+  .ind:nth-child(n+3){border-top:1px solid var(--regla)}
+  .hallazgos{flex-direction:column;gap:0;padding-top:0;border-top:0}
+  .hallazgos li{border-top:1px solid var(--regla-2);padding:14px 0}
+  .hallazgos li:first-child{border-top:0;padding-top:0}
+}
+/* ---------- móvil ---------- */
+@media (max-width:640px){
+  .barra{padding:0 14px;gap:10px}
+  .barra-titulo,.barra .boton{display:none}
+  .marco{padding:0 14px}
+  main{padding:22px 0 56px}
+  h1{font-size:26px}
+  .lede{font-size:16.5px;margin-top:12px}
+  .indicadores{margin-top:24px}
+  .ind{padding:13px 14px 12px}
+  .ind-valor{font-size:26px}
+  .ind-valor small{font-size:14px}
+  .seccion{margin-top:36px}
+  .figura{padding:14px 14px 12px;margin:0 -14px;border-left:0;border-right:0}
+}
+@media (prefers-reduced-motion:no-preference){
+  html{scroll-behavior:smooth}
+}
