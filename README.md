@@ -1,6 +1,6 @@
 # Morosidad de Jaspe Ltda. frente al segmento 4
 
-Informe técnico (INF-SEPS-01, revisión 2) con datos públicos de la Superintendencia de Economía
+Análisis interactivo (INF-SEPS-01, revisión 3) con datos públicos de la Superintendencia de Economía
 Popular y Solidaria del Ecuador. Elaborado por Jhoann Gonza.
 
 Publicado en https://jhoanngonza151.github.io/analisis-seps/
@@ -12,7 +12,7 @@ Publicado en https://jhoanngonza151.github.io/analisis-seps/
 | `index.html` | Documento. Solo estructura; el contenido se genera desde los datos. |
 | `assets/informe.js` | Modelo de cálculo, componentes de gráfico y secciones. |
 | `assets/informe.css` | Estilos de pantalla e impresión (A4). |
-| `assets/fonts/` | IBM Plex Sans y Mono (SIL Open Font License). |
+| `assets/fonts/` | Bricolage Grotesque e IBM Plex (SIL Open Font License; licencias en la misma carpeta). |
 | `data/sep-2026.js` | Corte de septiembre: saldos por cooperativa, serie mensual y saldos de Jaspe. |
 | `data/jun-2026.js` | Corte de junio: saldos por cooperativa del boletín trimestral. |
 | `septiembre/` | Redirección al informe (dirección anterior). |

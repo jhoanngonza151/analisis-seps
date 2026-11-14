@@ -1,12 +1,12 @@
-/* Informe técnico: morosidad de Jaspe Ltda. frente al segmento 4.
+/* Morosidad de Jaspe Ltda. frente al segmento 4.
    Todas las cifras del informe se calculan aquí a partir de data/*.js; ninguna está escrita a mano.
 
    Orden del archivo:
      1. utilidades (formato, estadística, DOM)
      2. modelo: lo que el informe muestra para cada corte
-     3. componentes de gráfico (líneas, columnas, distribución, barras horizontales)
-     4. vistas: portada, indicadores y secciones
-     5. corte activo, índice e impresión */
+     3. componentes de gráfico (líneas, columnas, distribución, tendencia)
+     4. vistas: portada y secciones
+     5. corte activo, navegación e impresión */
 (function () {
 "use strict";
 
@@ -14,8 +14,8 @@ var SEPS = window.SEPS;
 var MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre"];
 var MES3 = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep"];
 var COLOR = {
-  jaspe: "#1d5fc4", jaspeClaro: "#7fa8e3", mediana: "#8791a3", adverso: "#b45309",
-  suave: "#c3cad6", barra: "#cfd6e0", regla: "#e4e7ec", eje: "#cfd4dc", tinta3: "#667085", papel: "#ffffff"
+  jaspe: "#3b5bff", jaspeMedio: "#6f86ff", jaspeClaro: "#9fb0ff", mediana: "#8b90a7", atencion: "#e8590c", favorable: "#0ca678",
+  suave: "#c9cee3", barra: "#d5d9ea", regla: "#e7e9f3", eje: "#d2d6e6", tinta: "#14162e", tinta3: "#6b7090", papel: "#ffffff"
 };
 var SVGNS = "http://www.w3.org/2000/svg";
 
@@ -292,7 +292,7 @@ function graficoLineas(lienzo, cfg) {
     if (cfg.ref) {
       var ry = Math.round(y(cfg.ref.valor)) + 0.5;
       svg.appendChild(s("line", { x1: mg.l, y1: ry, x2: x1, y2: ry, stroke: COLOR.tinta3, "stroke-width": 1 }));
-      svg.appendChild(s("text", { x: mg.l + 6, y: ry - 6, class: "marca" }, cfg.ref.texto));
+      svg.appendChild(s("text", { x: mg.l + 6, y: ry - 6, class: "marca" }, ancho ? cfg.ref.texto : (cfg.ref.corto || cfg.ref.texto)));
     }
     cfg.etiquetas.forEach(function (e, i) {
       svg.appendChild(s("text", { x: x(i), y: H - 8, "text-anchor": "middle" }, n === 2 ? cfg.etiquetasLargas[i] + " 2026" : e));
@@ -302,7 +302,9 @@ function graficoLineas(lienzo, cfg) {
 
     cfg.series.forEach(function (se) {
       var d = se.valores.map(function (val, i) { return (i ? "L" : "M") + x(i).toFixed(1) + " " + y(val).toFixed(1); }).join(" ");
-      svg.appendChild(s("path", { d: d, fill: "none", stroke: se.color, "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+      var linea = s("path", { d: d, fill: "none", stroke: se.color, "stroke-width": se.enfasis ? 3 : 2, "stroke-linejoin": "round", "stroke-linecap": "round" });
+      svg.appendChild(linea);
+      if (cfg.animar && !lienzo._trazado) trazar(linea);
     });
     var fijo = function (k, j) { return j === n - 1 || n === 2 || (k === 0 && cfg.marcar === j); };
     var puntos = cfg.series.map(function (se, k) {
@@ -344,6 +346,7 @@ function graficoLineas(lienzo, cfg) {
     var previo = activo();
     activo = recorrer(svg, n, function (ev) { return Math.round((xEnSvg(svg, ev, W) - x0) / ((x1 - x0) / (n - 1))); }, mostrar);
     if (previo >= 0) mostrar(previo);
+    lienzo._trazado = true;
   });
 }
 
@@ -364,13 +367,13 @@ function graficoColumnas(lienzo, cfg) {
   alRedimensionar(lienzo, function () {
     var W = Math.max(260, Math.round(lienzo.clientWidth)), H = cfg.alto || 230;
     var mg = { t: 22, r: 8, b: 30, l: 54 };
-    var banda = (W - mg.l - mg.r) / n, bw = Math.min(24, banda * 0.62);
+    var banda = (W - mg.l - mg.r) / n, bw = Math.min(30, banda * 0.62);
     var y = function (v) { return mg.t + (hi - v) / hi * (H - mg.t - mg.b); };
     var base = y(0);
     vaciar(svg);
     svg.setAttribute("viewBox", "0 0 " + W + " " + H);
     svg.setAttribute("height", H);
-    var fondo = s("rect", { y: mg.t - 6, width: banda, height: base - mg.t + 6, fill: "#f3f4f6", visibility: "hidden" });
+    var fondo = s("rect", { y: mg.t - 6, width: banda, height: base - mg.t + 6, fill: "#eef0fa", rx: 8, visibility: "hidden" });
     svg.appendChild(fondo);
     for (var v = 0; v <= hi + 1e-9; v += paso) {
       var ty = Math.round(y(v)) + 0.5;
@@ -387,7 +390,7 @@ function graficoColumnas(lienzo, cfg) {
         var top = abajo - alto, color = cfg.colorDe ? cfg.colorDe(i, k) : p.color;
         if (alto - hueco > 0.5) {
           svg.appendChild(ultima
-            ? s("path", { d: barraArriba(cx - bw / 2, top, bw, alto - hueco, 4), fill: color })
+            ? s("path", { d: barraArriba(cx - bw / 2, top, bw, alto - hueco, 6), fill: color })
             : s("rect", { x: cx - bw / 2, y: top, width: bw, height: alto - hueco, fill: color }));
         }
         abajo = top;
@@ -411,117 +414,102 @@ function graficoColumnas(lienzo, cfg) {
   });
 }
 
-/* ---------- distribución: todas las cooperativas ordenadas ---------- */
-function graficoDistribucion(lienzo, m) {
+/* ---------- distribución: una barra por cooperativa, ordenadas ---------- */
+function graficoDistribucion(lienzo, cfg) {
   var svg = s("svg", { role: "img", tabindex: "0",
-    "aria-label": "Morosidad de las " + m.N + " cooperativas ordenadas de menor a mayor. Use las flechas para recorrerlas." });
+    "aria-label": cfg.nombre + " de " + cfg.items.length + " cooperativas ordenadas de menor a mayor. Usa las flechas para recorrerlas." });
   vaciar(lienzo); lienzo.appendChild(svg);
   var pista = crearPista(lienzo);
-  var orden = m.orden, n = orden.length, TOPE = m.tope, jIdx = m.puesto - 1;
+  var items = cfg.items, n = items.length, TOPE = cfg.tope, jIdx = cfg.jIdx;
 
   alRedimensionar(lienzo, function () {
-    var W = Math.max(260, Math.round(lienzo.clientWidth)), H = W >= 560 ? 270 : 230;
-    var mg = { t: 30, r: 8, b: 30, l: 40 };
-    var banda = (W - mg.l - mg.r) / n, bw = Math.max(banda - (banda > 3 ? 1 : 0.5), 0.8);
+    var W = Math.max(260, Math.round(lienzo.clientWidth)), H = W >= 560 ? 300 : 230;
+    var mg = { t: 34, r: 8, b: 30, l: 40 };
+    var banda = (W - mg.l - mg.r) / n, bw = Math.max(banda - (banda > 3 ? 1.5 : 0.5), 0.8);
     var y = function (v) { return mg.t + (TOPE - Math.min(v, TOPE)) / TOPE * (H - mg.t - mg.b); };
     var base = y(0);
     vaciar(svg);
     svg.setAttribute("viewBox", "0 0 " + W + " " + H);
     svg.setAttribute("height", H);
-    [0, 5, 10, 15, 20].forEach(function (v) {
+    for (var v = 0; v <= TOPE; v += 5) {
       var ty = Math.round(y(v)) + 0.5;
       svg.appendChild(s("line", { x1: mg.l, y1: ty, x2: W - mg.r, y2: ty, stroke: v === 0 ? COLOR.eje : COLOR.regla, "stroke-width": 1 }));
       svg.appendChild(s("text", { x: mg.l - 8, y: ty + 4, "text-anchor": "end", class: "eje" }, v === TOPE ? "≥ " + v : String(v)));
-    });
-    var barras = orden.map(function (r, i) {
-      var b = s("rect", { x: (mg.l + i * banda).toFixed(2), y: y(mora(r)), width: bw.toFixed(2), height: base - y(mora(r)), fill: r === m.J ? COLOR.jaspe : COLOR.barra });
+    }
+    var r = Math.min(3, bw / 2);
+    var barras = items.map(function (it, i) {
+      var alto = Math.max(base - y(it.v), 0.5);
+      var b = s("path", { d: barraArriba(+(mg.l + i * banda).toFixed(2), base - alto, +bw.toFixed(2), alto, r), fill: i === jIdx ? COLOR.jaspe : COLOR.barra });
       svg.appendChild(b);
       return b;
     });
-    var my = Math.round(y(m.med)) + 0.5;
-    svg.appendChild(s("line", { x1: mg.l, y1: my, x2: W - mg.r, y2: my, stroke: COLOR.tinta3, "stroke-width": 1 }));
-    svg.appendChild(s("text", { x: mg.l + 4, y: my - 6, class: "marca" }, "Mediana " + pct(m.med)));
-    svg.appendChild(s("text", { x: mg.l, y: H - 8 }, "menor mora"));
-    svg.appendChild(s("text", { x: W - mg.r, y: H - 8, "text-anchor": "end" }, "mayor mora"));
-    var jx = mg.l + jIdx * banda + bw / 2, jy = y(m.mora);
-    svg.appendChild(s("line", { x1: jx, y1: jy - 4, x2: jx, y2: jy - 16, stroke: COLOR.jaspe, "stroke-width": 1.5 }));
-    svg.appendChild(s("text", { x: jx, y: jy - 22, "text-anchor": "middle", class: "fin fuerte" }, "Jaspe " + pct(m.mora)));
+    var my = Math.round(y(cfg.med)) + 0.5;
+    svg.appendChild(s("line", { x1: mg.l, y1: my, x2: W - mg.r, y2: my, stroke: COLOR.tinta3, "stroke-width": 1, "stroke-dasharray": "4 3" }));
+    svg.appendChild(s("text", { x: mg.l + 4, y: my - 6, class: "marca" }, "Mediana " + pct(cfg.med)));
+    svg.appendChild(s("text", { x: mg.l, y: H - 8 }, "menor"));
+    svg.appendChild(s("text", { x: W - mg.r, y: H - 8, "text-anchor": "end" }, "mayor"));
+    var jx = mg.l + jIdx * banda + bw / 2, jy = y(items[jIdx].v);
+    svg.appendChild(s("line", { x1: jx, y1: jy - 4, x2: jx, y2: jy - 16, stroke: COLOR.jaspe, "stroke-width": 2, "stroke-linecap": "round" }));
+    var ancla = jx < mg.l + 60 ? "start" : jx > W - mg.r - 60 ? "end" : "middle";
+    svg.appendChild(s("text", { x: jx, y: jy - 22, "text-anchor": ancla, class: "fin fuerte" }, "Jaspe " + pct(items[jIdx].v)));
 
     var previo = -1;
     recorrer(svg, n, function (ev) { return Math.floor((xEnSvg(svg, ev, W) - mg.l) / banda); }, function (i) {
-      if (previo >= 0) barras[previo].setAttribute("fill", orden[previo] === m.J ? COLOR.jaspe : COLOR.barra);
+      if (previo >= 0) barras[previo].setAttribute("fill", previo === jIdx ? COLOR.jaspe : COLOR.barra);
       previo = i;
       if (i < 0) { pista.ocultar(); return; }
-      var r = orden[i];
-      if (r !== m.J) barras[i].setAttribute("fill", COLOR.tinta3);
-      pista.mostrar(mg.l + i * banda + bw, y(mora(r)), W, (r === m.J ? "Jaspe Ltda" : r.n),
-        [{ nombre: "Mora total", valor: pct(mora(r)) }, { nombre: "Puesto", valor: (i + 1) + " de " + n }], "Cartera bruta " + usd(r.b));
+      if (i !== jIdx) barras[i].setAttribute("fill", COLOR.tinta);
+      pista.mostrar(mg.l + i * banda + bw, y(items[i].v), W, i === jIdx ? "Jaspe Ltda" : items[i].r.n,
+        [{ nombre: cfg.nombre, valor: pct(items[i].v) }, { nombre: "Puesto", valor: (i + 1) + " de " + n }], "Cartera bruta " + usd(items[i].r.b));
     });
   });
 }
 
-/* ---------- barras horizontales (HTML): cascada y comparación por producto ---------- */
-function barrasH(host, cfg) {
-  vaciar(host);
-  var caja = h("div", { class: "bh" });
-  if (cfg.rotulo) caja.style.setProperty("--rot", cfg.rotulo + "px");
-  host.appendChild(caja);
-  var pista = crearPista(host);
-  var pos = function (v) { return (v / cfg.max * 100).toFixed(3) + "%"; };
-  var rejilla = "repeating-linear-gradient(to right," + COLOR.regla + " 0 1px,transparent 1px " + (cfg.paso / cfg.max * 100).toFixed(4) + "%)";
-  cfg.filas.forEach(function (f) {
-    var lineas = f.barras.map(function (b) {
-      var izq = Math.min(b.desde, b.hasta), der = Math.max(b.desde, b.hasta);
-      var barra = h("span", { class: "bh-barra" + (b.desde > b.hasta ? " baja" : ""), tabindex: "0", role: "img", "aria-label": b.nombre + ": " + b.texto });
-      barra.style.left = pos(izq); barra.style.width = pos(der - izq); barra.style.background = b.color;
-      var val = h("span", { class: "bh-val" + (b.fuerte ? " fuerte" : ""), text: b.texto });
-      val.style.left = pos(der);
-      var linea = h("div", { class: "bh-linea" }, [barra, val]);
-      var ver = function () {
-        var c = caja.getBoundingClientRect(), r = barra.getBoundingClientRect();
-        pista.mostrar(r.left - c.left + Math.min(r.width, 60), r.bottom - c.top + 44, host.clientWidth, b.nombre,
-          [{ nombre: b.rotuloValor || "Valor", color: b.color, caja: true, valor: b.texto }], b.extra);
-      };
-      barra.addEventListener("pointerenter", ver); barra.addEventListener("focus", ver);
-      barra.addEventListener("pointerleave", pista.ocultar); barra.addEventListener("blur", pista.ocultar);
-      return linea;
-    });
-    var zona = h("div", { class: "bh-zona" }, lineas);
-    zona.style.backgroundImage = rejilla;
-    caja.appendChild(h("div", { class: "bh-fila" }, [h("div", { class: "bh-rot", text: f.rotulo }), h("div", { class: "bh-pista" }, [zona])]));
-  });
-  var eje = h("div", { class: "bh-zona bh-eje" });
-  for (var v = 0; v <= cfg.max + 1e-9; v += cfg.paso) {
-    var t = h("span", { text: num(v, 0) }); t.style.left = pos(v); eje.appendChild(t);
-  }
-  caja.appendChild(h("div", { class: "bh-fila eje" }, [h("div", { class: "bh-rot" }), h("div", { class: "bh-pista" }, [eje])]));
-}
-
-/* Minigráfico de tendencia para los indicadores: una línea tenue y el último punto destacado. */
-function tendencia(valores, ref) {
-  var W = 132, H = 30, p = 5;
-  var todos = ref === undefined ? valores : valores.concat([ref]);
+/* ---------- minigráfico de tendencia ---------- */
+function tendencia(valores, o) {
+  o = o || {};
+  var W = o.w || 96, H = o.h || 30, p = 5;
+  var todos = o.ref === undefined ? valores : valores.concat([o.ref]);
   var lo = Math.min.apply(null, todos), hi = Math.max.apply(null, todos);
   var x = function (i) { return p + i * (W - 2 * p) / (valores.length - 1); };
   var y = function (v) { return p + (hi - v) / (hi - lo || 1) * (H - 2 * p); };
   var svg = s("svg", { width: W, height: H, viewBox: "0 0 " + W + " " + H, "aria-hidden": "true", overflow: "visible" });
-  if (ref !== undefined) {
-    svg.appendChild(s("line", { x1: 0, y1: y(ref), x2: W, y2: y(ref), stroke: COLOR.eje, "stroke-width": 1 }));
-    svg.appendChild(s("text", { x: W + 6, y: y(ref) + 4, "font-size": 12, fill: COLOR.tinta3 }, num(ref, 0) + " %"));
-  }
+  if (o.ref !== undefined) svg.appendChild(s("line", { x1: 0, y1: y(o.ref), x2: W, y2: y(o.ref), stroke: COLOR.eje, "stroke-width": 1, "stroke-dasharray": "3 3" }));
   svg.appendChild(s("path", {
     d: valores.map(function (v, i) { return (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1); }).join(" "),
-    fill: "none", stroke: COLOR.mediana, "stroke-width": 1.5, "stroke-linejoin": "round", "stroke-linecap": "round"
+    fill: "none", stroke: o.color || COLOR.mediana, "stroke-width": o.grosor || 2, "stroke-linejoin": "round", "stroke-linecap": "round"
   }));
   var u = valores.length - 1;
-  svg.appendChild(s("circle", { cx: x(u), cy: y(valores[u]), r: 3.5, fill: COLOR.jaspe, stroke: COLOR.papel, "stroke-width": 1.5 }));
+  svg.appendChild(s("circle", { cx: x(u), cy: y(valores[u]), r: (o.grosor || 2) + 2, fill: o.punto || COLOR.jaspe, stroke: o.fondo || COLOR.papel, "stroke-width": 2 }));
   return svg;
+}
+
+/* ---------- movimiento: solo al cargar, y solo si el lector no pidió reducirlo ---------- */
+var QUIETO = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function trazar(linea) {
+  if (QUIETO || !linea.getTotalLength || !linea.animate) return;
+  var L = linea.getTotalLength();
+  linea.style.strokeDasharray = L;
+  var a = linea.animate([{ strokeDashoffset: L }, { strokeDashoffset: 0 }], { duration: 1100, easing: "cubic-bezier(.3,.6,.2,1)" });
+  a.onfinish = function () { linea.style.strokeDasharray = ""; };
+}
+function contar(nodo, valor, texto) {
+  if (QUIETO || !window.requestAnimationFrame) { nodo.textContent = texto(valor); return; }
+  var t0 = null, dur = 900;
+  nodo.textContent = texto(0);
+  function paso(t) {
+    if (t0 === null) t0 = t;
+    var k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+    nodo.textContent = texto(k < 1 ? valor * e : valor);
+    if (k < 1) requestAnimationFrame(paso);
+  }
+  requestAnimationFrame(paso);
 }
 
 /* ====================================================================
    4. Vistas
    ==================================================================== */
-var contador, pendientes;        // numeración de figuras y tablas; gráficos por dibujar una vez montado el DOM
+var pendientes;        // gráficos por dibujar una vez montado el DOM (necesitan el ancho real)
 
 function tabla(cab, filas, clase) {
   var t = h("table", { class: "tabla" + (clase ? " " + clase : "") });
@@ -538,302 +526,344 @@ function leyenda(items) {
     return h("span", {}, [i, l[0]]);
   }));
 }
-/* Figura: título que enuncia el hallazgo, referencia numerada, gráfico, una frase de lectura,
-   matices plegados y tabla con los mismos datos. */
+function plegado(titulo, hijos, clase) {
+  return h("details", { class: "plegado" + (clase ? " " + clase : "") }, [h("summary", { class: "enlace", text: titulo })].concat(hijos));
+}
+function grande(valor, unidad, clase) {
+  return h("p", { class: clase || "grande" }, [valor, unidad ? h("small", { text: unidad }) : null]);
+}
+/* Figura: título que enuncia el hallazgo, gráfico y una frase de lectura.
+   El contexto y la tabla con los mismos datos quedan plegados. */
 function figura(o) {
-  var n = ++contador.fig;
   var lienzo = h("div", { class: "lienzo" });
-  var fig = h("figure", { class: "figura" + (o.clase ? " " + o.clase : "") }, [
-    o.signo ? h("p", { class: "etiqueta " + (o.signo > 0 ? "favor" : "contra"), text: o.signo > 0 ? "Favorable" : "Para seguimiento" }) : null,
+  var fig = h("figure", { class: "carta figura" + (o.clase ? " " + o.clase : "") }, [
+    o.signo ? h("p", { class: "etiqueta " + (o.signo > 0 ? "favor" : "contra"), text: o.signo > 0 ? "Favorable" : "Para seguimiento", style: "margin-bottom:10px" }) : null,
     h("h3", { text: o.titulo }),
-    h("p", { class: "figura-sub" }, [h("span", { class: "ref", text: "Figura " + n + "." }), " " + o.sub]),
+    o.sub ? h("p", { class: "figura-sub", text: o.sub }) : null,
     o.leyenda ? leyenda(o.leyenda) : null,
     lienzo,
     o.lectura ? h("p", { class: "lectura", text: o.lectura }) : null,
-    o.detalle ? h("details", { class: "detalle" }, [h("summary", { text: "Matices" })].concat(o.detalle.map(function (t) { return h("p", { text: t }); }))) : null,
     h("div", { class: "figura-pie" }, [
       h("p", { text: "Fuente: " + o.fuente }),
-      o.datos ? h("details", { class: "datos" }, [h("summary", { text: "Ver datos de la figura" }), h("div", { class: "tabla-ancha" }, [tabla(o.datos[0], o.datos[1])])]) : null
+      o.detalle ? plegado("Más contexto", o.detalle.map(function (t) { return h("p", { text: t }); })) : null,
+      o.datos ? plegado(o.datosTitulo || "Ver datos", [h("div", { class: "tabla-ancha" }, [tabla(o.datos[0], o.datos[1])])], "datos") : null
     ])
   ]);
-  if (o.dibujar) pendientes.push(function () { o.dibujar(lienzo); });
+  fig._dibujar = function () { if (o.dibujar) o.dibujar(lienzo); };
   return fig;
 }
-function seccion(m, clave, hijos) {
-  var info = seccionesDe(m).filter(function (x) { return x.clave === clave; })[0];
-  return h("section", { class: "seccion", id: clave, "aria-labelledby": "h-" + clave }, [
-    h("div", { class: "seccion-cab" }, [h("span", { class: "num", text: info.num }), h("h2", { id: "h-" + clave, text: info.titulo })])
+function seccion(clave, titulo, bajada, hijos, clase) {
+  return h("section", { class: "seccion" + (clase ? " " + clase : ""), id: clave, "aria-labelledby": "h-" + clave }, [
+    titulo ? h("div", { class: "seccion-cab" }, [h("h2", { id: "h-" + clave, text: titulo }), bajada ? h("p", { text: bajada }) : null]) : null
   ].concat(hijos));
 }
 
 /* ---------- portada ---------- */
 function pintarPortada(m) {
-  var lede = vaciar($("lede"));
-  lede.appendChild(document.createTextNode("A " + m.mes + " de 2026 la mora total de Jaspe es "));
-  lede.appendChild(h("b", { text: pct(m.mora) }));
-  lede.appendChild(document.createTextNode(", " + num(m.brecha) + " puntos sobre la mediana de las " + m.N + " cooperativas del segmento 4. " +
-    (m.id === "sep"
-      ? "Bajó " + num(m.baja) + " puntos desde " + MESES[m.pico] + ": " + num(m.porCartera, 1) + " por el crecimiento de la cartera y " +
-        num(m.porImproductiva, 1) + " por la reducción de la cartera improductiva."
-      : "Bajó " + num(m.baja) + " puntos frente a marzo; la diferencia con el segmento se concentra en microcrédito.")));
-
-  var caj = vaciar($("cajetin"));
-  [["Documento", "INF-SEPS-01", "cod"], ["Revisión", "2", "cod"],
-   ["Entidad analizada", "Cooperativa Jaspe Ltda., segmento 4", "", true],
-   ["Corte", m.fecha], ["Universo", m.N + " cooperativas"],
-   ["Fuente", m.fuente, "", true],
-   ["Elaboró", "Jhoann Gonza"], ["Fecha", "Noviembre de 2026"]
-  ].forEach(function (c) {
-    caj.appendChild(h("div", c[3] ? { class: "ancho" } : {}, [h("dt", { text: c[0] }), h("dd", { class: c[2] || "", text: c[1] })]));
-  });
-}
-
-/* ---------- indicadores ---------- */
-function indicador(rotulo, valor, unidad, nota, grafico) {
-  return h("div", { class: "ind" }, [
-    h("p", { class: "ind-rotulo", text: rotulo }),
-    h("p", { class: "ind-valor" }, [valor, unidad ? h("small", { text: " " + unidad }) : null]),
-    h("p", { class: "ind-nota", text: nota }),
-    grafico ? h("div", { class: "ind-graf" }, [grafico]) : null
-  ]);
-}
-function pintarIndicadores(m) {
-  var caja = vaciar($("indicadores")), serie = m.id === "sep";
-  var marca = h("i"); marca.style.left = ((m.puesto - 1) / (m.N - 1) * 100).toFixed(1) + "%";
-  var pista = h("div", {}, [
-    h("div", { class: "pista" }, [h("b"), marca]),
-    h("div", { class: "pista-ejes" }, [h("span", { text: "menor mora" }), h("span", { text: "mayor" })])
-  ]);
-  caja.appendChild(indicador("Mora total", num(m.mora), "%",
-    serie ? pct(m.serieJ[m.pico]) + " en " + MESES[m.pico] + ", el punto más alto del año" : pct(m.serieJ[0]) + " en marzo",
-    serie ? tendencia(m.serieJ) : null));
-  caja.appendChild(indicador("Brecha frente a la mediana", signo(m.brecha), "pp",
-    "Mediana del segmento 4: " + pct(m.med), serie ? tendencia(m.serieBrecha) : null));
-  caja.appendChild(indicador("Posición en el segmento", String(m.puesto), "de " + m.N,
-    "Ordenadas de menor a mayor mora; " + (m.N - m.puesto) + " tienen más", pista));
-  caja.appendChild(indicador("Cobertura de provisiones", m.cobertura === null ? "s/d" : num(m.cobertura, 1), m.cobertura === null ? "" : "%",
-    serie ? pct(m.serieCob[m.minCob], 1) + " en " + MESES[m.minCob] + ", el mínimo del año" : "Provisiones sobre cartera improductiva",
-    serie ? tendencia(m.serieCob, 100) : null));
-
-  var J = m.J, dl = vaciar($("auditoria"));
-  [["Cartera que no devenga intereses", J.nd], ["Cartera vencida", J.vn], ["Cartera improductiva", J.i, true], ["Cartera bruta total", J.b]]
-    .forEach(function (f) {
-      dl.appendChild(h("dt", { class: f[2] ? "total" : "", text: f[0] }));
-      dl.appendChild(h("dd", { class: f[2] ? "total" : "", text: usd(f[1]) }));
-    });
-  $("formula").textContent = num(J.i, 0) + " ÷ " + num(J.b, 0) + " = " + pct(m.mora);
-}
-
-/* ---------- Resumen ejecutivo ---------- */
-function secResumen(m) {
   var serie = m.id === "sep";
   var acorta = m.serieJ[m.pico] - m.serieMed[m.pico] > m.brecha;   // la distancia con la mediana es menor que al inicio
+  $("contexto").textContent = "Cooperativa Jaspe Ltda. Corte de " + m.mes + " de 2026";
+  $("titulo").textContent = acorta ? "La mora baja y se acerca al segmento" : "La mora baja y mantiene su distancia con el segmento";
+  var lede = vaciar($("lede"));
+  lede.appendChild(document.createTextNode("En " + m.mes + " es "));
+  lede.appendChild(h("b", { text: pct(m.mora) }));
+  lede.appendChild(document.createTextNode(": " + num(m.brecha) + " puntos sobre la mediana de las " + m.N + " cooperativas del segmento 4. En " +
+    MESES[serie ? m.pico : 2] + " era " + pct(m.serieJ[m.pico]) + "."));
+
+  var caja = vaciar($("indicadores"));
+  function kpi(rotulo, valor, texto, unidad, nota) {
+    var n = document.createTextNode("");
+    caja.appendChild(h("div", { class: "kpi" }, [h("p", { class: "kpi-rot", text: rotulo }),
+      h("p", { class: "kpi-val" }, [n, unidad ? h("small", { text: unidad }) : null]), nota]));
+    contar(n, valor, texto);
+  }
+  kpi("Mora total", m.mora, function (v) { return num(v); }, "%",
+    h("p", { class: "kpi-nota" }, [h("span", { class: "ok", text: "↓ " + num(m.baja) + " pts" }), " desde " + MESES[serie ? m.pico : 2]]));
+  kpi("Sobre la mediana", m.brecha, function (v) { return signo(v); }, "pp",
+    h("p", { class: "kpi-nota", text: "Mediana del segmento: " + pct(m.med) }));
+  var marca = h("i"); marca.style.left = ((m.puesto - 1) / (m.N - 1) * 100).toFixed(1) + "%";
+  kpi("Puesto por morosidad", m.puesto, function (v) { return String(Math.round(v)); }, "de " + m.N,
+    h("div", { class: "kpi-nota" }, [h("div", { class: "kpi-pista" }, [marca]), "De menor a mayor mora"]));
+  if (m.cobertura !== null) kpi("Cobertura de provisiones", m.cobertura, function (v) { return num(v, 1); }, "%",
+    h("p", { class: "kpi-nota", text: serie ? pct(m.serieCob[m.minCob], 1) + " en " + MESES[m.minCob] : "Provisiones sobre cartera improductiva" }));
+}
+
+/* ---------- Resumen ---------- */
+function secResumen(m) {
+  var serie = m.id === "sep";
   var fig = figura({
-    titulo: (serie ? "La mora de Jaspe baja desde " + MESES[m.pico] : "La mora de Jaspe bajó en el trimestre") +
-      (acorta ? " y acorta su distancia con la mediana" : " y mantiene su distancia con la mediana"),
-    sub: serie ? "Morosidad total mensual, enero a septiembre de 2026, en % de la cartera bruta"
-               : "Morosidad total, marzo y junio de 2026, en % de la cartera bruta",
-    leyenda: [["Jaspe", COLOR.jaspe], ["Mediana del segmento 4", COLOR.mediana]],
-    fuente: m.fuenteCorta + ". " + (serie ? "La mediana se calcula cada mes sobre las cooperativas que reportan ese mes."
+    titulo: serie ? "Mora total, mes a mes" : "Mora total, marzo y junio",
+    sub: "En % de la cartera bruta. Jaspe frente a la mediana del segmento 4.",
+    leyenda: [["Jaspe", COLOR.jaspe], ["Mediana del segmento", COLOR.mediana]],
+    fuente: m.fuenteCorta + ". " + (serie ? "Mediana de las cooperativas que reportan cada mes."
                                           : "Mediana de marzo sobre las " + m.enAmbos + " cooperativas presentes en ambos cortes."),
-    datos: [["Mes", "Jaspe", "Mediana", "Brecha", "Improductiva", "Cartera bruta"], m.etiquetasLargas.map(function (mes, i) {
+    datos: [["Mes", "Jaspe", "Mediana", "Diferencia", "Improductiva", "Cartera bruta"], m.etiquetasLargas.map(function (mes, i) {
       return [cap(mes), pct(m.serieJ[i]), pct(m.serieMed[i]), signo(m.serieJ[i] - m.serieMed[i]) + " pp", usd(m.saldos[i].i), usd(m.saldos[i].b)];
     })],
     dibujar: function (lienzo) {
       graficoLineas(lienzo, {
-        descripcion: "Morosidad total de Jaspe y mediana del segmento 4. Use las flechas para recorrer los meses.",
-        etiquetas: m.etiquetas, etiquetasLargas: m.etiquetasLargas, paso: 2,
+        descripcion: "Morosidad total de Jaspe y mediana del segmento 4. Usa las flechas para recorrer los meses.",
+        etiquetas: m.etiquetas, etiquetasLargas: m.etiquetasLargas, paso: 2, animar: true,
         series: [
           { nombre: "Jaspe", corto: "Jaspe", color: COLOR.jaspe, valores: m.serieJ, enfasis: true },
           { nombre: "Mediana del segmento", corto: "Mediana", color: COLOR.mediana, valores: m.serieMed }
         ],
-        marcar: serie ? m.pico : undefined, marcarTexto: "Pico: ",
+        marcar: serie ? m.pico : undefined,
         extra: function (i) { return usd(m.saldos[i].i) + " improductivos de " + usd(m.saldos[i].b); }
       });
     }
   });
+  pendientes.push(fig._dibujar);
 
-  var brechaMic = ["La diferencia con el segmento se concentra en microcrédito",
-    pct(m.mic) + " frente a una mediana de " + pct(m.medMic) + ". Consumo está en línea: " + pct(m.con) + " frente a " + pct(m.medCon) + ".", "pares"];
-  var items = serie ? [
-    ["La mora bajó " + num(m.baja) + " puntos desde " + MESES[m.pico],
-     "De " + pct(m.serieJ[m.pico]) + " a " + pct(m.mora) + ". En el mismo lapso la mediana del segmento bajó " + num(m.bajaMed) + " puntos."],
-    ["La baja combina crecimiento de la cartera y menor cartera improductiva",
-     num(m.porCartera, 1) + " puntos se explican porque la cartera creció " + num(m.crecCartera, 1) + " %; " + num(m.porImproductiva, 1) +
-     " porque la cartera improductiva bajó " + usd(m.bajaImpUsd) + ".", "origen"],
-    brechaMic
+  function partes(lista) {
+    return h("div", { class: "partes" }, lista.map(function (p) {
+      var e = h("span", { text: p[0] }); e.style.flex = p[1] + " 1 0"; e.style.background = p[2]; e.style.color = p[3] || COLOR.tinta;
+      return e;
+    }));
+  }
+  function duo(a, b, max) {
+    var fila = function (rot, v, color) {
+      var i = h("i"); i.style.width = (v / max * 58).toFixed(1) + "%"; i.style.background = color;
+      return h("div", {}, [i, h("b", { text: pct(v) }), rot]);
+    };
+    return h("div", { class: "duo" }, [fila("Jaspe", a, COLOR.jaspe), fila("Mediana", b, COLOR.mediana)]);
+  }
+  var micro = [duo(m.mic, m.medMic, Math.max(m.mic, m.medMic)), "La diferencia se concentra en microcrédito",
+    pct(m.mic) + " frente a " + pct(m.medMic) + " de mediana. Consumo está en línea con el segmento.", "pares", "Comparar con el segmento"];
+  var ideas = serie ? [
+    [tendencia(m.serieJ, { w: 200, h: 60, color: COLOR.jaspe, grosor: 3 }), "Bajó " + num(m.baja) + " puntos desde " + MESES[m.pico],
+     "De " + pct(m.serieJ[m.pico]) + " a " + pct(m.mora) + ". La mediana del segmento bajó " + num(m.bajaMed) + " en el mismo periodo."],
+    [partes([[num(m.porCartera, 1), m.porCartera, COLOR.jaspeMedio], [num(m.porImproductiva, 1), m.porImproductiva, COLOR.jaspeClaro]]),
+     "Dos motores: más cartera y menos improductiva",
+     num(m.porCartera, 1) + " puntos por el crecimiento de la cartera y " + num(m.porImproductiva, 1) + " por la reducción de la cartera improductiva.", "origen", "Ver el paso a paso"],
+    micro
   ] : [
-    ["La mora bajó " + num(m.baja) + " puntos en el trimestre",
-     "De " + pct(m.serieJ[0]) + " en marzo a " + pct(m.mora) + " en junio. " + m.mejoraron + " de las " + m.enAmbos +
-     " cooperativas presentes en ambos cortes también la redujeron; la variación mediana fue de " + signo(m.varMediana) + " puntos."],
-    brechaMic,
-    ["Con microcrédito en " + pct(m.micObjetivo) + ", Jaspe igualaría la mediana",
-     "Hoy está en " + pct(m.mic) + ". El cálculo mantiene fijos la cartera de consumo y los montos.", "simulador"]
+    [tendencia(m.serieJ, { w: 200, h: 60, color: COLOR.jaspe, grosor: 3 }), "Bajó " + num(m.baja) + " puntos en el trimestre",
+     "De " + pct(m.serieJ[0]) + " en marzo a " + pct(m.mora) + " en junio."],
+    [partes([[String(m.mejoraron), m.mejoraron, COLOR.jaspeClaro], [String(m.enAmbos - m.mejoraron), m.enAmbos - m.mejoraron, COLOR.regla]]),
+     m.mejoraron + " de " + m.enAmbos + " cooperativas también bajaron",
+     "La variación mediana del segmento fue de " + signo(m.varMediana) + " puntos."],
+    micro
   ];
-  var hall = h("ol", { class: "hallazgos", "aria-label": "Hallazgos principales" }, items.map(function (it) {
-    return h("li", {}, [h("h3", { text: it[0] }), h("p", { text: it[1] }),
-      it[2] ? h("a", { class: "ir", href: "#" + it[2], text: "Ver sección " + numeroDe(m, it[2]) }) : null]);
+  var cartas = h("div", { class: "ideas" }, ideas.map(function (it) {
+    var hijos = [h("div", { class: "idea-vis" }, [it[0]]), h("h3", { text: it[1] }), h("p", { text: it[2] }), it[3] ? h("span", { class: "ir", text: it[4] + " →" }) : null];
+    return it[3] ? h("a", { class: "carta idea", href: "#" + it[3] }, hijos) : h("div", { class: "carta idea" }, hijos);
   }));
-  return seccion(m, "resumen", [h("div", { class: "dos-col" }, [fig, hall])]);
+  return seccion("resumen", null, null, [fig, cartas], "primera");
 }
 
-/* ---------- Origen de la baja (solo septiembre) ---------- */
+/* ---------- La baja (solo septiembre): cascada que se explica barra por barra ---------- */
 function secOrigen(m) {
   var p = m.saldoPico, u = m.saldoUlt, mp = MESES[m.pico], mu = m.mes;
   var max = Math.ceil(m.serieJ[m.pico] / 2) * 2;
-  var fig = figura({
-    titulo: "De los " + num(m.baja) + " puntos de baja, " + num(m.porCartera, 1) + " vienen de que la cartera creció",
-    sub: "Descomposición de la variación de la mora total entre " + mp + " y " + mu + " de 2026, en puntos porcentuales",
-    fuente: m.fuenteCorta + ". El efecto de la improductiva se mide con la cartera de " + mp + "; el resto es el efecto del crecimiento.",
-    dibujar: function (lienzo) {
-      barrasH(lienzo, { max: max, paso: 2, filas: [
-        { rotulo: "Mora en " + mp, barras: [{ desde: 0, hasta: m.serieJ[m.pico], color: COLOR.jaspe, texto: pct(m.serieJ[m.pico]), fuerte: true,
-            nombre: "Mora total en " + mp, rotuloValor: "Mora total", extra: usd(p.i) + " improductivos de " + usd(p.b) }] },
-        { rotulo: "La cartera improductiva bajó", barras: [{ desde: m.serieJ[m.pico], hasta: m.conCarteraPico, color: COLOR.jaspeClaro, texto: "−" + num(m.porImproductiva, 1) + " pp",
-            nombre: "Efecto de la reducción de la improductiva", rotuloValor: "Aporte", extra: "La improductiva bajó " + usd(m.bajaImpUsd) }] },
-        { rotulo: "La cartera bruta creció", barras: [{ desde: m.conCarteraPico, hasta: m.mora, color: COLOR.adverso, texto: "−" + num(m.porCartera, 1) + " pp",
-            nombre: "Efecto del crecimiento de la cartera", rotuloValor: "Aporte", extra: "La cartera creció " + usd(u.b - p.b) }] },
-        { rotulo: "Mora en " + mu, barras: [{ desde: 0, hasta: m.mora, color: COLOR.jaspe, texto: pct(m.mora), fuerte: true,
-            nombre: "Mora total en " + mu, rotuloValor: "Mora total", extra: usd(u.i) + " improductivos de " + usd(u.b) }] }
-      ] });
-    }
+  var pasos = [
+    { rot: cap(mp), desde: 0, hasta: m.serieJ[m.pico], color: COLOR.jaspe, texto: pct(m.serieJ[m.pico]),
+      titulo: "Punto de partida: " + mp, valor: num(m.serieJ[m.pico]), unidad: "%",
+      p: usd(p.i) + " de cartera improductiva sobre " + usd(p.b) + " de cartera total." },
+    { rot: "Menos cartera improductiva", desde: m.serieJ[m.pico], hasta: m.conCarteraPico, color: COLOR.jaspeClaro, texto: "−" + num(m.porImproductiva, 1) + " pp",
+      titulo: "La cartera improductiva bajó", valor: "−" + num(m.porImproductiva, 1), unidad: "puntos",
+      p: "Se redujo " + usd(m.bajaImpUsd) + " (−" + num(m.bajaImpPct, 1) + " %)." },
+    { rot: "Más cartera total", desde: m.conCarteraPico, hasta: m.mora, color: COLOR.jaspeMedio, texto: "−" + num(m.porCartera, 1) + " pp",
+      titulo: "La cartera total creció", valor: "−" + num(m.porCartera, 1), unidad: "puntos",
+      p: "Creció " + usd(u.b - p.b) + " (+" + num(m.crecCartera, 1) + " %), sobre todo en consumo." },
+    { rot: cap(mu), desde: 0, hasta: m.mora, color: COLOR.jaspe, texto: pct(m.mora),
+      titulo: "Resultado: " + mu, valor: num(m.mora), unidad: "%",
+      p: usd(u.i) + " de cartera improductiva sobre " + usd(u.b) + " de cartera total." }
+  ];
+  var panel = h("div", { class: "carta detalle-paso", "aria-live": "polite" });
+  function explicar(i) {
+    var d = i < 0 ? { titulo: "La baja, paso a paso", valor: "−" + num(m.baja), unidad: "puntos",
+      p: "De " + pct(m.serieJ[m.pico]) + " en " + mp + " a " + pct(m.mora) + " en " + mu + "." } : pasos[i];
+    vaciar(panel);
+    panel.appendChild(h("h3", { text: d.titulo }));
+    panel.appendChild(grande(d.valor, d.unidad));
+    panel.appendChild(h("p", { text: d.p }));
+    panel.appendChild(h("p", { class: "ayuda", text: i < 0 ? "Elige una barra para ver sus cifras." : "Elige la misma barra para volver al resumen." }));
+  }
+  var caja = h("div", { class: "cascada" });
+  var pos = function (v) { return (v / max * 100).toFixed(3) + "%"; };
+  var botones = pasos.map(function (d, i) {
+    var izq = Math.min(d.desde, d.hasta), der = Math.max(d.desde, d.hasta);
+    var barra = h("span", { class: "paso-barra" + (d.desde > d.hasta ? " baja" : "") });
+    barra.style.left = pos(izq); barra.style.width = pos(der - izq); barra.style.background = d.color;
+    var val = h("span", { class: "paso-val", text: d.texto }); val.style.left = pos(der);
+    var b = h("button", { type: "button", class: "paso", "aria-pressed": "false" }, [h("span", { class: "paso-rot", text: d.rot }), h("span", { class: "paso-zona" }, [barra, val])]);
+    b.addEventListener("click", function () {
+      var ya = b.getAttribute("aria-pressed") === "true";
+      botones.forEach(function (x) { x.setAttribute("aria-pressed", "false"); });
+      if (!ya) b.setAttribute("aria-pressed", "true");
+      caja.classList.toggle("elegida", !ya);
+      explicar(ya ? -1 : i);
+    });
+    caja.appendChild(b);
+    return b;
   });
+  explicar(-1);
 
-  var nT = ++contador.tab;
   var fila = function (rot, a, b, clase) {
     return { clase: clase, celdas: [rot, num(a, 0), num(b, 0), signo(b - a, 0), signo((b / a - 1) * 100, 1) + " %"] };
   };
-  var lado = h("div", { class: "lado" }, [
-    h("p", { class: "tabla-titulo" }, [h("span", { class: "ref", text: "Tabla " + nT + "." }), " Saldos de Jaspe en USD, " + mp + " frente a " + mu + " de 2026"]),
-    h("div", { class: "tabla-ancha" }, [tabla(["", cap(mp), cap(mu), "Variación", "%"], [
-      fila("Cartera bruta", p.b, u.b), fila("Microcrédito", p.mb, u.mb, "sub"), fila("Consumo", p.cb, u.cb, "sub"),
-      fila("Cartera improductiva", p.i, u.i),
-      { clase: "total", celdas: ["Mora total", pct(m.serieJ[m.pico]), pct(m.mora), "−" + num(m.baja) + " pp", ""] }
-    ], "compacta")]),
-    h("ul", { class: "puntos" }, [
-      h("li", { text: "Con la cartera de " + mp + ", la mora de " + mu + " sería " + pct(m.conCarteraPico) + " en lugar de " + pct(m.mora) + "." }),
-      h("li", { text: "El crecimiento vino sobre todo de consumo, una cartera reciente cuya morosidad todavía no se puede evaluar." }),
-      h("li", { text: "En el último trimestre la cartera improductiva " + (m.varImpTrim > 0 ? "aumentó " : "bajó ") + usd(Math.abs(m.varImpTrim)) +
-        " y la cartera total creció " + num(m.crecTrim, 1) + " %. Con la cartera de " + MESES[m.mesTrim] + ", la mora sería " + pct(m.moraConCarteraTrim) + "." })
+  var fig = h("figure", { class: "carta figura" }, [
+    h("h3", { text: "De " + pct(m.serieJ[m.pico]) + " a " + pct(m.mora) + " en " + (m.ult - m.pico) + " meses" }),
+    h("p", { class: "figura-sub", text: "Descomposición de la variación de la mora total, en puntos porcentuales." }),
+    caja,
+    h("div", { class: "figura-pie" }, [
+      h("p", { text: "Fuente: " + m.fuenteCorta + ". El efecto de la improductiva se mide con la cartera de " + mp + "." }),
+      plegado("Ver saldos", [h("div", { class: "tabla-ancha" }, [tabla(["USD", cap(mp), cap(mu), "Variación", "%"], [
+        fila("Cartera bruta", p.b, u.b), fila("Microcrédito", p.mb, u.mb, "sub"), fila("Consumo", p.cb, u.cb, "sub"),
+        fila("Cartera improductiva", p.i, u.i),
+        { clase: "total", celdas: ["Mora total", pct(m.serieJ[m.pico]), pct(m.mora), "−" + num(m.baja) + " pp", ""] }
+      ])])], "datos")
     ])
   ]);
-  return seccion(m, "origen", [h("div", { class: "dos-col mitad" }, [fig, lado])]);
+  var datos = h("div", { class: "datos-clave" }, [
+    h("div", { class: "carta dato" }, [h("b", { text: pct(m.conCarteraPico) }),
+      h("p", { text: "sería la mora de " + mu + " con la cartera de " + mp + ", en lugar de " + pct(m.mora) + "." })]),
+    h("div", { class: "carta dato" }, [h("b", { text: signo(m.varImpTrim, 0) + " USD" }),
+      h("p", { text: "varió la cartera improductiva en el último trimestre; la cartera total creció " + num(m.crecTrim, 1) + " %." })])
+  ]);
+  return seccion("origen", "¿Por qué bajó la mora?",
+    "La mora es la cartera improductiva dividida para la cartera total. Bajó por los dos lados.", [h("div", { class: "dos" }, [fig, panel]), datos]);
 }
 
-/* ---------- Señales de la cartera (solo septiembre) ---------- */
+/* ---------- Señales (solo septiembre): cuatro tarjetas y un detalle ---------- */
 function secSenales(m) {
   var E = m.etiquetas, EL = m.etiquetasLargas, u = m.ult, fuente = m.fuenteCorta + ", saldos de Jaspe.";
   var porMes = function (cab, cols) { return [["Mes"].concat(cab), EL.map(function (mes, i) { return [cap(mes)].concat(cols.map(function (c) { return usd(c[i]); })); })]; };
   var saltos = lista(m.mesesSalto);
+  var pesoVencida = m.saldos.map(function (x) { return x.vn / x.i * 100; });
 
-  var castigos = figura({
-    signo: -1,
-    titulo: "Los activos castigados aumentaron " + usd(m.subeCastigos) + " desde enero",
-    sub: "Saldo de activos castigados, en miles de USD",
-    lectura: "El aumento se concentró en " + saltos + ". En el mismo periodo la cartera improductiva bajó " + usd(m.bajaImpDesdeEnero) + ".",
-    detalle: [
-      "Un crédito castigado sale de la cartera y deja de contar en la mora. Como referencia, si esos créditos siguieran en la cartera la mora de " + m.mes + " estaría cerca de " + pct(m.moraSinCastigos, 1) + ".",
-      "Castigar es el tratamiento contable que corresponde a un crédito que ya no se va a recuperar, y Jaspe contaba con las provisiones para hacerlo. El aumento equivale al " + pct(m.castigosSobreCartera, 1) + " de la cartera; la mediana del segmento es " + pct(m.medCastigos, 1) + " y el decil superior empieza en " + pct(m.p90Castigos, 1) + ".",
-      "La cuenta incluye otros activos además de cartera y baja cuando se recupera un castigado, así que la comparación es aproximada."
-    ],
-    fuente: fuente, datos: porMes(["Activos castigados"], [m.castigos]),
-    dibujar: function (l) {
-      graficoColumnas(l, { descripcion: "Saldo mensual de activos castigados de Jaspe.", etiquetas: E, etiquetasLargas: EL, fmtEje: mil, rotular: [0, u],
-        pilas: [{ nombre: "Activos castigados", color: COLOR.suave, valores: m.castigos }],
-        colorDe: function (i) { return m.saltos[i] ? COLOR.adverso : COLOR.suave; },
-        extra: function (i) { return i ? signo(m.castigos[i] - m.castigos[i - 1], 0) + " USD frente al mes anterior" : null; } });
-    }
+  var senales = [
+    { nom: "Cobertura de provisiones", val: pct(m.cobertura, 1), nota: "de la cartera improductiva", serie: m.serieCob, ref: 100, signo: 1,
+      titulo: "Las provisiones ya cubren toda la cartera improductiva",
+      sub: "Provisiones acumuladas sobre cartera improductiva, en %.",
+      lectura: (m.cruceCob >= 0 ? "Cruzó el 100 % en " + MESES[m.cruceCob] + " y está en " : "Está en ") + pct(m.cobertura, 1) + ". La mediana del segmento es " + pct(m.medCob, 1) + ".",
+      detalle: [(m.cruceCob > 0 ? "El aumento se concentró en " + MESES[m.cruceCob] + ", cuando las provisiones subieron " + usd(m.subeProvCruce) + ". " : "") +
+        "La cuenta de provisiones incluye también lo constituido sobre cartera por vencer."],
+      datos: [["Mes", "Cobertura", "Provisiones", "Improductiva"], EL.map(function (mes, i) { return [cap(mes), pct(m.serieCob[i], 1), usd(m.saldos[i].pv), usd(m.saldos[i].i)]; })],
+      dibujar: function (l) {
+        graficoLineas(l, { descripcion: "Cobertura de provisiones de Jaspe por mes, con la referencia de 100 por ciento.", etiquetas: E, etiquetasLargas: EL,
+          alto: 280, izq: 40, fmt: function (v) { return pct(v, 1); }, ref: { valor: 100, texto: "100 %: improductiva cubierta", corto: "100 %" },
+          marcar: m.minCob, marcarTexto: "Mínimo: ", marcarAbajo: true,
+          series: [{ nombre: "Cobertura", color: COLOR.jaspe, valores: m.serieCob, enfasis: true }],
+          extra: function (i) { return usd(m.saldos[i].pv) + " provisionados"; } });
+      } },
+    { nom: "Refinanciada al día", val: "−" + num(m.bajaRefVigente, 0) + " %", nota: "desde enero", serie: m.refVigente, signo: 1,
+      titulo: "La cartera refinanciada que sigue al día cayó " + num(m.bajaRefVigente, 0) + " %",
+      sub: "Cartera refinanciada y reestructurada, en miles de USD.",
+      leyenda: [["Por vencer", COLOR.jaspe, true], ["Ya improductiva", COLOR.suave, true]],
+      lectura: "De " + usd(m.refVigente[0]) + " a " + usd(m.refVigente[u]) + ". La baja de la mora no se apoya en refinanciamientos.",
+      detalle: [
+        "El saldo total pasó de " + usd(m.refVigente[0] + m.refImp[0]) + " a " + usd(m.refVigente[u] + m.refImp[u]) + ". La parte improductiva pasó de " + usd(m.refImp[0]) + " a " + usd(m.refImp[u]) + " y es el " + pct(m.pesoRefImp, 1) + " de toda la cartera improductiva.",
+        "El saldo representa el " + pct(m.refSobreCartera, 1) + " de la cartera de Jaspe; " + m.sinRef + " de las " + m.N + " cooperativas no registran saldo y la mediana es " + pct(m.medRef, 1) + ".",
+        "Buena parte de la baja ocurrió en " + saltos + "; los datos públicos no permiten distinguir cuánto corresponde a cobros y cuánto a castigos."
+      ],
+      datos: porMes(["Por vencer", "Ya improductiva", "Total"], [m.refVigente, m.refImp, m.refVigente.map(function (v, i) { return v + m.refImp[i]; })]),
+      dibujar: function (l) {
+        graficoColumnas(l, { descripcion: "Cartera refinanciada de Jaspe, por vencer y ya improductiva, por mes.", etiquetas: E, etiquetasLargas: EL, fmtEje: mil, rotular: [0, u], alto: 280,
+          pilas: [{ nombre: "Ya improductiva", color: COLOR.suave, valores: m.refImp }, { nombre: "Por vencer", color: COLOR.jaspe, valores: m.refVigente }] });
+      } },
+    { nom: "Peso de la cartera vencida", val: pct(m.pesoVencida, 1), nota: "de la improductiva", serie: pesoVencida, signo: -1,
+      titulo: "La cartera vencida gana peso dentro de la improductiva",
+      sub: "Cartera que no devenga intereses y cartera vencida, en miles de USD.",
+      leyenda: [["Vencida (mora antigua)", COLOR.atencion], ["No devenga intereses (mora reciente)", COLOR.mediana]],
+      lectura: "La vencida subió " + num(m.subeVencida, 1) + " % desde enero y la que no devenga intereses bajó " + num(m.bajaNoDevenga, 1) + " %.",
+      detalle: ["La vencida era el " + pct(m.pesoVencidaIni, 1) + " de la cartera improductiva y hoy es el " + pct(m.pesoVencida, 1) + "; la mediana del segmento es " + pct(m.medPesoVencida, 1) + ". La cartera improductiva de hoy tiene más antigüedad que la de enero."],
+      datos: porMes(["No devenga", "Vencida"], [m.noDevenga, m.vencida]),
+      dibujar: function (l) {
+        graficoLineas(l, { descripcion: "Cartera que no devenga intereses y cartera vencida de Jaspe, por mes.", etiquetas: E, etiquetasLargas: EL,
+          alto: 280, izq: 54, finAncho: 66, fmt: mil, fmtEje: mil, fmtPista: usd,
+          series: [{ nombre: "Vencida", corto: "Vencida", color: COLOR.atencion, valores: m.vencida, enfasis: true }, { nombre: "No devenga intereses", corto: "No devenga", color: COLOR.mediana, valores: m.noDevenga }] });
+      } },
+    { nom: "Activos castigados", val: "+" + mil(m.subeCastigos), nota: "USD desde enero", serie: m.castigos, signo: -1,
+      titulo: "Los activos castigados aumentaron " + usd(m.subeCastigos) + " desde enero",
+      sub: "Saldo de activos castigados, en miles de USD.",
+      lectura: "El aumento se concentró en " + saltos + ". En el mismo periodo la cartera improductiva bajó " + usd(m.bajaImpDesdeEnero) + ".",
+      detalle: [
+        "Un crédito castigado sale de la cartera y deja de contar en la mora. Como referencia, si esos créditos siguieran en la cartera la mora de " + m.mes + " estaría cerca de " + pct(m.moraSinCastigos, 1) + ".",
+        "Castigar es el tratamiento contable que corresponde a un crédito que ya no se va a recuperar, y Jaspe contaba con las provisiones para hacerlo. El aumento equivale al " + pct(m.castigosSobreCartera, 1) + " de la cartera; la mediana del segmento es " + pct(m.medCastigos, 1) + " y el decil superior empieza en " + pct(m.p90Castigos, 1) + ".",
+        "La cuenta incluye otros activos además de cartera y baja cuando se recupera un castigado, así que la comparación es aproximada."
+      ],
+      datos: porMes(["Activos castigados"], [m.castigos]),
+      dibujar: function (l) {
+        graficoColumnas(l, { descripcion: "Saldo mensual de activos castigados de Jaspe.", etiquetas: E, etiquetasLargas: EL, fmtEje: mil, rotular: [0, u], alto: 280,
+          pilas: [{ nombre: "Activos castigados", color: COLOR.suave, valores: m.castigos }],
+          colorDe: function (i) { return m.saltos[i] ? COLOR.atencion : COLOR.suave; },
+          extra: function (i) { return i ? signo(m.castigos[i] - m.castigos[i - 1], 0) + " USD frente al mes anterior" : null; } });
+      } }
+  ];
+
+  var detalle = h("div", { class: "senal-detalle", id: "senal-panel", role: "tabpanel" });
+  function elegir(i, dibujarYa) {
+    botones.forEach(function (b, k) { b.setAttribute("aria-selected", k === i ? "true" : "false"); b.tabIndex = k === i ? 0 : -1; });
+    var d = senales[i], fig = figura({ signo: d.signo, titulo: d.titulo, sub: d.sub, leyenda: d.leyenda, lectura: d.lectura, detalle: d.detalle, datos: d.datos, fuente: fuente, dibujar: d.dibujar });
+    vaciar(detalle).appendChild(fig);
+    detalle.setAttribute("aria-label", d.nom);
+    if (dibujarYa) fig._dibujar(); else pendientes.push(fig._dibujar);
+  }
+  var botones = senales.map(function (d, i) {
+    var b = h("button", { type: "button", class: "senal", role: "tab", "aria-controls": "senal-panel", "aria-selected": "false" }, [
+      h("span", { class: "senal-nom", text: d.nom }), h("span", { class: "senal-val", text: d.val }), h("span", { class: "senal-nota", text: d.nota }),
+      h("span", { class: "senal-pie" }, [h("span", { class: "etiqueta " + (d.signo > 0 ? "favor" : "contra"), text: d.signo > 0 ? "Favorable" : "Para seguimiento" }),
+        tendencia(d.serie, { w: 84, h: 30, ref: d.ref, color: COLOR.mediana, punto: d.signo > 0 ? COLOR.favorable : COLOR.atencion, fondo: "transparent" })])
+    ]);
+    b.addEventListener("click", function () { elegir(i, true); });
+    b.addEventListener("keydown", function (ev) {
+      var k = ev.key === "ArrowRight" ? i + 1 : ev.key === "ArrowLeft" ? i - 1 : -1;
+      if (k < 0 || k >= senales.length) return;
+      ev.preventDefault(); elegir(k, true); botones[k].focus();
+    });
+    return b;
   });
-
-  var edad = figura({
-    signo: -1,
-    titulo: "La cartera vencida gana peso dentro de la improductiva",
-    sub: "Cartera que no devenga intereses y cartera vencida, en miles de USD",
-    leyenda: [["No devenga intereses (mora reciente)", COLOR.mediana], ["Vencida (mora antigua)", COLOR.adverso]],
-    lectura: "La vencida subió " + num(m.subeVencida, 1) + " % desde enero y la que no devenga intereses bajó " + num(m.bajaNoDevenga, 1) + " %.",
-    detalle: ["La vencida era el " + pct(m.pesoVencidaIni, 1) + " de la cartera improductiva y hoy es el " + pct(m.pesoVencida, 1) + "; la mediana del segmento es " + pct(m.medPesoVencida, 1) + ". La cartera improductiva de hoy tiene más antigüedad que la de enero."],
-    fuente: fuente, datos: porMes(["No devenga", "Vencida"], [m.noDevenga, m.vencida]),
-    dibujar: function (l) {
-      graficoLineas(l, { descripcion: "Cartera que no devenga intereses y cartera vencida de Jaspe, por mes.", etiquetas: E, etiquetasLargas: EL,
-        alto: 230, izq: 54, finAncho: 66, fmt: mil, fmtEje: mil, fmtPista: usd,
-        series: [{ nombre: "Vencida", color: COLOR.adverso, valores: m.vencida, enfasis: true }, { nombre: "No devenga intereses", color: COLOR.mediana, valores: m.noDevenga }] });
-    }
-  });
-
-  var ref = figura({
-    signo: 1,
-    titulo: "La cartera refinanciada que sigue al día cayó " + num(m.bajaRefVigente, 0) + " %",
-    sub: "Cartera refinanciada y reestructurada, en miles de USD",
-    leyenda: [["Por vencer", COLOR.jaspe, true], ["Ya improductiva", COLOR.suave, true]],
-    lectura: "De " + usd(m.refVigente[0]) + " a " + usd(m.refVigente[u]) + ". La baja de la mora no se apoya en refinanciamientos.",
-    detalle: [
-      "El saldo total pasó de " + usd(m.refVigente[0] + m.refImp[0]) + " a " + usd(m.refVigente[u] + m.refImp[u]) + ". La parte improductiva pasó de " + usd(m.refImp[0]) + " a " + usd(m.refImp[u]) + " y es el " + pct(m.pesoRefImp, 1) + " de toda la cartera improductiva.",
-      "El saldo representa el " + pct(m.refSobreCartera, 1) + " de la cartera de Jaspe; " + m.sinRef + " de las " + m.N + " cooperativas no registran saldo y la mediana es " + pct(m.medRef, 1) + ".",
-      "Buena parte de la baja ocurrió en " + saltos + "; los datos públicos no permiten distinguir cuánto corresponde a cobros y cuánto a castigos."
-    ],
-    fuente: fuente, datos: porMes(["Por vencer", "Ya improductiva", "Total"], [m.refVigente, m.refImp, m.refVigente.map(function (v, i) { return v + m.refImp[i]; })]),
-    dibujar: function (l) {
-      graficoColumnas(l, { descripcion: "Cartera refinanciada de Jaspe, por vencer y ya improductiva, por mes.", etiquetas: E, etiquetasLargas: EL, fmtEje: mil, rotular: [0, u],
-        pilas: [{ nombre: "Ya improductiva", color: COLOR.suave, valores: m.refImp }, { nombre: "Por vencer", color: COLOR.jaspe, valores: m.refVigente }] });
-    }
-  });
-
-  var cob = figura({
-    signo: 1,
-    titulo: "Las provisiones ya cubren toda la cartera improductiva",
-    sub: "Provisiones acumuladas sobre cartera improductiva, en %",
-    lectura: (m.cruceCob >= 0 ? "Cruzó el 100 % en " + MESES[m.cruceCob] + " y está en " : "Está en ") + pct(m.cobertura, 1) + "; la mediana del segmento es " + pct(m.medCob, 1) + ".",
-    detalle: [(m.cruceCob > 0 ? "El aumento se concentró en " + MESES[m.cruceCob] + ", cuando las provisiones subieron " + usd(m.subeProvCruce) + ". " : "") +
-      "La cuenta de provisiones incluye también lo constituido sobre cartera por vencer."],
-    fuente: fuente,
-    datos: [["Mes", "Cobertura", "Provisiones", "Improductiva"], EL.map(function (mes, i) { return [cap(mes), pct(m.serieCob[i], 1), usd(m.saldos[i].pv), usd(m.saldos[i].i)]; })],
-    dibujar: function (l) {
-      graficoLineas(l, { descripcion: "Cobertura de provisiones de Jaspe por mes, con la referencia de 100 por ciento.", etiquetas: E, etiquetasLargas: EL,
-        alto: 230, izq: 40, finAncho: 66, fmt: function (v) { return pct(v, 1); }, ref: { valor: 100, texto: "100 %: improductiva cubierta" },
-        marcar: m.minCob, marcarTexto: "Mínimo: ", marcarAbajo: true,
-        series: [{ nombre: "Cobertura", color: COLOR.jaspe, valores: m.serieCob, enfasis: true }],
-        extra: function (i) { return usd(m.saldos[i].pv) + " provisionados"; } });
-    }
-  });
-
-  return seccion(m, "senales", [
-    h("p", { class: "entrada", text: "Cuatro indicadores que complementan el porcentaje de mora: dos favorables y dos que conviene seguir." }),
-    h("div", { class: "rejilla-2" }, [castigos, edad, ref, cob])
-  ]);
+  elegir(0, false);
+  return seccion("senales", "Cuatro señales de la cartera", "Complementan el porcentaje de mora: dos favorables y dos para seguimiento. Elige una para ver su evolución.",
+    [h("div", { class: "selector", role: "tablist", "aria-label": "Señales de la cartera" }, botones), detalle]);
 }
 
-/* ---------- Comparación con pares ---------- */
+/* ---------- Comparación: la misma distribución con tres medidas ---------- */
 function secPares(m) {
   var J = m.J;
-  var max = Math.ceil(Math.max(m.mic, m.medMic, m.con, m.medCon) * 1.05 / 2) * 2;
-  var par = function (rot, j, med, cnt, imp, bruta) {
-    return { rotulo: rot, barras: [
-      { desde: 0, hasta: j, color: COLOR.jaspe, texto: pct(j), fuerte: true, nombre: rot + ", Jaspe", rotuloValor: "Morosidad", extra: usd(imp) + " improductivos de " + usd(bruta) },
-      { desde: 0, hasta: med, color: COLOR.mediana, texto: pct(med), nombre: rot + ", mediana del segmento", rotuloValor: "Morosidad", extra: "Mediana de las " + cnt + " cooperativas con este producto" }
-    ] };
-  };
-  var producto = figura({
-    titulo: "La diferencia con el segmento está en microcrédito",
-    sub: "Morosidad por producto en " + m.mes + " de 2026, en %",
-    leyenda: [["Jaspe", COLOR.jaspe, true], ["Mediana del segmento", COLOR.mediana, true]],
-    lectura: "En microcrédito Jaspe está " + num(m.mic - m.medMic, 1) + " puntos sobre la mediana, y ahí se concentra el " + num(m.pesoMicEnImp, 0) +
-      " % de su cartera improductiva. Consumo está en línea con la mediana; como creció " + num(m.crecConsumo, 0) + " % " + m.crecConsumoDesde + ", es una cartera reciente y conviene seguir su evolución.",
-    fuente: m.fuenteCorta + ". Cada mediana se calcula sobre las cooperativas que tienen ese producto.",
-    dibujar: function (l) {
-      barrasH(l, { max: max, paso: max > 10 ? 4 : 2, rotulo: 96, filas: [par("Microcrédito", m.mic, m.medMic, m.nMic, J.mi, J.mb), par("Consumo", m.con, m.medCon, m.nCon, J.ci, J.cb)] });
-    }
+  var medidas = [
+    { clave: "total", nombre: "Mora total", f: mora, med: m.med,
+      lectura: "El eje se corta en " + m.tope + " %: " + m.sobreTope + " cooperativas lo superan y la más alta llega al " + num(m.maxMora, 0) + " %. Por eso la referencia es la mediana y no el promedio." },
+    { clave: "mic", nombre: "Microcrédito", f: moraMic, med: m.medMic,
+      lectura: "Aquí se concentra la diferencia: el " + num(m.pesoMicEnImp, 0) + " % de la cartera improductiva de Jaspe es microcrédito." },
+    { clave: "con", nombre: "Consumo", f: moraCon, med: m.medCon,
+      lectura: "En línea con la mediana. La cartera de consumo creció " + num(m.crecConsumo, 0) + " % " + m.crecConsumoDesde + "; conviene seguir su evolución." }
+  ];
+  medidas.forEach(function (d) {
+    d.items = m.ent.filter(function (r) { return d.f(r) !== null; }).map(function (r) { return { r: r, v: d.f(r) }; }).sort(function (a, b) { return a.v - b.v; });
+    d.jIdx = d.items.map(function (it) { return it.r; }).indexOf(J);
+    d.j = d.items[d.jIdx].v;
   });
-  var dist = figura({
-    titulo: "Jaspe ocupa el puesto " + m.puesto + " de " + m.N + " por morosidad",
-    sub: "Morosidad total de cada cooperativa del segmento 4, ordenadas de menor a mayor, en %",
-    lectura: "El eje se corta en " + m.tope + " %: " + m.sobreTope + " cooperativas lo superan y la más alta llega al " + num(m.maxMora, 0) +
-      " %. Por esa cola se compara contra la mediana y no contra el promedio simple, que es " + pct(m.promedio, 1) + ".",
-    fuente: m.fuenteCorta + ".",
-    dibujar: function (l) { graficoDistribucion(l, m); }
+  var cuerpo = h("div", { class: "carta figura comparacion", "aria-live": "polite" });
+  function ver(i, dibujarYa) {
+    var d = medidas[i];
+    conm.forEach(function (b, k) { b.setAttribute("aria-pressed", k === i ? "true" : "false"); });
+    var lienzo = h("div", { class: "lienzo" });
+    vaciar(cuerpo);
+    cuerpo.appendChild(h("div", { class: "puesto" }, [
+      h("div", {}, [h("p", { class: "puesto-rot", text: "Puesto de Jaspe en " + d.nombre.toLowerCase() }), grande(String(d.jIdx + 1), "de " + d.items.length, "puesto-n")]),
+      h("dl", {}, [
+        h("div", {}, [h("dt", { text: "Jaspe" }), h("dd", { class: "j", text: pct(d.j) })]),
+        h("div", {}, [h("dt", { text: "Mediana" }), h("dd", { text: pct(d.med) })]),
+        h("div", {}, [h("dt", { text: "Diferencia" }), h("dd", { text: signo(d.j - d.med) + " pp" })])
+      ])
+    ]));
+    cuerpo.appendChild(lienzo);
+    cuerpo.appendChild(h("p", { class: "lectura", text: d.lectura }));
+    cuerpo.appendChild(h("div", { class: "figura-pie" }, [h("p", { text: "Fuente: " + m.fuenteCorta + ". Cada barra es una cooperativa; el puesto 1 es la de menor morosidad." })]));
+    var pinta = function () { graficoDistribucion(lienzo, { items: d.items, jIdx: d.jIdx, med: d.med, tope: m.tope, nombre: d.nombre }); };
+    if (dibujarYa) pinta(); else pendientes.push(pinta);
+  }
+  var conm = medidas.map(function (d, i) {
+    var b = h("button", { type: "button", "aria-pressed": "false", text: d.nombre });
+    b.addEventListener("click", function () { ver(i, true); });
+    return b;
   });
+  ver(0, false);
 
   // Tabla con buscador y orden por columna
-  var nT = ++contador.tab;
   var cols = [
     ["Puesto", function (r) { return m.orden.indexOf(r) + 1; }, String],
     ["Cooperativa", function (r) { return r.n; }, String],
@@ -843,7 +873,7 @@ function secPares(m) {
     ["Cartera bruta", function (r) { return r.b; }, usd]
   ];
   var estado = { col: 0, asc: true, q: "" };
-  var cuerpo = h("tbody"), cuenta = h("span", { class: "cuenta" });
+  var filasT = h("tbody"), cuenta = h("span", { class: "cuenta" });
   var cab = h("tr", {}, cols.map(function (c, k) {
     var b = h("button", { type: "button", text: c[0] });
     b.addEventListener("click", function () { estado.asc = estado.col === k ? !estado.asc : k < 2; estado.col = k; pintarFilas(); });
@@ -857,9 +887,9 @@ function secPares(m) {
       if (vb === null) return -1;
       return (typeof va === "string" ? va.localeCompare(vb, "es") : va - vb) * (estado.asc ? 1 : -1);
     });
-    vaciar(cuerpo);
+    vaciar(filasT);
     filas.forEach(function (r) {
-      cuerpo.appendChild(h("tr", r === m.J ? { class: "yo" } : {}, cols.map(function (cc) {
+      filasT.appendChild(h("tr", r === J ? { class: "yo" } : {}, cols.map(function (cc) {
         var v = cc[1](r);
         return h("td", { text: v === null ? "—" : cc[2](v) });
       })));
@@ -872,74 +902,76 @@ function secPares(m) {
   var buscar = h("input", { type: "search", id: "buscar", placeholder: "Jaspe", autocomplete: "off" });
   buscar.addEventListener("input", function () { estado.q = buscar.value; pintarFilas(); });
   pintarFilas();
-  var ranking = h("div", { class: "figura ranking" }, [
-    h("div", { class: "ranking-cab" }, [
-      h("p", { class: "tabla-titulo" }, [h("span", { class: "ref", text: "Tabla " + nT + "." }), " Cooperativas del segmento 4 por morosidad, " + m.mes + " de 2026"]),
-      h("div", { class: "buscador" }, [h("label", { for: "buscar", text: "Buscar cooperativa" }), buscar, cuenta])
-    ]),
-    h("div", { class: "tabla-caja", tabindex: "0", role: "region", "aria-label": "Tabla de cooperativas, desplazable" }, [h("table", { class: "tabla rank" }, [h("thead", {}, [cab]), cuerpo])])
+  var tablaTodas = h("details", { class: "acordeon con-tabla" }, [
+    h("summary", { text: "Ver la tabla de las " + m.N + " cooperativas" }),
+    h("div", { class: "acordeon-cuerpo" }, [
+      h("div", { class: "buscador" }, [h("label", { for: "buscar", text: "Buscar cooperativa" }), buscar, cuenta]),
+      h("div", { class: "tabla-caja", tabindex: "0", role: "region", "aria-label": "Tabla de cooperativas, desplazable" }, [h("table", { class: "tabla rank" }, [h("thead", {}, [cab]), filasT])])
+    ])
   ]);
-
-  return seccion(m, "pares", [h("div", { class: "dos-col pares" }, [producto, dist]), ranking]);
+  return seccion("pares", "Frente a las " + m.N + " cooperativas del segmento", "Tres maneras de ver la misma comparación.",
+    [h("div", { class: "conmutador", role: "group", "aria-label": "Medida que se compara" }, conm), cuerpo, tablaTodas]);
 }
 
 /* ---------- Simulador ---------- */
 function secSimulador(m) {
   var J = m.J, actual = m.mic;
   var desl = h("input", { type: "range", id: "sim", min: "2", max: "16", step: "0.01", value: actual.toFixed(2) });
-  var oMic = h("p", { class: "ind-valor" }), oTot = h("p", { class: "ind-valor" }), oDif = h("p", { class: "ind-valor" });
-  var marca = h("i"), medio = h("b");
+  var oMic = h("p", { class: "sim-lectura" }), oTot = h("p", { class: "grande" }), oDif = h("p", { class: "sim-dif" });
+  var relleno = h("i"), medio = h("b");
   var escala = Math.ceil(Math.max(m.mora, 14) / 2) * 2;
   medio.style.left = (m.med / escala * 100).toFixed(2) + "%";
-  function poner(el, valor, unidad) { vaciar(el).appendChild(document.createTextNode(valor)); el.appendChild(h("small", { text: " " + unidad })); }
+  var atajos = [["Hoy", actual], ["Mediana de microcrédito", m.medMic], ["Igualar la mediana total", m.micObjetivo]].map(function (a) {
+    var b = h("button", { type: "button", class: "atajo", "aria-pressed": "false" }, [a[0] + " ", h("b", { text: pct(a[1]) })]);
+    b._v = +a[1].toFixed(2);
+    b.addEventListener("click", function () { desl.value = b._v; calcular(); });
+    return b;
+  });
+  function poner(el, valor, unidad) { vaciar(el).appendChild(document.createTextNode(valor)); el.appendChild(h("small", { text: unidad })); }
   function calcular() {
     var tasa = parseFloat(desl.value), tot = (J.mb * tasa / 100 + J.ci) / J.b * 100;
     var dif = Math.round((tot - m.med) * 100) / 100;
-    poner(oMic, num(tasa), "%"); poner(oTot, num(tot), "%"); poner(oDif, signo(dif), "pp");
-    marca.style.width = Math.min(100, tot / escala * 100).toFixed(2) + "%";
+    poner(oMic, num(tasa), "%"); poner(oTot, num(tot), "%");
+    oDif.textContent = dif === 0 ? "Igual a la mediana del segmento" : num(Math.abs(dif)) + " pp " + (dif > 0 ? "sobre" : "bajo") + " la mediana";
+    oDif.className = "sim-dif" + (dif <= 0 ? " ok" : "");
+    relleno.style.width = Math.min(100, tot / escala * 100).toFixed(2) + "%";
+    atajos.forEach(function (b) { b.setAttribute("aria-pressed", Math.abs(b._v - tasa) < 0.005 ? "true" : "false"); });
   }
   desl.addEventListener("input", calcular);
-  var bObj = h("button", { type: "button", class: "boton", text: "Igualar la mediana" });
-  var bIni = h("button", { type: "button", class: "boton", text: "Volver al valor actual" });
-  bObj.addEventListener("click", function () { desl.value = m.micObjetivo.toFixed(2); calcular(); });
-  bIni.addEventListener("click", function () { desl.value = actual.toFixed(2); calcular(); });
   calcular();
-  var caja = h("div", { class: "figura sim" }, [
-    h("h3", { text: "Con microcrédito en " + pct(m.micObjetivo) + ", Jaspe igualaría la mediana del segmento" }),
-    h("p", { class: "figura-sub", text: "Hoy está en " + pct(actual) + ". Mueva la morosidad de microcrédito y vea cómo responde la mora total; la cartera de consumo y los montos quedan fijos." }),
-    h("div", { class: "sim-cuerpo" }, [
-      h("div", { class: "sim-control" }, [
-        h("label", { for: "sim", text: "Morosidad de microcrédito simulada" }), desl,
-        h("div", { class: "sim-eje" }, [h("span", { text: "2 %" }), h("span", { text: "16 %" })]),
-        h("div", { class: "sim-acciones" }, [bObj, bIni])
-      ]),
-      h("div", { class: "sim-salida", "aria-live": "polite" }, [
-        h("div", {}, [h("p", { class: "ind-rotulo", text: "Morosidad de microcrédito" }), oMic]),
-        h("div", {}, [h("p", { class: "ind-rotulo", text: "Mora total resultante" }), oTot]),
-        h("div", {}, [h("p", { class: "ind-rotulo", text: "Distancia a la mediana" }), oDif]),
-        h("div", { class: "sim-barra" }, [h("div", { class: "pista ancha" }, [marca, medio]),
-          h("div", { class: "pista-ejes" }, [h("span", { text: "0 %" }), h("span", { text: "La marca es la mediana: " + pct(m.med) }), h("span", { text: escala + " %" })])])
-      ])
+  var caja = h("div", { class: "carta sim" }, [
+    h("div", { class: "sim-control" }, [
+      h("label", { for: "sim", text: "Morosidad de microcrédito" }), oMic, desl,
+      h("div", { class: "sim-eje" }, [h("span", { text: "2 %" }), h("span", { text: "16 %" })]),
+      h("div", { class: "atajos" }, atajos)
     ]),
-    h("div", { class: "figura-pie" }, [h("p", { text: "El cálculo suma microcrédito y consumo, que son toda la cartera de Jaspe." })])
+    h("div", { class: "sim-salida", "aria-live": "polite" }, [
+      h("p", { class: "rot", text: "Mora total resultante" }), oTot, oDif,
+      h("div", { class: "sim-pista-wrap" }, [h("div", { class: "sim-pista" }, [relleno, medio]),
+        h("div", { class: "sim-pista-ejes" }, [h("span", { text: "0 %" }), h("span", { text: "La marca es la mediana: " + pct(m.med) }), h("span", { text: escala + " %" })])])
+    ])
   ]);
-  return seccion(m, "simulador", [caja]);
+  return seccion("simulador", "¿Y si microcrédito mejora?",
+    "Con microcrédito en " + pct(m.micObjetivo) + ", Jaspe igualaría la mediana del segmento. El cálculo deja fijos la cartera de consumo y los montos.", [caja]);
 }
 
-/* ---------- Límites ---------- */
-function secLimites(m) {
-  var puntos = [
-    "Este informe describe lo que muestran los datos públicos. No evalúa decisiones de gestión, que dependen de información que solo existe dentro de la cooperativa.",
-    "Las causas de la morosidad se explican con información interna: mora por agencia, por oficial de crédito, por actividad económica y por fecha de otorgamiento."
-  ];
-  if (m.id === "sep") puntos.push(
-    "Con información pública tampoco se puede saber qué parte de los castigos corresponde a cartera refinanciada ni por qué en los últimos cortes reportan menos cooperativas.");
-  return seccion(m, "limites", [h("div", { class: "limites" }, puntos.map(function (t) { return h("p", { text: t }); }))]);
-}
+/* ---------- Alcance y método ---------- */
+function secMetodo(m) {
+  var sep = m.id === "sep", J = m.J;
+  var alcance = h("ul", { class: "alcance" }, [
+    ["Qué muestra", "Lo que dicen los datos públicos de la SEPS sobre la cartera de Jaspe y del segmento 4."],
+    ["Qué no evalúa", "Decisiones de gestión. Dependen de información que solo existe dentro de la cooperativa."],
+    ["Qué haría falta", "Mora por agencia, oficial de crédito, actividad económica y fecha de otorgamiento, para explicar las causas."]
+  ].map(function (a) { return h("li", { class: "carta" }, [h("b", { text: a[0] }), a[1]]); }));
 
-/* ---------- Ficha técnica ---------- */
-function secFicha(m) {
-  var sep = m.id === "sep";
+  var dl = h("dl");
+  [["Cartera que no devenga intereses", J.nd], ["Cartera vencida", J.vn], ["Cartera improductiva", J.i, true], ["Cartera bruta total", J.b]].forEach(function (f) {
+    dl.appendChild(h("dt", { class: f[2] ? "total" : "", text: f[0] }));
+    dl.appendChild(h("dd", { class: f[2] ? "total" : "", text: usd(f[1]) }));
+  });
+  var calculo = h("details", { class: "acordeon auditoria" }, [h("summary", { text: "Cómo se calcula la mora total" }),
+    h("div", { class: "acordeon-cuerpo" }, [dl, h("p", { class: "formula", text: num(J.i, 0) + " ÷ " + num(J.b, 0) + " = " + pct(m.mora) })])]);
+
   var filas = [
     ["Fuente", sep
       ? "Base de estados financieros mensuales de la SEPS, nueve cortes de enero a septiembre de 2026, a nivel de cuenta contable de cuatro dígitos."
@@ -957,40 +989,35 @@ function secFicha(m) {
     ["Control por mezcla", "Las " + m.nMezcla + " cooperativas cuya proporción de microcrédito está a menos de 12,5 puntos de la de Jaspe tienen una mediana de " + pct(m.medMezcla) +
       "; con 15 puntos de tolerancia, " + pct(m.medMezcla15) + ". La mezcla de productos no explica la diferencia con el segmento."],
     ["Por producto", "Cada mediana usa solo las cooperativas con cartera de ese tipo: " + m.nMic + " en microcrédito y " + m.nCon + " en consumo."],
-    ["Proceso", "Datos cargados y limpiados en Power Query; cálculos replicados de forma independiente. Todas las cifras de este informe se calculan en el navegador a partir de los saldos por cooperativa (archivos en data/)."]
+    sep ? ["Sin respuesta pública", "Qué parte de los castigos corresponde a cartera refinanciada y por qué en los últimos cortes reportan menos cooperativas."] : null,
+    ["Proceso", "Datos cargados y limpiados en Power Query; cálculos replicados de forma independiente. Todas las cifras se calculan en el navegador a partir de los saldos por cooperativa (archivos en data/)."],
+    ["Documento", "INF-SEPS-01, revisión 3. Elaborado por Jhoann Gonza, noviembre de 2026."]
   ].filter(Boolean);
-  return seccion(m, "ficha", [h("dl", { class: "ficha" }, filas.map(function (f) { return h("div", {}, [h("dt", { text: f[0] }), h("dd", { text: f[1] })]); }))]);
+  var ficha = h("details", { class: "acordeon" }, [h("summary", { text: "Ficha técnica" }),
+    h("div", { class: "acordeon-cuerpo" }, [h("dl", { class: "ficha" }, filas.map(function (f) { return h("div", {}, [h("dt", { text: f[0] }), h("dd", { text: f[1] })]); }))])]);
+  return seccion("metodo", "Alcance y método", null, [alcance, calculo, ficha]);
 }
 
 /* ====================================================================
-   5. Corte activo, índice e impresión
+   5. Corte activo, navegación e impresión
    ==================================================================== */
-/* Secciones: clave, título, constructor y, si aplica, el único corte que la tiene.
-   Los números se asignan según las secciones que aplican al corte activo. */
+/* Secciones: clave, nombre en la navegación, constructor y, si aplica, el único corte que la tiene. */
 var SECCIONES = [
-  ["resumen", "Resumen ejecutivo", secResumen],
-  ["origen", "Origen de la baja", secOrigen, "sep"],
-  ["senales", "Señales de la cartera", secSenales, "sep"],
-  ["pares", "Comparación con pares", secPares],
+  ["resumen", "Resumen", secResumen],
+  ["origen", "La baja", secOrigen, "sep"],
+  ["senales", "Señales", secSenales, "sep"],
+  ["pares", "Comparación", secPares],
   ["simulador", "Simulador", secSimulador],
-  ["limites", "Límites del análisis", secLimites],
-  ["ficha", "Ficha técnica", secFicha, null, "A"]
+  ["metodo", "Método", secMetodo]
 ];
-function seccionesDe(m) {
-  var k = 0;
-  return SECCIONES.filter(function (sec) { return !sec[3] || sec[3] === m.id; })
-    .map(function (sec) { return { clave: sec[0], titulo: sec[1], crear: sec[2], num: sec[4] || String(++k) }; });
-}
-function numeroDe(m, clave) {
-  return seccionesDe(m).filter(function (x) { return x.clave === clave; })[0].num;
-}
+function seccionesDe(m) { return SECCIONES.filter(function (sec) { return !sec[3] || sec[3] === m.id; }); }
 
 var espia = null;
 function pintarIndice(m) {
   var ol = vaciar($("indice")), enlaces = {};
   seccionesDe(m).forEach(function (sec) {
-    var a = h("a", { href: "#" + sec.clave }, [h("span", { class: "num", text: sec.num }), sec.titulo]);
-    enlaces[sec.clave] = a;
+    var a = h("a", { href: "#" + sec[0], text: sec[1] });
+    enlaces[sec[0]] = a;
     ol.appendChild(h("li", {}, [a]));
   });
   if (espia) espia.disconnect();
@@ -1000,9 +1027,12 @@ function pintarIndice(m) {
     entradas.forEach(function (e) {
       if (!e.isIntersecting) return;
       for (var k in enlaces) enlaces[k].removeAttribute("aria-current");
-      enlaces[e.target.id].setAttribute("aria-current", "true");
+      var a = enlaces[e.target.id];
+      a.setAttribute("aria-current", "true");
+      var nav = a.closest(".nav");
+      if (nav && nav.scrollWidth > nav.clientWidth) nav.scrollTo({ left: a.offsetLeft - nav.clientWidth / 2 + a.offsetWidth / 2 });
     });
-  }, { rootMargin: "-15% 0px -75% 0px" });
+  }, { rootMargin: "-20% 0px -70% 0px" });
   Array.prototype.forEach.call(document.querySelectorAll("#secciones > section"), function (sec) { espia.observe(sec); });
 }
 
@@ -1012,11 +1042,11 @@ function pintar(id) {
     b.setAttribute("aria-pressed", b.getAttribute("data-corte") === id ? "true" : "false");
   });
   document.documentElement.setAttribute("data-corte", id);
-  contador = { fig: 0, tab: 0 }; pendientes = [];
-  pintarPortada(m); pintarIndicadores(m);
+  pendientes = [];
+  pintarPortada(m);
   var cont = vaciar($("secciones"));
-  seccionesDe(m).forEach(function (sec) { cont.appendChild(sec.crear(m)); });
-  pendientes.forEach(function (f) { f(); });   // los gráficos necesitan el ancho real, ya montados
+  seccionesDe(m).forEach(function (sec) { cont.appendChild(sec[2](m)); });
+  pendientes.forEach(function (f) { f(); });
   pintarIndice(m);
 }
 function corteInicial() {
@@ -1030,12 +1060,16 @@ Array.prototype.forEach.call(document.querySelectorAll(".corte button"), functio
     if (history.replaceState) history.replaceState(null, "", id === "sep" ? location.pathname : "?corte=" + id);
   });
 });
-$("imprimir").addEventListener("click", function () { window.print(); });
 
-/* Al imprimir se despliegan los matices y el cálculo de la mora; las tablas de datos quedan plegadas. */
+var imprimir = h("button", { type: "button", class: "boton", text: "Imprimir o guardar PDF" });
+imprimir.addEventListener("click", function () { window.print(); });
+$("pie").appendChild(h("p", { text: "Elaborado por Jhoann Gonza con información pública de la Superintendencia de Economía Popular y Solidaria del Ecuador. Las cifras se calculan en el navegador a partir de los saldos por cooperativa." }));
+$("pie").appendChild(imprimir);
+
+/* Al imprimir se despliega el contexto de cada figura; las tablas de datos quedan plegadas. */
 var abiertos = [];
 window.addEventListener("beforeprint", function () {
-  abiertos = Array.prototype.filter.call(document.querySelectorAll("details.detalle, details.auditoria"), function (d) { return !d.open; });
+  abiertos = Array.prototype.filter.call(document.querySelectorAll("details.plegado:not(.datos), details.acordeon:not(.con-tabla)"), function (d) { return !d.open; });
   abiertos.forEach(function (d) { d.open = true; });
 });
 window.addEventListener("afterprint", function () { abiertos.forEach(function (d) { d.open = false; }); abiertos = []; });
