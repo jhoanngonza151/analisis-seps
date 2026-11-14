@@ -15,7 +15,7 @@ var MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "ag
 var MES3 = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep"];
 var COLOR = {
   jaspe: "#3b5bff", jaspeMedio: "#6f86ff", jaspeClaro: "#9fb0ff", mediana: "#8b90a7", atencion: "#e8590c", favorable: "#0ca678",
-  suave: "#c9cee3", barra: "#d5d9ea", regla: "#e7e9f3", eje: "#d2d6e6", tinta: "#14162e", tinta3: "#6b7090", papel: "#ffffff"
+  suave: "#c9cee3", barra: "#d5d9ea", regla: "#e7e9f3", eje: "#d2d6e6", tinta: "#1b1f3b", tinta3: "#6b7090", papel: "#ffffff"
 };
 var SVGNS = "http://www.w3.org/2000/svg";
 
